@@ -1,6 +1,6 @@
 ﻿using Application.Gateways;
 
-namespace Persistence.Data;
+namespace Infrastructure.Persistence.Data;
 
 public class DataAccessObject : IDataAccessObject
 {

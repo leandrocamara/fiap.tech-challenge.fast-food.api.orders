@@ -1,6 +1,6 @@
-﻿using BoundedContext.Domain.Model.AggregatedRoot;
+﻿using Domain.BoundedContext.Model.AggregatedRoot;
 
-namespace Persistence.Repositories;
+namespace Infrastructure.Persistence.Repositories;
 
 public class AggregatedRootRepository : IAggregatedRootRepository
 {

@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Domain;
+﻿namespace Domain;
 
 public interface IAggregatedRoot : IEntity
 {

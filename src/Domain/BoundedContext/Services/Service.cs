@@ -1,4 +1,4 @@
-﻿namespace BoundedContext.Domain.Services;
+﻿namespace Domain.BoundedContext.Services;
 
 public interface IService
 {

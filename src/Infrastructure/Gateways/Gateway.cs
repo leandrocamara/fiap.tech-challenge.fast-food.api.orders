@@ -1,6 +1,6 @@
 ﻿using Application.Gateways;
 
-namespace Gateway;
+namespace Infrastructure.Gateways;
 
 public class Gateway : IGateway
 {

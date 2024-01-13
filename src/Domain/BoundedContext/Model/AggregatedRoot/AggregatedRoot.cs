@@ -1,6 +1,4 @@
-﻿using SharedKernel.Domain;
-
-namespace BoundedContext.Domain.Model.AggregatedRoot;
+﻿namespace Domain.BoundedContext.Model.AggregatedRoot;
 
 public sealed class AggregatedRoot : IAggregatedRoot
 {
