@@ -1,5 +1,5 @@
 ﻿namespace Domain;
 
-public interface IAggregatedRoot : IEntity
+public interface IAggregatedRoot
 {
 }

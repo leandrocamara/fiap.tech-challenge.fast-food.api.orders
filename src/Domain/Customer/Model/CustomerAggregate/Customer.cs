@@ -1,13 +1,20 @@
-﻿using Domain.Customer.Model.Customer.Validators;
+﻿    using Domain.Customer.Model.CustomerAggregate.Validators;
 
-namespace Domain.Customer.Model.Customer;
+namespace Domain.Customer.Model.CustomerAggregate;
 
-public sealed class Customer : IAggregatedRoot
+public sealed class Customer : Entity, IAggregatedRoot
 {
-    public Guid Id { get; set; }
     public Cpf Cpf { get; private set; }
     public string Name { get; private set; }
     public Email Email { get; private set; }
+
+    private Customer(Guid id, Cpf cpf, string name, Email email)
+    {
+        Id = id;
+        Cpf = cpf;
+        Name = name;
+        Email = email;
+    }
 
     public static Customer New(string cpf, string name, string email)
     {
@@ -18,13 +25,5 @@ public sealed class Customer : IAggregatedRoot
             throw new DomainException("Invalid Customer");
 
         return customer;
-    }
-
-    private Customer(Guid id, Cpf cpf, string name, Email email)
-    {
-        Id = id;
-        Cpf = cpf;
-        Name = name;
-        Email = email;
     }
 }

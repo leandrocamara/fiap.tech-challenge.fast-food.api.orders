@@ -1,4 +1,4 @@
-﻿namespace Domain.Customer.Model.Customer.Validators;
+﻿namespace Domain.Customer.Model.CustomerAggregate.Validators;
 
 public sealed class CpfValidator : IValidator<Cpf>
 {
