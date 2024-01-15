@@ -4,7 +4,16 @@ public sealed class CpfValidator : IValidator<Cpf>
 {
     public bool IsValid(Cpf email)
     {
-        if (string.IsNullOrWhiteSpace(email.Value))
+        var rule = new IsValidCpf();
+        return rule.IsSatisfiedBy(email);
+    }
+}
+
+internal class IsValidCpf : ISpecification<Cpf>
+{
+    public bool IsSatisfiedBy(Cpf cpf)
+    {
+        if (string.IsNullOrWhiteSpace(cpf.Value))
             return false;
 
         var position = 0;
@@ -16,7 +25,7 @@ public sealed class CpfValidator : IValidator<Cpf>
         var identicalDigits = true;
         var lastDigit = -1;
 
-        foreach (var digit in from c in email.Value where char.IsDigit(c) select c - '0')
+        foreach (var digit in from c in cpf.Value where char.IsDigit(c) select c - '0')
         {
             if (position != 0 && lastDigit != digit)
             {

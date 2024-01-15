@@ -9,7 +9,7 @@ public sealed class CustomerRepository : ICustomerRepository
         throw new NotImplementedException();
     }
 
-    public Customer GetByCpf(Cpf cpf)
+    public Task<Customer?> GetByCpf(Cpf cpf)
     {
         throw new NotImplementedException();
     }

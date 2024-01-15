@@ -23,4 +23,6 @@ public readonly struct Cpf
     }
 
     public static implicit operator Cpf(string value) => new(value);
+
+    public static implicit operator string(Cpf cpf) => cpf.Value;
 }

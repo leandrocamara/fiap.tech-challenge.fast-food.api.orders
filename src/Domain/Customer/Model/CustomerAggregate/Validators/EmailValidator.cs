@@ -4,6 +4,15 @@ public sealed class EmailValidator : IValidator<Email>
 {
     public bool IsValid(Email email)
     {
+        var rule = new IsValidEmail();
+        return rule.IsSatisfiedBy(email);
+    }
+}
+
+internal class IsValidEmail : ISpecification<Email>
+{
+    public bool IsSatisfiedBy(Email email)
+    {
         if (string.IsNullOrWhiteSpace(email.Value))
             return false;
 

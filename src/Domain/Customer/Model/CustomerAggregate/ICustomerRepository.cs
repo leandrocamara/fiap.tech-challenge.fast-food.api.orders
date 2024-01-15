@@ -2,5 +2,5 @@
 
 public interface ICustomerRepository : IRepository<Customer>
 {
-    Customer GetByCpf(Cpf cpf);
+    Task<Customer?> GetByCpf(Cpf cpf);
 }
