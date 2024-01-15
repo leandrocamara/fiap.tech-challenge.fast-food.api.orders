@@ -1,9 +1,15 @@
 ﻿namespace Domain.Customer.Model.CustomerAggregate.Validators;
 
-public sealed class CustomerValidator : IValidator<CustomerAggregate.Customer>
+public sealed class CustomerValidator : IValidator<Customer>
 {
-    public bool IsValid(CustomerAggregate.Customer customer)
+    public bool IsValid(Customer customer)
     {
-        return string.IsNullOrWhiteSpace(customer.Name) is false;
+        var rule = new IsCustomerNameProvided();
+        return rule.IsSatisfiedBy(customer);
     }
+}
+
+internal class IsCustomerNameProvided : ISpecification<Customer>
+{
+    public bool IsSatisfiedBy(Customer customer) => string.IsNullOrWhiteSpace(customer.Name) is false;
 }
