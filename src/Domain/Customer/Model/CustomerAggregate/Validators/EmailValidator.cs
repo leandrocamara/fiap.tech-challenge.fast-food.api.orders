@@ -2,21 +2,20 @@
 
 namespace Domain.Customer.Model.CustomerAggregate.Validators;
 
-public sealed class EmailValidator : IValidator<Email>
+internal sealed class EmailValidator : IValidator<Email>
 {
-    public bool IsValid(Email email)
+    public bool IsValid(Email email, out string error)
     {
         var rule = new IsValidEmail();
-        return rule.IsSatisfiedBy(email);
+        return rule.IsSatisfiedBy(email, out error);
     }
 }
 
 internal class IsValidEmail : ISpecification<Email>
 {
-    public bool IsSatisfiedBy(Email email)
+    public bool IsSatisfiedBy(Email email, out string error)
     {
-        if (string.IsNullOrWhiteSpace(email.Value))
-            return false;
+        error = "Invalid Email";
 
         var index = email.Value.IndexOf('@');
 

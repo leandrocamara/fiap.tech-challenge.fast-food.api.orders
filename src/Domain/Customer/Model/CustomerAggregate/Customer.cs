@@ -22,8 +22,8 @@ public sealed class Customer : Entity, IAggregatedRoot
         var validator = new CustomerValidator();
         var customer = new Customer(Guid.NewGuid(), cpf, name, email);
 
-        if (validator.IsValid(customer) is false)
-            throw new DomainException("Invalid Customer");
+        if (validator.IsValid(customer, out var error) is false)
+            throw new DomainException(error);
 
         return customer;
     }

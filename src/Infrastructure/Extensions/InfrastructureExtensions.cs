@@ -11,7 +11,7 @@ public static class InfrastructureExtensions
         this IServiceCollection service, IConfiguration configuration)
     {
         service.AddScoped<ICustomerRepository, CustomerRepository>();
-        
+
         return service;
     }
 }

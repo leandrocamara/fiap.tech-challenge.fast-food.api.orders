@@ -19,8 +19,8 @@ public readonly struct Cpf
     {
         var validator = new CpfValidator();
 
-        if (validator.IsValid(this) is false)
-            throw new DomainException("Invalid CPF");
+        if (validator.IsValid(this, out var error) is false)
+            throw new DomainException(error);
     }
 
     public static implicit operator Cpf(string value) => new(value);

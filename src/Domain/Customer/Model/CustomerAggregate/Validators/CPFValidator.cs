@@ -2,21 +2,20 @@
 
 namespace Domain.Customer.Model.CustomerAggregate.Validators;
 
-public sealed class CpfValidator : IValidator<Cpf>
+internal sealed class CpfValidator : IValidator<Cpf>
 {
-    public bool IsValid(Cpf email)
+    public bool IsValid(Cpf email, out string error)
     {
         var rule = new IsValidCpf();
-        return rule.IsSatisfiedBy(email);
+        return rule.IsSatisfiedBy(email, out error);
     }
 }
 
 internal class IsValidCpf : ISpecification<Cpf>
 {
-    public bool IsSatisfiedBy(Cpf cpf)
+    public bool IsSatisfiedBy(Cpf cpf, out string error)
     {
-        if (string.IsNullOrWhiteSpace(cpf.Value))
-            return false;
+        error = "Invalid CPF";
 
         var position = 0;
         var totalDigit1 = 0;

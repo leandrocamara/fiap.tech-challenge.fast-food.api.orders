@@ -19,8 +19,8 @@ public readonly struct Email
     {
         var validator = new EmailValidator();
 
-        if (validator.IsValid(this) is false)
-            throw new DomainException("Invalid Email");
+        if (validator.IsValid(this, out var error) is false)
+            throw new DomainException(error);
     }
 
     public static implicit operator Email(string value) => new(value);

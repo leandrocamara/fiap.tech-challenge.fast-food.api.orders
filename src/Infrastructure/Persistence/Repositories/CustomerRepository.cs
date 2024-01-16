@@ -4,7 +4,7 @@ namespace Infrastructure.Persistence.Repositories;
 
 public sealed class CustomerRepository : ICustomerRepository
 {
-    public Task Save(Customer entity)
+    public Task Save(Customer customer)
     {
         throw new NotImplementedException();
     }
