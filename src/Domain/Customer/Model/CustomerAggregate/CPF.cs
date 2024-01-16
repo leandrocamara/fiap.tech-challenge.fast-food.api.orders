@@ -11,19 +11,19 @@ public readonly struct Cpf
 
     public Cpf(string value)
     {
-        Value = value;
+        Value = string.Concat(value.Where(char.IsDigit));
         Validate();
     }
 
     private void Validate()
     {
-        var validator = new CpfValidator();
-
-        if (validator.IsValid(this, out var error) is false)
+        if (Validator.IsValid(this, out var error) is false)
             throw new DomainException(error);
     }
 
     public static implicit operator Cpf(string value) => new(value);
 
     public static implicit operator string(Cpf cpf) => cpf.Value;
+
+    private static readonly IValidator<Cpf> Validator = new CpfValidator();
 }

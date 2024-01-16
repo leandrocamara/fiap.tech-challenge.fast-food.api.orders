@@ -2,7 +2,7 @@
 
 internal interface IValidator<in T>
 {
-    bool IsValid(T email, out string error);
+    bool IsValid(T instance, out string error);
 }
 
 internal interface ISpecification<in T>

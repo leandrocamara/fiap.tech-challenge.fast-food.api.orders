@@ -17,13 +17,13 @@ public readonly struct Email
 
     private void Validate()
     {
-        var validator = new EmailValidator();
-
-        if (validator.IsValid(this, out var error) is false)
+        if (Validator.IsValid(this, out var error) is false)
             throw new DomainException(error);
     }
 
     public static implicit operator Email(string value) => new(value);
 
     public static implicit operator string(Email email) => email.Value;
+
+    private static readonly IValidator<Email> Validator = new EmailValidator();
 }

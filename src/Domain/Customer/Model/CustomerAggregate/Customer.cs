@@ -19,12 +19,13 @@ public sealed class Customer : Entity, IAggregatedRoot
 
     public static Customer New(string cpf, string name, string email)
     {
-        var validator = new CustomerValidator();
         var customer = new Customer(Guid.NewGuid(), cpf, name, email);
 
-        if (validator.IsValid(customer, out var error) is false)
+        if (Validator.IsValid(customer, out var error) is false)
             throw new DomainException(error);
 
         return customer;
     }
+
+    private static readonly IValidator<Customer> Validator = new CustomerValidator();
 }
