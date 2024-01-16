@@ -34,7 +34,7 @@ public sealed class CreateCustomerUseCase : ICreateCustomerUseCase
         }
         catch (DomainException e)
         {
-            throw new ApplicationException("Failed to register the customer", e);
+            throw new ApplicationException($"Failed to register the customer. Error: {e.Message}", e);
         }
     }
 }
