@@ -1,4 +1,6 @@
-﻿namespace Domain.Customer.Model.CustomerAggregate;
+﻿using Domain.SeedWork;
+
+namespace Domain.Customer.Model.CustomerAggregate;
 
 public interface ICustomerRepository : IRepository<Customer>
 {

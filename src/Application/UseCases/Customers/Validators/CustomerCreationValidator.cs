@@ -1,12 +1,12 @@
 ﻿using Domain.Customer.Model.CustomerAggregate;
 
-namespace Application.UseCases.Customers.CreateCustomer;
+namespace Application.UseCases.Customers.Validators;
 
 public sealed class CustomerCreationValidator(ICustomerRepository customerRepository)
 {
-    public async Task Validate(CreateCustomerInput input)
+    public async Task Validate(CreateCustomerRequest request)
     {
-        if (await IsCpfAlreadyUsed(input.Cpf))
+        if (await IsCpfAlreadyUsed(request.Cpf))
             throw new ApplicationException("CPF already used");
     }
 

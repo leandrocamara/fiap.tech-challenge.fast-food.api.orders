@@ -1,6 +1,6 @@
 ﻿namespace Application;
 
-public interface IUseCase<in TInput, TOutput>
+public interface IUseCase<in TRequest, TResponse>
 {
-    Task<TOutput> Execute(TInput input);
+    Task<TResponse> Execute(TRequest input);
 }

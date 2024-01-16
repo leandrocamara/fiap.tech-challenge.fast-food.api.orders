@@ -1,4 +1,4 @@
-﻿namespace Domain;
+﻿namespace Domain.SeedWork;
 
 public interface IValidator<in T>
 {

@@ -1,4 +1,5 @@
 ﻿using Domain.Customer.Model.CustomerAggregate.Validators;
+using Domain.SeedWork;
 
 namespace Domain.Customer.Model.CustomerAggregate;
 
