@@ -7,8 +7,6 @@ public readonly struct Cpf
 {
     public string Value { get; }
 
-    public Cpf() => Validate();
-
     public Cpf(string value)
     {
         Value = string.Concat(value.Where(char.IsDigit));
@@ -20,6 +18,8 @@ public readonly struct Cpf
         if (Validator.IsValid(this, out var error) is false)
             throw new DomainException(error);
     }
+
+    public override string ToString() => Value;
 
     public static implicit operator Cpf(string value) => new(value);
 

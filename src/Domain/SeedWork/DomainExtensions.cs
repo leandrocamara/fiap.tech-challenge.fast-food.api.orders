@@ -4,9 +4,9 @@ namespace Domain.SeedWork;
 
 public static class DomainExtensions
 {
-    public static IServiceCollection AddDomainDependencies(this IServiceCollection service)
+    public static IServiceCollection AddDomainDependencies(this IServiceCollection services)
     {
         // TODO: Add Domain Services
-        return service;
+        return services;
     }
 }

@@ -5,10 +5,10 @@ namespace Application.Extensions;
 
 public static class ApplicationExtensions
 {
-    public static IServiceCollection AddApplicationDependencies(this IServiceCollection service)
+    public static IServiceCollection AddApplicationDependencies(this IServiceCollection services)
     {
-        service.AddScoped<ICreateCustomerUseCase, CreateCustomerUseCase>();
+        services.AddScoped<ICreateCustomerUseCase, CreateCustomerUseCase>();
 
-        return service;
+        return services;
     }
 }

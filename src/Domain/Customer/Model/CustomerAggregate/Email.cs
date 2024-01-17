@@ -7,8 +7,6 @@ public readonly struct Email
 {
     public string Value { get; }
 
-    public Email() => Validate();
-
     public Email(string value)
     {
         Value = value;
@@ -20,6 +18,8 @@ public readonly struct Email
         if (Validator.IsValid(this, out var error) is false)
             throw new DomainException(error);
     }
+
+    public override string ToString() => Value;
 
     public static implicit operator Email(string value) => new(value);
 
