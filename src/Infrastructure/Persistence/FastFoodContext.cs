@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Persistence;
 
-// TODO: TransactionFilter
 public interface IUnitOfWork : IDisposable
 {
     Task<IDbContextTransaction?> BeginTransactionAsync();

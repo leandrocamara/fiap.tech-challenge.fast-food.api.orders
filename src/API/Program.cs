@@ -1,3 +1,4 @@
+using API.Filters;
 using Application.Extensions;
 using Domain.SeedWork;
 using Infrastructure.Extensions;
@@ -10,7 +11,10 @@ var configuration = builder.Configuration;
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<TransactionalContextFilter>();
+});
 
 builder.Services.AddInfrastructureDependencies(configuration);
 builder.Services.AddApplicationDependencies();
