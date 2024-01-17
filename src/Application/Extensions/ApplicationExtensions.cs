@@ -7,7 +7,12 @@ public static class ApplicationExtensions
 {
     public static IServiceCollection AddApplicationDependencies(this IServiceCollection services)
     {
+        #region Customer
+
         services.AddScoped<ICreateCustomerUseCase, CreateCustomerUseCase>();
+        services.AddScoped<IGetCustomerByCpfUseCase, GetCustomerByCpfUseCase>();
+
+        #endregion
 
         return services;
     }

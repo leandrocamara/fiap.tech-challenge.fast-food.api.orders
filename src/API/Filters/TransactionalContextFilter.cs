@@ -25,10 +25,12 @@ public sealed class TransactionalContextFilter(FastFoodContext dbContext) : IAsy
                     await dbContext.CommitTransactionAsync(transaction);
                 else
                     dbContext.RollbackTransaction();
+
+                await dbContext.DisposeAsync();
             });
         }
 
-        await dbContext.DisposeAsync();
+        await next();
     }
 
     private static bool IsValidResponse(ActionExecutedContext actionExecutedContext)
