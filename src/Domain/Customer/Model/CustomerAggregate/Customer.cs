@@ -9,22 +9,15 @@ public sealed class Customer : Entity, IAggregatedRoot
     public string Name { get; private set; }
     public Email Email { get; private set; }
 
-    private Customer(Guid id, Cpf cpf, string name, Email email)
+    public Customer(Cpf cpf, string name, Email email)
     {
-        Id = id;
+        Id = Guid.NewGuid();
         Cpf = cpf;
         Name = name;
         Email = email;
-    }
 
-    public static Customer New(string cpf, string name, string email)
-    {
-        var customer = new Customer(Guid.NewGuid(), cpf, name, email);
-
-        if (Validator.IsValid(customer, out var error) is false)
+        if (Validator.IsValid(this, out var error) is false)
             throw new DomainException(error);
-
-        return customer;
     }
 
     private static readonly IValidator<Customer> Validator = new CustomerValidator();
