@@ -11,7 +11,7 @@
 
 Iniciar o banco de dados (_Postgres_) e a aplicação:
 ```shell
-docker compose up
+docker compose up --build
 ```
 
 Remover os _containers_ e o _volume_:
