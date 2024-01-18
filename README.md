@@ -11,7 +11,7 @@
 
 Iniciar o banco de dados (_Postgres_) e a aplicação:
 ```shell
-dotnet compose up
+docker compose up
 ```
 
 Remover os _containers_ e o _volume_:
