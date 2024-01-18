@@ -7,30 +7,38 @@
 
 ## Execução
 
-### PostgreSQL
+### Docker Compose
+
+Iniciar o banco de dados (_Postgres_) e a aplicação:
+```shell
+dotnet compose up
+```
+
+Remover os _containers_ e o _volume_:
+```shell
+docker compose down && docker volume rm fastfood_data
+```
+
+Swagger UI da API: `http://localhost:8080/swagger`
+
+### CLI
 
 Para subir o BD local, o recomendado é utilizar o Docker e executar o seguinte comando:
 
-``` shell
+```shell
 docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres
-```
-
-Caso seja necessário derrubar o BD, basta executar:
-
-``` shell
-docker container kill pg-docker
 ```
 
 Obs.: A *connection string* já está configurada corretamente no arquivo *launchSettings.json*
 
-### .NET CLI
-
 Inicie a Aplicação (API):
 
-``` shell
+```shell
 dotnet run --project .\src\API\API.csproj
 ```
 
-Acesse o Swagger UI da API: `http://localhost:5054/swagger`
+Caso seja necessário derrubar o BD, basta executar:
 
-### Docker
+```shell
+docker container kill pg-docker
+```
