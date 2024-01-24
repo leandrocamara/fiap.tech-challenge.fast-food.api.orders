@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fast-food-api
+  labels:
+    app: fast-food-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fast-food-api
+  template:
+    metadata:
+      labels:
+        app: fast-food-api
+    spec:
+      containers:
+        - name: fast-food-api-container
+          # TODO: Specify Container Registry
+          image: leandrocamara/fast-food-api
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: fast-food-api-configmap
+            - secretRef:
+                name: fast-food-api-secret

@@ -14,11 +14,6 @@ spec:
           cpu: "500m"
       ports:
         - containerPort: 5432
-      env:
-        # TODO: Use ConfigMap/Secret
-        - name: "POSTGRES_USER"
-          value: "postgres"
-        - name: "POSTGRES_PASSWORD"
-          value: "docker"
-        - name: "POSTGRES_DB"
-          value: "postgres"
+      envFrom:
+        - secretRef:
+            name: fast-food-database-secret
