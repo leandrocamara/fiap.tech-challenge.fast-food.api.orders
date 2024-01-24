@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fast-food-api
+  labels:
+    app: fast-food-api
+spec:
+  containers:
+    - name: fast-food-api-container
+      # TODO: Specify Container Registry
+      image: leandrocamara/fast-food-api
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      ports:
+        - containerPort: 8080
+      env:
+        # TODO: Use ConfigMap/Secret
+        - name: "ASPNETCORE_ENVIRONMENT"
+          value: "Development"
+        - name: "ASPNETCORE_HTTP_PORTS"
+          value: "8080"
+        - name: "ConnectionStrings__Default"
+          value: "Server=fast-food-database-service;Database=postgres;Username=postgres;Password=docker;Port=5432"
