@@ -29,3 +29,15 @@ spec:
                 name: fast-food-api-configmap
             - secretRef:
                 name: fast-food-api-secret
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /heartbeat
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 30
+            periodSeconds: 60
