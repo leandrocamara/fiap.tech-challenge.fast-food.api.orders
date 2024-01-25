@@ -5,7 +5,7 @@ metadata:
   labels:
     app: fast-food-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: fast-food-api
@@ -21,7 +21,7 @@ spec:
           resources:
             limits:
               memory: "128Mi"
-              cpu: "500m"
+              cpu: "100m"
           ports:
             - containerPort: 8080
           envFrom:
