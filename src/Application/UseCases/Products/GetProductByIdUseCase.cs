@@ -1,7 +1,8 @@
 ﻿using Application.UseCases.Customers;
 using Application.UseCases.Products.Validators;
-using Domain.Customer.Model.CustomerAggregate;
-using Domain.Product.ProductAggregate;
+using Domain.Customers.Model.CustomerAggregate;
+using Domain.Products.Model.ProductAggregate;
+using Domain.Products.ProductAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Products;
@@ -24,7 +25,8 @@ public sealed class GetProductByIdUseCase(IProductRepository productRepository) 
                 product.Name,
                 product.Category.ToString(),
                 product.Price,
-                product.Description));
+                product.Description,
+                product.Images));
         }
         catch (DomainException e)
         {
@@ -34,4 +36,4 @@ public sealed class GetProductByIdUseCase(IProductRepository productRepository) 
 }
 
 public record GetProductByIdRequest(Guid Id);
-public record GetProductByIdResponse(Guid Id, string Name, string Category, decimal Price, string Description);
+public record GetProductByIdResponse(Guid Id, string Name, string Category, decimal Price, string Description, List<Image> images);

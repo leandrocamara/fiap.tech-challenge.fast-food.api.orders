@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Domain.Customer.Model.CustomerAggregate.Validators;
+namespace Domain.Customers.Model.CustomerAggregate.Validators;
 
 internal sealed class EmailValidator : IValidator<Email>
 {

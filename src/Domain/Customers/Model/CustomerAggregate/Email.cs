@@ -1,7 +1,7 @@
-﻿using Domain.Customer.Model.CustomerAggregate.Validators;
+﻿using Domain.Customers.Model.CustomerAggregate.Validators;
 using Domain.SeedWork;
 
-namespace Domain.Customer.Model.CustomerAggregate;
+namespace Domain.Customers.Model.CustomerAggregate;
 
 public readonly struct Email
 {

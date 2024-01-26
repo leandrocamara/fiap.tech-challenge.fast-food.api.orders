@@ -1,5 +1,5 @@
-﻿using Domain.Customer.Model.CustomerAggregate.Validators;
-using Domain.Product.ProductAggregate.Validators;
+﻿using Domain.Customers.Model.CustomerAggregate.Validators;
+using Domain.Products.ProductAggregate.Validators;
 using Domain.SeedWork;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Product.ProductAggregate
+namespace Domain.Products.ProductAggregate
 {
     public enum ECategory : int
     {

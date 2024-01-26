@@ -1,7 +1,8 @@
-﻿using Domain.Product.ProductAggregate.Validators;
+﻿using Domain.Products.Model.ProductAggregate;
+using Domain.Products.ProductAggregate.Validators;
 using Domain.SeedWork;
 
-namespace Domain.Product.ProductAggregate;
+namespace Domain.Products.ProductAggregate;
 
 public sealed class Product : Entity, IAggregatedRoot
 {
@@ -9,15 +10,16 @@ public sealed class Product : Entity, IAggregatedRoot
     public Category Category { get; private set; }
     public decimal Price { get; private set; }
     public string Description { get; private set; }
-    //public List<string> Images { get; private set; }
+    public List<Image> Images { get; private set; }
 
-    public Product(Guid id,string name, Category category,decimal price, string description) 
+    public Product(Guid id,string name, Category category,decimal price, string description, List<Image> images) 
     {
         Id = id;
         Name = name;
         Category = category;
         Price = price;
         Description = description;
+        Images = images;
 
         if (Validator.IsValid(this, out var error) is false)
             throw new DomainException(error);

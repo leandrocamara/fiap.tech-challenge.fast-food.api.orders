@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Domain.Product.ProductAggregate.Validators
+namespace Domain.Products.ProductAggregate.Validators
 {
     internal sealed class CategoryValidator: IValidator<Category>
     {

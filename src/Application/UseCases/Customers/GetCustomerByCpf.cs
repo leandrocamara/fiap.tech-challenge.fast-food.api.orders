@@ -1,4 +1,4 @@
-﻿using Domain.Customer.Model.CustomerAggregate;
+﻿using Domain.Customers.Model.CustomerAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Customers;
