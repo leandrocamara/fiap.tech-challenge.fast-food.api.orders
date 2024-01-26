@@ -24,7 +24,7 @@ public sealed class CreateCustomerUseCase : ICreateCustomerUseCase
             var customer = new Customer(request.Cpf, request.Name, request.Email);
 
             await _validator.Validate(request);
-            _customerRepository.Save(customer);
+            _customerRepository.Add(customer);
 
             return new CreateCustomerResponse(
                 customer.Id,
