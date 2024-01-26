@@ -25,5 +25,14 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
                     v => (int)v,
                     v => (Category)v
                 );
+
+        builder
+            .Property(product => product.Price)            
+            .IsRequired();
+
+        builder
+            .Property(product => product.Description)
+            .HasMaxLength(200)
+            .IsRequired();
     }
 }

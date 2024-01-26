@@ -29,7 +29,9 @@ public sealed class GetProductsByCategoyUseCase : IGetProductsByCategoyUseCase
             return products.Select(product => new GetProductsByCategoryResponse(
                 product.Id,
                 product.Name,
-                product.Category.ToString()));
+                product.Category.ToString(),
+                product.Price,
+                product.Description));
         }
         catch (DomainException e)
         {
@@ -39,4 +41,4 @@ public sealed class GetProductsByCategoyUseCase : IGetProductsByCategoyUseCase
 }
 
 public record GetProductsByCategoryRequest(int Category);
-public record GetProductsByCategoryResponse(Guid Id, string Name, string Category);
+public record GetProductsByCategoryResponse(Guid Id, string Name, string Category, decimal Price, string Description);
