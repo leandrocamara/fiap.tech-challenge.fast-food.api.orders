@@ -21,15 +21,15 @@ public sealed class CreateProductUseCase : ICreateProductUseCase
     {
         try
         {
-            var product = new Product(request.Name, request.Category);
+            var product = new Product(request.Name, request.Category, Guid.NewGuid());
 
             await _validator.Validate(request);
-            _productRepository.Save(product);
+            _productRepository.Add(product);
 
             return new CreateProductResponse(
                 product.Id,               
                 product.Name,
-                product.Category);
+                product.Category.ToString());
         }
         catch (DomainException e)
         {
@@ -40,4 +40,4 @@ public sealed class CreateProductUseCase : ICreateProductUseCase
 
 public record CreateProductRequest(string Name, int Category);
 
-public record CreateProductResponse(Guid Id, string Name, int Category);
+public record CreateProductResponse(Guid Id, string Name, string Category);
