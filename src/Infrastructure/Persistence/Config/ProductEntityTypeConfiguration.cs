@@ -1,6 +1,4 @@
-﻿using Domain.Customer.Model.CustomerAggregate;
-using Domain.Product.ProductAggregate;
-using Domain.Products.ProductAggregate;
+﻿using Domain.Products.ProductAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,7 +22,7 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired()
             .HasConversion(
                     v => (int)v,
-                    v => (Category)v
+                    v => v
                 );
     }
 }

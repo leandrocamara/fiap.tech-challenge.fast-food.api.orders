@@ -1,13 +1,10 @@
-﻿using Domain.Product.ProductAggregate.Validators;
-using Domain.Product.ProductAggregate;
+﻿using Domain.Orders.OrderAggregate.Validators;
 using Domain.SeedWork;
-using Domain.Order.OrderAggregate.Validators;
 
-
-namespace Domain.Order.OrderAggregate
+namespace Domain.Orders.OrderAggregate
 {
 
-    public enum EOrderStatus : int
+    public enum EOrderStatus
     {
         Received = 0,
         Preparing = 1,

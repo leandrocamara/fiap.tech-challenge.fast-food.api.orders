@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Domain.Order.OrderAggregate.Validators
+namespace Domain.Orders.OrderAggregate.Validators
 {
     internal sealed class OrderStatusValidator : IValidator<OrderStatus>
     {

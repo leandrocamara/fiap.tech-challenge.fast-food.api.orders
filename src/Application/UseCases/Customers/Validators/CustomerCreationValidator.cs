@@ -1,4 +1,4 @@
-﻿using Domain.Customer.Model.CustomerAggregate;
+﻿using Domain.Customers.Model.CustomerAggregate;
 
 namespace Application.UseCases.Customers.Validators;
 

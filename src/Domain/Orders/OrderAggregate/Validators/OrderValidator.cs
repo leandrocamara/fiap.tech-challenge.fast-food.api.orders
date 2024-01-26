@@ -1,13 +1,6 @@
-﻿using Domain.Product.ProductAggregate.Validators;
-using Domain.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.SeedWork;
 
-namespace Domain.Order.OrderAggregate.Validators
+namespace Domain.Orders.OrderAggregate.Validators
 {
     internal sealed class OrderValidator : IValidator<Order>
     {

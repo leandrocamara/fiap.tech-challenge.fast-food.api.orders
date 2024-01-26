@@ -1,12 +1,6 @@
-﻿using Application.UseCases.Customers;
-using Domain.Customer.Model.CustomerAggregate;
-using Domain.Order.OrderAggregate;
+﻿using Domain.Customers.Model.CustomerAggregate;
+using Domain.Orders.OrderAggregate;
 using Domain.Products.ProductAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCases.Orders
 {
@@ -40,7 +34,7 @@ namespace Application.UseCases.Orders
     }
 
 
-    public record CreateOrderRequest(int statusOrder,List<Product> products, Domain.Customer.Model.CustomerAggregate.Customer customer);
+    public record CreateOrderRequest(int statusOrder,List<Product> products, Customer customer);
 
     public record CreateOrderResponse(string CostumerName, string StatusOrder );
 }

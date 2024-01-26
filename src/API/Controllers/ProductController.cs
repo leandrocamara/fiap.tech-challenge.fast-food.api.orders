@@ -1,5 +1,4 @@
-﻿using Application.UseCases.Customers;
-using Application.UseCases.Products;
+﻿using Application.UseCases.Products;
 using Microsoft.AspNetCore.Mvc;
 using ApplicationException = Application.ApplicationException;
 

@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Domain.Customer.Model.CustomerAggregate;
+namespace Domain.Customers.Model.CustomerAggregate;
 
 public interface ICustomerRepository : IRepository<Customer>
 {

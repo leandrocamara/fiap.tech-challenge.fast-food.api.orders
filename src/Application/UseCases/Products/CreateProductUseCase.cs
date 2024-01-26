@@ -1,5 +1,5 @@
 ﻿using Application.UseCases.Products.Validators;
-using Domain.Product.ProductAggregate;
+using Domain.Products.ProductAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Products;
