@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Domain.Customer.Model.CustomerAggregate;
+using Domain.Product.ProductAggregate;
 using Infrastructure.Persistence.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -16,6 +17,7 @@ public interface IUnitOfWork : IDisposable
 public sealed class FastFoodContext(DbContextOptions<FastFoodContext> options) : DbContext(options), IUnitOfWork
 {
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     private IDbContextTransaction? _currentTransaction;
 
@@ -23,6 +25,7 @@ public sealed class FastFoodContext(DbContextOptions<FastFoodContext> options) :
     {
         modelBuilder.HasDefaultSchema("public");
         modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductEntityTypeConfiguration());
     }
 
     public async Task<IDbContextTransaction?> BeginTransactionAsync()

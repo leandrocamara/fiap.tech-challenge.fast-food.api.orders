@@ -14,10 +14,10 @@ internal class Specifications<T>(params ISpecification<T>[] specs) : ISpecificat
 {
     private readonly IEnumerable<ISpecification<T>> _specs = specs;
 
-    public bool IsSatisfiedBy(T customer, out string error)
+    public bool IsSatisfiedBy(T t, out string error)
     {
         foreach (var spec in _specs)
-            if (spec.IsSatisfiedBy(customer, out error) is false)
+            if (spec.IsSatisfiedBy(t, out error) is false)
                 return false;
 
         error = string.Empty;
