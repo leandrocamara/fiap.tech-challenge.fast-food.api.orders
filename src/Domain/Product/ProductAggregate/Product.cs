@@ -8,9 +8,9 @@ public sealed class Product : Entity, IAggregatedRoot
     public string Name { get; private set; }
     public Category Category { get; set; }
 
-    public Product(string name, Category category)
+    public Product(string name, Category category, Guid id) 
     {
-        Id = Guid.NewGuid();
+        Id = id;
         Name = name;
         Category = category;
 
