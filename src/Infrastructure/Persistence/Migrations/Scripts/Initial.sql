@@ -13,5 +13,7 @@ CREATE TABLE "products"
 (
     "Id"    UUID PRIMARY KEY UNIQUE DEFAULT uuid_generate_v4(),    
     "Name"  VARCHAR(100) NOT NULL,
-    "Category" SMALLINT  NOT NULL
+    "Category" SMALLINT  NOT NULL,
+    "Price"  NUMERIC(10,2) NOT NULL,
+    "Description"  VARCHAR(200) NOT NULL
 );
