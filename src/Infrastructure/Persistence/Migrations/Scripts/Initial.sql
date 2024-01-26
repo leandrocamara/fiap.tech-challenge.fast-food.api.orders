@@ -8,3 +8,10 @@ CREATE TABLE "customers"
     "Name"  VARCHAR(100) NOT NULL,
     "Email" VARCHAR(100) NOT NULL
 );
+
+CREATE TABLE "products"
+(
+    "Id"    UUID PRIMARY KEY UNIQUE DEFAULT uuid_generate_v4(),    
+    "Name"  VARCHAR(100) NOT NULL,
+    "Category" SMALLINT  NOT NULL
+);
