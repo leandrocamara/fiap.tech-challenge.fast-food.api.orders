@@ -1,14 +1,15 @@
-﻿using Domain.Product.ProductAggregate.Validators;
+﻿using Domain.Product.ProductAggregate;
+using Domain.Product.ProductAggregate.Validators;
 using Domain.SeedWork;
 
-namespace Domain.Product.ProductAggregate;
+namespace Domain.Products.ProductAggregate;
 
 public sealed class Product : Entity, IAggregatedRoot
 {
     public string Name { get; private set; }
     public Category Category { get; set; }
 
-    public Product(string name, Category category, Guid id) 
+    public Product(string name, Category category, Guid id)
     {
         Id = id;
         Name = name;
