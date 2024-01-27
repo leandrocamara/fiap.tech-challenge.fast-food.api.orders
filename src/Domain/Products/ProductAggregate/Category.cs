@@ -1,4 +1,5 @@
-﻿using Domain.Products.ProductAggregate.Validators;
+﻿using Domain.Customers.Model.CustomerAggregate.Validators;
+using Domain.Products.ProductAggregate.Validators;
 using Domain.SeedWork;
 
 namespace Domain.Products.ProductAggregate

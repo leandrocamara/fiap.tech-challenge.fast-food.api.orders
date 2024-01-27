@@ -39,6 +39,7 @@ public static class InfrastructureExtensions
 
         using (serviceProvider.CreateScope())
         {
+            
             serviceProvider.GetRequiredService<IMigrationRunner>().MigrateUp();
         }
     }

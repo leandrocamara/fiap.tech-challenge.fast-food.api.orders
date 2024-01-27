@@ -1,4 +1,7 @@
-﻿using Domain.Products.ProductAggregate;
+﻿using Application.UseCases.Customers;
+using Application.UseCases.Products.Validators;
+using Domain.Customers.Model.CustomerAggregate;
+using Domain.Products.ProductAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Products;

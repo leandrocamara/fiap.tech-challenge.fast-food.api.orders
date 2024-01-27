@@ -26,6 +26,8 @@ public sealed class FastFoodContext(DbContextOptions<FastFoodContext> options) :
         modelBuilder.HasDefaultSchema("public");
         modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductEntityTypeConfiguration());
+
+        base.OnModelCreating(modelBuilder);
     }
 
     public async Task<IDbContextTransaction?> BeginTransactionAsync()
