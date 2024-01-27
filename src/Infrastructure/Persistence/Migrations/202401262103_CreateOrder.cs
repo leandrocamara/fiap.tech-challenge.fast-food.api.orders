@@ -7,7 +7,7 @@ public class CreateOrder : Migration
 {
     public override void Up()
     {
-        Execute.EmbeddedScript($"{typeof(Initial).Namespace}.Scripts.{nameof(Initial)}.sql");
+        Execute.EmbeddedScript($"{typeof(Initial).Namespace}.Scripts.{nameof(CreateOrder)}.sql");
     }
 
     public override void Down()

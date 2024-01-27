@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.UseCases.Orders
 {
-    public interface IGetOrderUseCase : IUseCase<CreateOrderRequest, Order>;
+    public interface IGetOrderUseCase : IUseCase<CreateOrderRequest, IEnumerable<Order>>;
 
 
     public sealed class GetOrdersUseCase : IGetOrderUseCase
@@ -19,23 +19,14 @@ namespace Application.UseCases.Orders
         {
             _orderRepository = orderRepository;
         }
-        public Task<IEnumerable<Order>> Execute(CreateOrderRequest request)
+
+        public async Task<IEnumerable<Order>> Execute(CreateOrderRequest request)
         {
-            try
-            {                
-                var resultOrders =_orderRepository.GetOrders();              
 
-                return resultOrders;
+            var resultOrders = await _orderRepository.GetOrders();
 
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-            
-        }
-
-      
+            return resultOrders;
+        }      
     }
 
 

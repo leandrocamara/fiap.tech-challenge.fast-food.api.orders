@@ -1,4 +1,5 @@
 ﻿using Domain.Customers.Model.CustomerAggregate;
+using Domain.Orders.OrderAggregate;
 using Domain.Products.ProductAggregate;
 using FluentMigrator.Runner;
 using Infrastructure.Persistence;
@@ -22,6 +23,7 @@ public static class InfrastructureExtensions
         services.AddScoped<IUnitOfWork, FastFoodContext>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
 
         return services;
     }
