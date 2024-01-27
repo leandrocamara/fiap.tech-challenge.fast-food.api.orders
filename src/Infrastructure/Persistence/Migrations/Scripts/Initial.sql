@@ -15,5 +15,6 @@ CREATE TABLE "products"
     "Name"  VARCHAR(100) NOT NULL,
     "Category" SMALLINT  NOT NULL,
     "Price"  NUMERIC(10,2) NOT NULL,
-    "Description"  VARCHAR(200) NOT NULL
+    "Description"  VARCHAR(200) NOT NULL,
+    "Images" JSONB
 );

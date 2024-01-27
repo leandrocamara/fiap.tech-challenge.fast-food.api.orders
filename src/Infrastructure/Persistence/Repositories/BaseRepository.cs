@@ -1,4 +1,4 @@
-﻿using Domain.Product.ProductAggregate;
+﻿using Domain.Products.ProductAggregate;
 using Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using System;

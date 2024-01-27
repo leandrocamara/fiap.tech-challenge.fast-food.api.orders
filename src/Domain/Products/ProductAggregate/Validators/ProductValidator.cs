@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Domain.Product.ProductAggregate.Validators;
+namespace Domain.Products.ProductAggregate.Validators;
 
 internal sealed class ProductValidator : IValidator<Product>
 {
@@ -9,7 +9,8 @@ internal sealed class ProductValidator : IValidator<Product>
         var rule = new Specifications<Product>(
             new IsProductNameProvided(),
             new IsProductPriceProvided(),
-            new IsProductDescriptionProvided());
+            new IsProductDescriptionProvided(),
+            new IsProductImagesProvided());
 
         return rule.IsSatisfiedBy(product, out error);
     }
@@ -39,6 +40,15 @@ internal class IsProductDescriptionProvided : ISpecification<Product>
     {
         error = "Description not provided";
         return string.IsNullOrWhiteSpace(product.Description) is false;
+    }
+}
+
+internal class IsProductImagesProvided : ISpecification<Product>
+{
+    public bool IsSatisfiedBy(Product product, out string error)
+    {
+        error = "Images not provided";
+        return  product.Images.Any();
     }
 }
 
