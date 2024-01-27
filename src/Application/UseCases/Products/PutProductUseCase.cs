@@ -33,7 +33,7 @@ public sealed class PutProductUseCase : IPutProductUseCase
                 product.Category.ToString(),
                 product.Price,
                 product.Description,
-                Image.ConvertToStrings(product.Images));
+                product.Images);
         }
         catch (DomainException e)
         {
@@ -44,4 +44,4 @@ public sealed class PutProductUseCase : IPutProductUseCase
 
 public record PutProductRequest(Guid Id, string Name, int Category, decimal Price, string Description, List<string> images);
 
-public record PutProductResponse(Guid Id, string Name, string Category, decimal Price, string Description, List<string> images);
+public record PutProductResponse(Guid Id, string Name, string Category, decimal Price, string Description, List<Image> images);
