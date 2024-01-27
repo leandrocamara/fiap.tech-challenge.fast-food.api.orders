@@ -13,7 +13,7 @@ namespace Application.UseCases.Orders
         {
             _orderRepository = orderRepository;
         }
-        public Task<CreateOrderResponse> Execute(CreateOrderRequest request)
+        public async Task<CreateOrderResponse> Execute(CreateOrderRequest request)
         {
             try {
                 var order = new Order(request.id, request.orderItems, request.customer, new OrderStatus(EOrderStatus.PaymentPending), DateTime.Now);
@@ -21,7 +21,7 @@ namespace Application.UseCases.Orders
 
                 var returnResponse = new CreateOrderResponse(order.Customer.Name, order.Status.ToString(), order.Id);
 
-                return Task.FromResult(returnResponse);
+                return returnResponse;
 
             }catch (Exception ex)
             {

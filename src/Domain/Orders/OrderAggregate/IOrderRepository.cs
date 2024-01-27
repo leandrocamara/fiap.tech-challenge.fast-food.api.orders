@@ -1,9 +1,10 @@
-﻿using Domain.SeedWork;
+﻿using Domain.Products.ProductAggregate;
+using Domain.SeedWork;
 
 namespace Domain.Orders.OrderAggregate
 {
     public interface IOrderRepository :IRepository<Order>
     {
-        Task<Order> GetByOrders();
+        Task<IEnumerable<Order>> GetOrders();
     }
 }

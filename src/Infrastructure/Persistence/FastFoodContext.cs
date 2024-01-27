@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Domain.Customers.Model.CustomerAggregate;
+using Domain.Orders.OrderAggregate;
 using Domain.Products.ProductAggregate;
 using Infrastructure.Persistence.Config;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public sealed class FastFoodContext(DbContextOptions<FastFoodContext> options) :
 {
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<Order> Orders { get; set; }
 
     private IDbContextTransaction? _currentTransaction;
 

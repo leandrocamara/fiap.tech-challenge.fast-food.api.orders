@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.UseCases.Orders;
+using Application.UseCases.Products;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
@@ -6,9 +8,28 @@ namespace API.Controllers
     [Route("api/orders")]
     public class OrderController : ControllerBase
     {
-        public IActionResult Index()
+        [HttpPost]
+        [ProducesResponseType<CreateOrderResponse>(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult Index([FromServices] ICreateOrderUseCase createOrderUseCase,
+        CreateOrderRequest request)
         {
-            return null;
+            try
+            {
+                var response = createOrderUseCase.Execute(request);
+                return StatusCode(StatusCodes.Status201Created, response);
+            }
+            catch (ApplicationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
+
+
     }
 }
