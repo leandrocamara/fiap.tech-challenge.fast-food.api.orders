@@ -1,7 +1,7 @@
 ﻿CREATE
 EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE "orders"
+CREATE TABLE "customers"
 (
     "Id"    UUID PRIMARY KEY UNIQUE DEFAULT uuid_generate_v4(),
     "Cpf"   VARCHAR(11) NOT NULL,
