@@ -16,13 +16,12 @@ namespace Application.UseCases.Orders
         public Task<CreateOrderResponse> Execute(CreateOrderRequest request)
         {
             try {
-                var order = new Order(request.products, request.customer, Guid.NewGuid());
+                var order = new Order(request.id, request.orderItems, request.customer, new OrderStatus(EOrderStatus.PaymentPending), DateTime.Now);
                 _orderRepository.Add(order);
 
-              
-                return new CreateOrderResponse(                    
-                    order.Customer.Name,
-                    order.status.ToString());
+                var returnResponse = new CreateOrderResponse(order.Customer.Name, order.Status.ToString(), order.Id);
+
+                return Task.FromResult(returnResponse);
 
             }catch (Exception ex)
             {
@@ -34,7 +33,7 @@ namespace Application.UseCases.Orders
     }
 
 
-    public record CreateOrderRequest(int statusOrder,List<Product> products, Customer customer);
+    public record CreateOrderRequest(Guid id, IList<OrderItem> orderItems, Customer customer, OrderStatus status, DateTime createAt);
 
-    public record CreateOrderResponse(string CostumerName, string StatusOrder );
+    public record CreateOrderResponse(string CostumerName, string StatusOrder, Guid orderId );
 }

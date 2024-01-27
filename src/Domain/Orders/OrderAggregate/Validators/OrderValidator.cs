@@ -19,7 +19,7 @@ namespace Domain.Orders.OrderAggregate.Validators
         {
             error = "No product was chosen";            
             
-            return order.Product.Any() ;
+            return order.OrderItems.Any() ;
         }
     }
 }

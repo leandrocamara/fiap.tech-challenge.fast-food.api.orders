@@ -6,9 +6,10 @@ namespace Domain.Orders.OrderAggregate
 
     public enum EOrderStatus
     {
-        Received = 0,
-        Preparing = 1,
-        Ready = 1
+        PaymentPending = 0,
+        Received = 1,
+        Preparing = 2,
+        Ready = 3
     }
     public readonly struct OrderStatus
     {

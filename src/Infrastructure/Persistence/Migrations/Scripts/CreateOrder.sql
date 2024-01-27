@@ -1,4 +1,4 @@
-﻿CREATE
+CREATE
 EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE "orders"
@@ -9,9 +9,7 @@ CREATE TABLE "orders"
     "Email" VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE "products"
+CREATE TABLE "ordersItem"
 (
-    "Id"    UUID PRIMARY KEY UNIQUE DEFAULT uuid_generate_v4(),    
-    "Name"  VARCHAR(100) NOT NULL,
-    "Category" SMALLINT  NOT NULL
+    
 );
