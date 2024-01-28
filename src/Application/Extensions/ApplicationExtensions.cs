@@ -1,4 +1,5 @@
 ﻿using Application.UseCases.Customers;
+using Application.UseCases.Orders;
 using Application.UseCases.Products;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +23,13 @@ public static class ApplicationExtensions
         services.AddScoped<IDeleteProductUseCase, DeleteProductUseCase>();
         services.AddScoped<IGetProductsByCategoyUseCase, GetProductsByCategoyUseCase>();
         services.AddScoped<IGetProductByIdUseCase, GetProductByIdUseCase>();
+
+        #endregion
+
+        #region Order
+
+        services.AddScoped<ICreateOrderUseCase, CreateOrderUseCase>();
+        services.AddScoped<IGetOrdersUseCase, GetOrdersUseCase>();
 
         #endregion
 

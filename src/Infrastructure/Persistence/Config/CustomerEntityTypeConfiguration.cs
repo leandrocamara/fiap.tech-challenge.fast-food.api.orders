@@ -1,4 +1,5 @@
 ﻿using Domain.Customers.Model.CustomerAggregate;
+using Domain.Orders.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -32,5 +33,11 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
                 convertFromProviderExpression: value => new Email(value))
             .HasMaxLength(100)
             .IsRequired();
+        
+        builder
+            .HasMany<Order>()
+            .WithOne()
+            .HasForeignKey(order => order.CustomerId)
+            .IsRequired(false);
     }
 }

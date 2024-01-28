@@ -1,39 +1,62 @@
-﻿using Domain.Customers.Model.CustomerAggregate;
+﻿using Application.UseCases.Orders.Validators;
+using Domain.Customers.Model.CustomerAggregate;
 using Domain.Orders.OrderAggregate;
 using Domain.Products.ProductAggregate;
+using Domain.SeedWork;
 
-namespace Application.UseCases.Orders
+namespace Application.UseCases.Orders;
+
+public interface ICreateOrderUseCase : IUseCase<CreateOrderRequest, CreateOrderResponse>;
+
+public sealed class CreateOrderUseCase(
+    IOrderRepository orderRepository,
+    ICustomerRepository customerRepository,
+    IProductRepository productRepository) : ICreateOrderUseCase
 {
-    public interface ICreateOrderUseCase : IUseCase<CreateOrderRequest, CreateOrderResponse>;
-    public sealed class CreateOrderUseCase : ICreateOrderUseCase
+    private readonly OrderCreationValidator _validator = new(customerRepository, productRepository);
+
+    public async Task<CreateOrderResponse> Execute(CreateOrderRequest request)
     {
-        private readonly IOrderRepository _orderRepository;
-
-        public CreateOrderUseCase(IOrderRepository orderRepository)
+        try
         {
-            _orderRepository = orderRepository;
-        }
-        public async Task<CreateOrderResponse> Execute(CreateOrderRequest request)
-        {
-            try {
-                var order = new Order(request.id, request.orderItems, request.customer, new OrderStatus(EOrderStatus.PaymentPending), DateTime.Now);
-                _orderRepository.Add(order);
+            // TODO: Improve validations
+            await _validator.Validate(request);
 
-                var returnResponse = new CreateOrderResponse(order.Customer.Name, order.Status.ToString(), order.Id);
+            var customer = GetCustomer(request.CustomerId);
+            var order = new Order(customer);
 
-                return returnResponse;
-
-            }catch (Exception ex)
+            foreach (var item in request.OrderItems)
             {
-
+                var product = GetProduct(item.ProductId);
+                order.AddOrderItem(new OrderItem(product, item.Quantity));
             }
 
-            throw new NotImplementedException();
+            orderRepository.Add(order);
+
+            return new CreateOrderResponse(order.Id, order.Status.ToString());
+        }
+        catch (DomainException e)
+        {
+            throw new ApplicationException($"Failed to register the order. Error: {e.Message}", e);
         }
     }
 
+    private Customer? GetCustomer(Guid? customerId)
+    {
+        if (customerId is null)
+            return null;
 
-    public record CreateOrderRequest(Guid id, IList<OrderItem> orderItems, Customer customer, OrderStatus status, DateTime createAt);
+        return customerRepository.GetById(customerId.Value); // TODO: Is it an existing product?
+    }
 
-    public record CreateOrderResponse(string CostumerName, string StatusOrder, Guid orderId );
+    private Product? GetProduct(Guid productId)
+    {
+        return productRepository.GetById(productId); // TODO: Is it an existing product?
+    }
 }
+
+public record CreateOrderRequest(IEnumerable<CreateOrderItemRequest> OrderItems, Guid? CustomerId = null);
+
+public record CreateOrderItemRequest(Guid ProductId, short Quantity);
+
+public record CreateOrderResponse(Guid OrderId, string StatusOrder);

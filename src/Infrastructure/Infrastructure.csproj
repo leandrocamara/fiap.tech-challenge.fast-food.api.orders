@@ -28,8 +28,4 @@
         <EmbeddedResource Include="Persistence\Migrations\Scripts\*.sql" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="persistence\migrations\scripts\CreateOrder.sql" />
-    </ItemGroup>
-
 </Project>

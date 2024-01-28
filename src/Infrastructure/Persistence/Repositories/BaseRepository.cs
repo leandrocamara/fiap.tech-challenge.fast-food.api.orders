@@ -1,5 +1,4 @@
-﻿using Domain.Products.ProductAggregate;
-using Domain.SeedWork;
+﻿using Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories

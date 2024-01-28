@@ -1,17 +1,11 @@
-﻿using Domain.Customers.Model.CustomerAggregate;
-using Domain.Orders.OrderAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Orders.OrderAggregate;
 
 namespace Application.UseCases.Orders
 {
-    public interface IGetOrderUseCase : IUseCase<CreateOrderRequest, IEnumerable<Order>>;
+    public interface IGetOrdersUseCase : IUseCase<CreateOrderRequest, IEnumerable<Order>>;
 
 
-    public sealed class GetOrdersUseCase : IGetOrderUseCase
+    public sealed class GetOrdersUseCase : IGetOrdersUseCase
     {
         private readonly IOrderRepository _orderRepository;
 
@@ -22,16 +16,14 @@ namespace Application.UseCases.Orders
 
         public async Task<IEnumerable<Order>> Execute(CreateOrderRequest request)
         {
-
             var resultOrders = await _orderRepository.GetOrders();
 
             return resultOrders;
-        }      
+        }
     }
 
 
     public record GetOrderRequest();
+
     public record GetOrderResponse();
 }
-
-

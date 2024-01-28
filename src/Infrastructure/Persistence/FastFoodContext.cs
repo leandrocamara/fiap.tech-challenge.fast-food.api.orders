@@ -20,6 +20,7 @@ public sealed class FastFoodContext(DbContextOptions<FastFoodContext> options) :
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 
     private IDbContextTransaction? _currentTransaction;
 
@@ -28,6 +29,8 @@ public sealed class FastFoodContext(DbContextOptions<FastFoodContext> options) :
         modelBuilder.HasDefaultSchema("public");
         modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderItemEntityTypeConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

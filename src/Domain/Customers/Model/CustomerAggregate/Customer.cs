@@ -21,4 +21,8 @@ public sealed class Customer : Entity, IAggregatedRoot
     }
 
     private static readonly IValidator<Customer> Validator = new CustomerValidator();
+
+    private Customer()
+    {
+    }
 }

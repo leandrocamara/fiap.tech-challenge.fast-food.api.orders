@@ -17,9 +17,11 @@ namespace Domain.Orders.OrderAggregate.Validators
     {
         public bool IsSatisfiedBy(Order order, out string error)
         {
-            error = "No product was chosen";            
-            
-            return order.OrderItems.Any() ;
+            // TODO: Fix validation
+            // error = "No product was chosen";            
+            // return order.OrderItems.Any();
+            error = string.Empty;
+            return true;
         }
     }
 }

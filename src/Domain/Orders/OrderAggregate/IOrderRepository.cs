@@ -1,5 +1,4 @@
-﻿using Domain.Products.ProductAggregate;
-using Domain.SeedWork;
+﻿using Domain.SeedWork;
 
 namespace Domain.Orders.OrderAggregate
 {
