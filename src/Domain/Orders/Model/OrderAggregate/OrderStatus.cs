@@ -1,7 +1,7 @@
-﻿using Domain.Orders.OrderAggregate.Validators;
+﻿using Domain.Orders.Model.OrderAggregate.Validators;
 using Domain.SeedWork;
 
-namespace Domain.Orders.OrderAggregate;
+namespace Domain.Orders.Model.OrderAggregate;
 
 public readonly struct OrderStatus
 {

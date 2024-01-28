@@ -21,7 +21,7 @@ public static class ApplicationExtensions
         services.AddScoped<ICreateProductUseCase, CreateProductUseCase>();
         services.AddScoped<IPutProductUseCase, PutProductUseCase>();
         services.AddScoped<IDeleteProductUseCase, DeleteProductUseCase>();
-        services.AddScoped<IGetProductsByCategoyUseCase, GetProductsByCategoyUseCase>();
+        services.AddScoped<IGetProductsByCategoryUseCase, GetProductsByCategoryUseCase>();
         services.AddScoped<IGetProductByIdUseCase, GetProductByIdUseCase>();
 
         #endregion

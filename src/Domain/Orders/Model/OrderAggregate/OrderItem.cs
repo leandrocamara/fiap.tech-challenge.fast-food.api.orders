@@ -1,7 +1,7 @@
-﻿using Domain.Products.ProductAggregate;
+﻿using Domain.Products.Model.ProductAggregate;
 using Domain.SeedWork;
 
-namespace Domain.Orders.OrderAggregate;
+namespace Domain.Orders.Model.OrderAggregate;
 
 public class OrderItem : Entity
 {
@@ -20,6 +20,7 @@ public class OrderItem : Entity
 
     public void SetOrder(Order order) => OrderId = order.Id;
 
+    // Required for EF
     private OrderItem()
     {
     }

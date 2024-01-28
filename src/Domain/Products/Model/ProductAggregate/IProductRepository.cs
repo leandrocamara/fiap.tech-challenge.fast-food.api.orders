@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Domain.Products.ProductAggregate;
+namespace Domain.Products.Model.ProductAggregate;
 
 public interface IProductRepository : IRepository<Product>
 {

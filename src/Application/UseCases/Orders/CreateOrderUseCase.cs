@@ -1,7 +1,7 @@
 ﻿using Application.UseCases.Orders.Validators;
 using Domain.Customers.Model.CustomerAggregate;
-using Domain.Orders.OrderAggregate;
-using Domain.Products.ProductAggregate;
+using Domain.Orders.Model.OrderAggregate;
+using Domain.Products.Model.ProductAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Orders;

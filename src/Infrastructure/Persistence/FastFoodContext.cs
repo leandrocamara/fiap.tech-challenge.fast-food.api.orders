@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Domain.Customers.Model.CustomerAggregate;
-using Domain.Orders.OrderAggregate;
-using Domain.Products.ProductAggregate;
+using Domain.Orders.Model.OrderAggregate;
+using Domain.Products.Model.ProductAggregate;
 using Infrastructure.Persistence.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;

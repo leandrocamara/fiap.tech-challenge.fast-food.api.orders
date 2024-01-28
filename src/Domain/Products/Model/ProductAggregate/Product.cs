@@ -1,8 +1,7 @@
-﻿using Domain.Products.Model.ProductAggregate;
-using Domain.Products.ProductAggregate.Validators;
+﻿using Domain.Products.ProductAggregate.Validators;
 using Domain.SeedWork;
 
-namespace Domain.Products.ProductAggregate;
+namespace Domain.Products.Model.ProductAggregate;
 
 public sealed class Product : Entity, IAggregatedRoot
 {
@@ -27,6 +26,7 @@ public sealed class Product : Entity, IAggregatedRoot
 
     private static readonly IValidator<Product> Validator = new ProductValidator();
 
+    // Required for EF
     public Product()
     {
     }

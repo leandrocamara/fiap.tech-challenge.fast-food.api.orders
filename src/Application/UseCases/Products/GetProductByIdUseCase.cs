@@ -1,5 +1,4 @@
 ﻿using Domain.Products.Model.ProductAggregate;
-using Domain.Products.ProductAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Products;

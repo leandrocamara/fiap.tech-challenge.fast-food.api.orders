@@ -1,4 +1,4 @@
-﻿using Domain.Orders.OrderAggregate;
+﻿using Domain.Orders.Model.OrderAggregate;
 
 namespace Application.UseCases.Orders
 {

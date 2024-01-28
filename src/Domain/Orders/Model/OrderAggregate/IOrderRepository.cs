@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Domain.Orders.OrderAggregate
+namespace Domain.Orders.Model.OrderAggregate
 {
     public interface IOrderRepository :IRepository<Order>
     {

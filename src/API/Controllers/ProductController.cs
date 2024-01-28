@@ -82,7 +82,7 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetProductsByCategory(
-        [FromServices] IGetProductsByCategoyUseCase useCase,
+        [FromServices] IGetProductsByCategoryUseCase useCase,
         [FromQuery] GetProductsByCategoryRequest request)
     {
         try

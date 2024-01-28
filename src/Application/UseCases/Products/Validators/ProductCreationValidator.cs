@@ -1,4 +1,4 @@
-﻿using Domain.Products.ProductAggregate;
+﻿using Domain.Products.Model.ProductAggregate;
 
 namespace Application.UseCases.Products.Validators;
 

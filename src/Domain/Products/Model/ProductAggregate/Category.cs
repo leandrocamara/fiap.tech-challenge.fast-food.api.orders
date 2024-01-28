@@ -1,7 +1,8 @@
-﻿using Domain.Products.ProductAggregate.Validators;
+﻿using Domain.Products.Model.ProductAggregate.Validators;
+using Domain.Products.ProductAggregate.Validators;
 using Domain.SeedWork;
 
-namespace Domain.Products.ProductAggregate
+namespace Domain.Products.Model.ProductAggregate
 {
     public enum ECategory
     {

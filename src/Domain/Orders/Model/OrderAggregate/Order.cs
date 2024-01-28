@@ -1,8 +1,8 @@
 ﻿using Domain.Customers.Model.CustomerAggregate;
-using Domain.Orders.OrderAggregate.Validators;
+using Domain.Orders.Model.OrderAggregate.Validators;
 using Domain.SeedWork;
 
-namespace Domain.Orders.OrderAggregate
+namespace Domain.Orders.Model.OrderAggregate
 {
     public class Order : Entity, IAggregatedRoot
     {
@@ -35,6 +35,7 @@ namespace Domain.Orders.OrderAggregate
 
         private static readonly IValidator<Order> Validator = new OrderValidator();
 
+        // Required for EF
         private Order()
         {
         }
