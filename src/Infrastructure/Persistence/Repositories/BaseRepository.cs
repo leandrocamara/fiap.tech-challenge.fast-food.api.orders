@@ -5,13 +5,13 @@ namespace Infrastructure.Persistence.Repositories
 {
     public abstract class BaseRepository<T>(FastFoodContext context) : IRepository<T> where T : class, IAggregatedRoot 
     {
-        public void Add(T entity) => context.Add(entity);
+        public virtual void Add(T entity) => context.Add(entity);
 
-        public void Delete(T entity) => context.Remove(entity);
+        public virtual void Delete(T entity) => context.Remove(entity);
 
-        public T? GetById(Guid id) => context.Find<T>(id);       
+        public virtual T? GetById(Guid id) => context.Find<T>(id);       
 
-        public void Update(T entity) => context.Entry(entity).State = EntityState.Modified;
+        public virtual void Update(T entity) => context.Entry(entity).State = EntityState.Modified;
 
     }
 }

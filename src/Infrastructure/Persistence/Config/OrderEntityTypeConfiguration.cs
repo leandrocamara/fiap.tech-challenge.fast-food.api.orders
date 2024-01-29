@@ -1,6 +1,8 @@
 ﻿using Domain.Orders.Model.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
 
 namespace Infrastructure.Persistence.Config;
 
@@ -25,10 +27,12 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .HasConversion(
                 status => (short)status,
                 value => value)
-            .IsRequired();
+        .IsRequired();
 
         builder
-            .HasMany<OrderItem>("_orderItems")
-            .WithOne();
+            .HasMany(e => e.OrderItems)
+            .WithOne(e => e.Order)
+            .HasForeignKey(e => e.OrderId)
+            .HasPrincipalKey(e => e.Id);
     }
 }

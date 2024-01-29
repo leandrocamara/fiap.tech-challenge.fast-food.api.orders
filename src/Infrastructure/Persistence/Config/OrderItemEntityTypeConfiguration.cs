@@ -22,15 +22,17 @@ public class OrderItemEntityTypeConfiguration : IEntityTypeConfiguration<OrderIt
             .IsRequired();
 
         builder
-            .HasOne<Product>()
+            .HasOne(m => m.Product)
             .WithMany()
             .HasForeignKey(orderItem => orderItem.ProductId)
             .IsRequired();
-
-        builder
+        /*
+         
+         */
+        /*builder
             .HasOne<Order>()
-            .WithMany()
+            .WithMany(m => m.OrderItems)
             .HasForeignKey(orderItem => orderItem.OrderId)
-            .IsRequired();
+            .IsRequired();*/
     }
 }

@@ -10,15 +10,17 @@ namespace Domain.Orders.Model.OrderAggregate
         public OrderStatus Status { get; private set; }
         public decimal TotalPrice { get; private set; }
         public DateTime CreatedAt { get; private set; }
+        public IList<OrderItem> OrderItems { get; private set; }
 
-        private readonly IList<OrderItem> _orderItems;
+        //private readonly IList<OrderItem> _orderItems;
+
 
         public Order(Customer? customer)
         {
             Id = Guid.NewGuid();
             CustomerId = customer?.Id;
             Status = OrderStatus.PaymentPending();
-            _orderItems = new List<OrderItem>();
+            OrderItems = new List<OrderItem>();
             CreatedAt = DateTime.UtcNow;
             TotalPrice = 0;
 
@@ -28,8 +30,8 @@ namespace Domain.Orders.Model.OrderAggregate
 
         public void AddOrderItem(OrderItem orderItem)
         {
-            orderItem.SetOrder(this);
-            _orderItems.Add(orderItem);
+            //orderItem.SetOrder(this);
+            OrderItems.Add(orderItem);
             TotalPrice += orderItem.TotalPrice;
         }
 
