@@ -42,45 +42,45 @@ CREATE TABLE "orderItems"
 
 -- Lanches Clássicos
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Burger Clássico', 0, 4.99, 'Hambúrguer, queijo, alface, cebola, picles, ketchup e mostarda no pão de hambúrguer.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Burger Clássico', 0, 4.99, 'Hambúrguer, queijo, alface, cebola, picles, ketchup e mostarda no pão de hambúrguer.', '[{"url": "url_da_imagem"}]');
 
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Chicken', 0, 5.49, 'Filé de frango empanado, alface, maionese no pão de hambúrguer.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Chicken', 0, 5.49, 'Filé de frango empanado, alface, maionese no pão de hambúrguer.', '[{"url": "url_da_imagem"}]');
 
 -- Lanches Premium
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Bacon Deluxe', 0, 6.99, 'Hambúrguer, queijo, bacon, alface, tomate, cebola caramelizada e maionese no pão de brioche.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Bacon Deluxe', 0, 6.99, 'Hambúrguer, queijo, bacon, alface, tomate, cebola caramelizada e maionese no pão de brioche.', '[{"url": "url_da_imagem"}]');
 
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Chicken Ranch', 0, 6.79, 'Filé de frango grelhado, queijo suíço, bacon, alface, tomate e molho ranch no pão de brioche.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Chicken Ranch', 0, 6.79, 'Filé de frango grelhado, queijo suíço, bacon, alface, tomate e molho ranch no pão de brioche.', '[{"url": "url_da_imagem"}]');
 
 -- Lanches Alternativos
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Wrap de Frango Caesar', 0, 5.99, 'Tortilla de trigo, tiras de frango grelhado, alface, queijo parmesão e molho Caesar.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Wrap de Frango Caesar', 0, 5.99, 'Tortilla de trigo, tiras de frango grelhado, alface, queijo parmesão e molho Caesar.', '[{"url": "url_da_imagem"}]');
 
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Salada de Grilled Chicken', 0, 7.49, 'Mix de folhas verdes, frango grelhado, tomate, queijo, croutons e molho à escolha.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Salada de Grilled Chicken', 0, 7.49, 'Mix de folhas verdes, frango grelhado, tomate, queijo, croutons e molho à escolha.', '[{"url": "url_da_imagem"}]');
 
 -- Acompanhamentos e Sobremesas
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Nuggets', 1, 3.99, 'Porções de pedaços de frango empanado.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Nuggets', 1, 3.99, 'Porções de pedaços de frango empanado.', '[{"url": "url_da_imagem"}]');
 
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Fries', 1, 2.49, 'Batatas fritas crocantes.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Fries', 1, 2.49, 'Batatas fritas crocantes.', '[{"url": "url_da_imagem"}]');
 
 -- Bebidas
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Cola', 2, 1.99, 'Refrigerante cola de sua escolha.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Cola', 2, 1.99, 'Refrigerante cola de sua escolha.', '[{"url": "url_da_imagem"}]');
 
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Guaraná', 2, 1.99, 'Refrigerante guaraná de sua escolha.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Guaraná', 2, 1.99, 'Refrigerante guaraná de sua escolha.', '[{"url": "url_da_imagem"}]');
 
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Café Frappé', 2, 4.29, 'Café gelado batido com gelo e chantilly.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Café Frappé', 2, 4.29, 'Café gelado batido com gelo e chantilly.', '[{"url": "url_da_imagem"}]');
 
 -- Sobremesas
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Flurry', 3, 3.79, 'Sorvete misturado com pedaços de chocolate, biscoito ou outras opções.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Flurry', 3, 3.79, 'Sorvete misturado com pedaços de chocolate, biscoito ou outras opções.', '[{"url": "url_da_imagem"}]');
 
 INSERT INTO "products" ("Name", "Category", "Price", "Description", "Images")
-VALUES ('Apple Pie', 3, 2.99, 'Torta de maçã deliciosa.', '[{"image_url": "url_da_imagem"}]');
+VALUES ('Apple Pie', 3, 2.99, 'Torta de maçã deliciosa.', '[{"url": "url_da_imagem"}]');

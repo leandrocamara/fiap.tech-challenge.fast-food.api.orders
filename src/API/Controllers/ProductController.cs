@@ -1,8 +1,5 @@
 using Application.UseCases.Products;
-using Domain.Products.Model.ProductAggregate;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Text.Json;
 using ApplicationException = Application.ApplicationException;
 
 namespace API.Controllers;
