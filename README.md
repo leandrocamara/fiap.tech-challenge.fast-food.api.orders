@@ -101,6 +101,10 @@ docker container kill pg-docker
 
 
 # Como testar 
+
+## Schema de Banco de dados
+A aplicação conta com uma biblioteca de migrations configurada portanto, ao iniciar a aplicação, o banco de dados será atualizado com as tabelas e dados necessários.
+
 ## Autenticação
 Na primeira versão da aplicação não há autenticação, portanto basta usar a própria UI do Swagger para fazer as chamadas aos endpoints.
 
@@ -167,3 +171,8 @@ Para testar a aplicação recomendamos primeiro:
   ![Webhook](./src/API/readme-images/webhook-update-payment.png)
 - Listar todos os pedidos
   ![Lista de pedidos](./src/API/readme-images/list-orders.png)
+
+
+## Pontos de atenção
+A integração com o mercado pago não está implementada nessa versão.
+A notificação aos usuários da atualização de status de pagamento e status do pedido não está implementada nessa versão.
