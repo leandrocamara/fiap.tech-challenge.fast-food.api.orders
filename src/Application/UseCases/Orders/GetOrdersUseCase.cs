@@ -1,34 +1,43 @@
 ﻿using Domain.Orders.Model.OrderAggregate;
 using Domain.SeedWork;
 
-namespace Application.UseCases.Orders
+namespace Application.UseCases.Orders;
+
+public interface IGetOrdersUseCase : IUseCase<IEnumerable<OrderResponse>>;
+
+public sealed class GetOrdersUseCase(IOrderRepository orderRepository) : IGetOrdersUseCase
 {
-    public interface IGetOrdersUseCase : IUseCase<GetOrderRequest, IEnumerable<GetOrderResponse>>;
-
-
-    public sealed class GetOrdersUseCase(IOrderRepository orderRepository) : IGetOrdersUseCase
+    public async Task<IEnumerable<OrderResponse>> Execute()
     {
-        public async Task<IEnumerable<GetOrderResponse>> Execute(GetOrderRequest request)
+        try
         {
-            try
-            {
-                var orders = await orderRepository.GetOrders();
+            var orders = await orderRepository.GetOrders();
 
-                if (!orders.Any())
-                    throw new ApplicationException("Orders not found");
+            if (!orders.Any())
+                throw new ApplicationException("Orders not found");
 
-                return orders.Select(order => new GetOrderResponse(
-                   order.Id,
-                   order.OrderNumber,
-                   order.Status.ToString()));
-            }
-            catch (DomainException e)
-            {
-                throw new ApplicationException($"Failed to recover orders. Error: {e.Message}", e);
-            }
+            return orders.Select(order => new OrderResponse(order));
+        }
+        catch (DomainException e)
+        {
+            throw new ApplicationException($"Failed to recover orders. Error: {e.Message}", e);
         }
     }
+}
 
+public record OrderResponse(
+    Guid Id,
+    string? Customer,
+    string Status,
+    decimal TotalPrice)
+{
+    public OrderResponse(Order order) : this(
+        order.Id,
+        order.Customer?.Name,
+        order.Status,
+        order.TotalPrice)
+    {
+    }
 
     public record GetOrderRequest();
 

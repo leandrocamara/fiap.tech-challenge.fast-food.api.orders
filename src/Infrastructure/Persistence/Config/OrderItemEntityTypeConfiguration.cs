@@ -1,5 +1,4 @@
 ﻿using Domain.Orders.Model.OrderAggregate;
-using Domain.Products.Model.ProductAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -26,13 +25,5 @@ public class OrderItemEntityTypeConfiguration : IEntityTypeConfiguration<OrderIt
             .WithMany()
             .HasForeignKey(orderItem => orderItem.ProductId)
             .IsRequired();
-        /*
-         
-         */
-        /*builder
-            .HasOne<Order>()
-            .WithMany(m => m.OrderItems)
-            .HasForeignKey(orderItem => orderItem.OrderId)
-            .IsRequired();*/
     }
 }

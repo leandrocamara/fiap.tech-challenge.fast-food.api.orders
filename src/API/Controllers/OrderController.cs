@@ -1,6 +1,7 @@
 ﻿using Application.UseCases.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using static Application.UseCases.Orders.OrderResponse;
 
 namespace API.Controllers;
 
@@ -32,16 +33,14 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("GetOrders")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Retorna a lista completa de pedidos existentes.", typeof(GetOrderResponse))]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retorna a lista completa de pedidos existentes.", typeof(OrderResponse))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre nenhum pedido.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
-    public async Task<IActionResult> GetOrders(
-        [FromServices] IGetOrdersUseCase useCase,
-        [FromQuery] GetOrderRequest request)
+    public async Task<IActionResult> GetOrders([FromServices] IGetOrdersUseCase useCase, [FromQuery] GetOrderRequest request)
     {
         try
         {
-            var response = await useCase.Execute(request);
+            var response = await useCase.Execute();
             return Ok(response);
         }
         catch (ApplicationException e)
@@ -54,17 +53,17 @@ public class OrderController : ControllerBase
         }
     }
 
-    [HttpGet("GetOrderById")]
+    [HttpGet("{id}")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retorna o pedido buscando pelo id informado.", typeof(GetOrderByIdResponse))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre o pedido informado.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
     public async Task<IActionResult> GetOrderByIdResponse(
         [FromServices] IGetOrderByIdUseCase useCase,
-        [FromQuery] GetOrderByIdRequest request)
+        [FromRoute] Guid id)
     {
         try
         {
-            var response = await useCase.Execute(request);
+            var response = await useCase.Execute(id);
             return Ok(response);
         }
         catch (ApplicationException e)

@@ -7,44 +7,45 @@ namespace Domain.Orders.Model.OrderAggregate
 {
     public class Order : Entity, IAggregatedRoot
     {
+        public Customer? Customer { get; private set; }
         public Guid? CustomerId { get; private set; }
         public OrderStatus Status { get; private set; }
+        public decimal TotalPrice { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+
         public int OrderNumber { get; private set; }
         public string? QrCodePayment { get; private set; }
         public DateTime? PaymentStatusDate { get; private set; }
-        public decimal TotalPrice { get; private set; }
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-        public IList<OrderItem> OrderItems { get; private set; }
 
-        //private readonly IList<OrderItem> _orderItems;
+        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
+        private readonly IList<OrderItem> _orderItems;
 
-        public Order(Guid? customerId, List<OrderItem> orderItems, int orderNumber)
+        public Order(Customer? customer, List<OrderItem> orderItems, int orderNumber)
         {
             Id = Guid.NewGuid();
-            OrderItems = orderItems;
-            TotalPrice = orderItems.Sum(m => m.TotalPrice);
-            CustomerId = customerId;
-            OrderNumber = orderNumber;
-            if (Validator.IsValid(this, out var error) is false)
-                throw new DomainException(error);
-        }
 
-        public Order(Customer? customer, int orderNumber)
-        {
-            Id = Guid.NewGuid();
+            Customer = customer;
             CustomerId = customer?.Id;
-            Status = OrderStatus.PaymentPending();
-            OrderItems = new List<OrderItem>();
-            CreatedAt = DateTime.UtcNow;
             OrderNumber = orderNumber;
+            Status = PaymentPending();
+            CreatedAt = DateTime.UtcNow;
+
+            _orderItems = new List<OrderItem>();
+
+            foreach (var orderItem in orderItems)
+            {
+                AddOrderItem(orderItem);
+            }
+
             if (Validator.IsValid(this, out var error) is false)
                 throw new DomainException(error);
         }
 
+        private static readonly IValidator<Order> Validator = new OrderValidator();
         public void AddOrderItem(OrderItem orderItem)
         {
-            //orderItem.SetOrder(this);
-            OrderItems.Add(orderItem);
+            orderItem.SetOrder(this);
+            _orderItems.Add(orderItem);
             TotalPrice += orderItem.TotalPrice;
         }
 
@@ -55,13 +56,11 @@ namespace Domain.Orders.Model.OrderAggregate
 
         public void UpdatePaymentStatus(bool paymentSucceeded)
         {
-            Status = paymentSucceeded ? 
-                (short)EOrderStatus.Received : 
+            Status = paymentSucceeded ?
+                (short)EOrderStatus.Received :
                 (short)EOrderStatus.PaymentRefused;
             PaymentStatusDate = DateTime.UtcNow;
         }
-
-        private static readonly IValidator<Order> Validator = new OrderValidator();
 
         public bool HasItems() => OrderItems.Any();
 

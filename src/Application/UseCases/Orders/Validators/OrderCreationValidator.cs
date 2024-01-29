@@ -1,5 +1,4 @@
-﻿using Application.UseCases.Customers;
-using Domain.Customers.Model.CustomerAggregate;
+﻿using Domain.Customers.Model.CustomerAggregate;
 using Domain.Products.Model.ProductAggregate;
 
 namespace Application.UseCases.Orders.Validators;
@@ -24,10 +23,10 @@ public sealed class OrderCreationValidator(ICustomerRepository customerRepositor
         return true;
     }
 
-    private async Task<bool> ProductsExists(IEnumerable<CreateOrderItemRequest> OrderItems)
+    private async Task<bool> ProductsExists(IEnumerable<OrderItemRequest> orderItems)
     {
         var result = false;
-        foreach (var item in OrderItems)
+        foreach (var item in orderItems)
             result = productRepository.GetById(item.ProductId) != null;
 
         return result;

@@ -12,6 +12,8 @@ public readonly struct OrderStatus
     public static implicit operator short(OrderStatus status) => (short)status.Value;
 
     public static implicit operator OrderStatus(short value) => new((EOrderStatus)value);
+    
+    public static implicit operator string(OrderStatus status) => status.ToString();
 
     public override string ToString() => Value.ToString();
 

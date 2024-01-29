@@ -1,4 +1,4 @@
-﻿using Application.UseCases.Products;
+using Application.UseCases.Products;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using ApplicationException = Application.ApplicationException;

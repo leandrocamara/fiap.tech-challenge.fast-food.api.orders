@@ -45,7 +45,7 @@ namespace Application.UseCases.Orders
 
     public record UpdatePaymentOrderRequest(Guid Id, bool PaymentSucceeded);
 
-    public record UpdatePaymentOrderResponse(Guid OrderId, int OrderNumber, OrderStatus Status);
+    public record UpdatePaymentOrderResponse(Guid OrderId, int OrderNumber, string Status);
 }
 
 
