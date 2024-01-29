@@ -13,27 +13,28 @@ namespace Domain.Orders.Model.OrderAggregate
 
         private readonly IList<OrderItem> _orderItems;
 
-        public Order(Customer? customer)
+        public Order(Guid? customerId, List<OrderItem> orderItems)
         {
             Id = Guid.NewGuid();
-            CustomerId = customer?.Id;
+            CustomerId = customerId;
             Status = OrderStatus.PaymentPending();
             _orderItems = new List<OrderItem>();
             CreatedAt = DateTime.UtcNow;
-            TotalPrice = 0;
+
+            foreach (var orderItem in orderItems)
+            {
+                orderItem.SetOrder(this);
+                _orderItems.Add(orderItem);
+                TotalPrice += orderItem.TotalPrice;
+            }
 
             if (Validator.IsValid(this, out var error) is false)
                 throw new DomainException(error);
         }
 
-        public void AddOrderItem(OrderItem orderItem)
-        {
-            orderItem.SetOrder(this);
-            _orderItems.Add(orderItem);
-            TotalPrice += orderItem.TotalPrice;
-        }
-
         private static readonly IValidator<Order> Validator = new OrderValidator();
+
+        public bool HasItems() => _orderItems.Any();
 
         // Required for EF
         private Order()

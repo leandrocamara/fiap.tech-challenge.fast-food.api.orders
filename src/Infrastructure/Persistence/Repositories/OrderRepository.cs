@@ -7,5 +7,8 @@ namespace Infrastructure.Persistence.Repositories
     {
         public async Task<IEnumerable<Order>> GetOrders() =>
             await context.Orders.ToListAsync();
+
+        public async Task<IEnumerable<Order>> GetOrdersTracking(List<OrderStatus> listStatus) =>
+            await context.Orders.Where(it => listStatus.Contains(it.Status)).ToListAsync();
     }
 }
