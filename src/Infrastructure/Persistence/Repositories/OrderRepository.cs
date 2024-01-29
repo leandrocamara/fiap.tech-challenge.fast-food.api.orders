@@ -19,5 +19,13 @@ namespace Infrastructure.Persistence.Repositories
                 .ThenInclude(item => item.Product)
                 .FirstOrDefault(order => order.Id == id);
         }
+
+        public int GetNextOrderNumber()
+        {
+            var today = DateTime.UtcNow.Date;
+            return context.Orders
+                .Where(m => m.CreatedAt >= today)
+                .Count() + 1;
+        }
     }
 }

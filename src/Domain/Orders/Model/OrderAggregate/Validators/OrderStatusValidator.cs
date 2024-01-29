@@ -8,13 +8,13 @@ namespace Domain.Orders.Model.OrderAggregate.Validators
     {
         public bool IsValid(OrderStatus orderStatus, out string error)
         {
-            var rule = new IsValidCategory();
+            var rule = new IsValidOrderStatus();
             return rule.IsSatisfiedBy(orderStatus, out error);
         }
     }
 
 
-    internal class IsValidCategory : ISpecification<OrderStatus>
+    internal class IsValidOrderStatus : ISpecification<OrderStatus>
     {
         public bool IsSatisfiedBy(OrderStatus orderStatus, out string error)
         {

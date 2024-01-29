@@ -31,6 +31,7 @@ public static class ApplicationExtensions
         services.AddScoped<ICreateOrderUseCase, CreateOrderUseCase>();
         services.AddScoped<IGetOrdersUseCase, GetOrdersUseCase>();
         services.AddScoped<IGetOrderByIdUseCase, GetOrderByIdUseCase>();
+        services.AddScoped<IPostUpdatePaymentOrderUseCase, PostUpdatePaymentOrderUseCase>();
 
         #endregion
 

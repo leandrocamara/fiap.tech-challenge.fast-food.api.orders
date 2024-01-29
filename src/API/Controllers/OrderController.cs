@@ -1,5 +1,7 @@
 ﻿using Application.UseCases.Orders;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using static Application.UseCases.Orders.OrderResponse;
 
 namespace API.Controllers;
 
@@ -8,9 +10,9 @@ namespace API.Controllers;
 public class OrderController : ControllerBase
 {
     [HttpPost]
-    [ProducesResponseType<CreateOrderResponse>(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status201Created, "Criar um novo pedido para o cliente (quando informado) e com os produtos informados. O pedido inicialmente nasce com o status PendingPayment.", typeof(CreateOrderResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Erros de validação de dados ou de lógica de negócio, sendo retornado o erro específico no corpo da resposta.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
     public async Task<IActionResult> CreateOrder(
         [FromServices] ICreateOrderUseCase createOrderUseCase,
         CreateOrderRequest request)
@@ -30,11 +32,11 @@ public class OrderController : ControllerBase
         }
     }
 
-    [HttpGet]
-    [ProducesResponseType<IEnumerable<OrderResponse>>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetOrders([FromServices] IGetOrdersUseCase useCase)
+    [HttpGet("GetOrders")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retorna a lista completa de pedidos existentes.", typeof(OrderResponse))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre nenhum pedido.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
+    public async Task<IActionResult> GetOrders([FromServices] IGetOrdersUseCase useCase, [FromQuery] GetOrderRequest request)
     {
         try
         {
@@ -52,9 +54,9 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [ProducesResponseType<GetOrderByIdResponse>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retorna o pedido buscando pelo id informado.", typeof(GetOrderByIdResponse))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre o pedido informado.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
     public async Task<IActionResult> GetOrderByIdResponse(
         [FromServices] IGetOrderByIdUseCase useCase,
         [FromRoute] Guid id)

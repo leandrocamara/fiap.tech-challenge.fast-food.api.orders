@@ -34,8 +34,9 @@ public readonly struct OrderStatus
     public enum EOrderStatus : short
     {
         PaymentPending = 0,
-        Received = 1,
-        Preparing = 2,
-        Ready = 3
+        PaymentRefused = 1,
+        Received = 2,
+        Preparing = 3,
+        Ready = 4
     }
 }

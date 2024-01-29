@@ -1,5 +1,6 @@
 using Application.UseCases.Products;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using ApplicationException = Application.ApplicationException;
 
 namespace API.Controllers;
@@ -9,9 +10,9 @@ namespace API.Controllers;
 public class ProductController : ControllerBase
 {
     [HttpPost]
-    [ProducesResponseType<CreateProductResponse>(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status201Created, "Criar um novo produto para ser usado nos pedidos posteriormente.", typeof(CreateProductResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Erros de validação de dados ou de lógica de negócio, sendo retornado o erro específico no corpo da resposta.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
     public async Task<IActionResult> CreateProduct(
         [FromServices] ICreateProductUseCase createProductUseCase,
         CreateProductRequest request)
@@ -32,9 +33,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut]
-    [ProducesResponseType<PutProductResponse>(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "Atualizar um produto existente na base de dados.", typeof(PutProductResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Erros de validação de dados ou de lógica de negócio, sendo retornado o erro específico no corpo da resposta.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
     public async Task<IActionResult> UpdateProduct(
        [FromServices] IPutProductUseCase useCase,
        PutProductRequest request)
@@ -55,9 +56,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpDelete]
-    [ProducesResponseType<DeleteProductResponse>(StatusCodes.Status202Accepted)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status202Accepted, "Excluir um produto existente na base de dados.", typeof(DeleteProductResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Erros de validação de dados ou de lógica de negócio, sendo retornado o erro específico no corpo da resposta.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
     public async Task<IActionResult> DeleteProduct(
        [FromServices] IDeleteProductUseCase useCase,
        DeleteProductRequest request)
@@ -78,9 +79,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("GetProductsByCategory")]
-    [ProducesResponseType<GetProductsByCategoryResponse>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retorna a lista de produtos da categoria informada no parâmetro.", typeof(GetProductsByCategoryResponse))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre nenhum produto na categoria informada.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
     public async Task<IActionResult> GetProductsByCategory(
         [FromServices] IGetProductsByCategoryUseCase useCase,
         [FromQuery] GetProductsByCategoryRequest request)
@@ -101,9 +102,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("GetProductById")]
-    [ProducesResponseType<GetProductByIdResponse>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retorna o produto pelo id informado no parâmetro.", typeof(GetProductByIdResponse))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre o produto informado.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
     public async Task<IActionResult> GetProductsByIdResponse(
         [FromServices] IGetProductByIdUseCase useCase,
         [FromQuery] GetProductByIdRequest request)

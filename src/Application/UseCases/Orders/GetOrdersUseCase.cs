@@ -38,4 +38,8 @@ public record OrderResponse(
         order.TotalPrice)
     {
     }
+
+    public record GetOrderRequest();
+
+    public record GetOrderResponse(Guid Id, int OrderNumber, string status);
 }

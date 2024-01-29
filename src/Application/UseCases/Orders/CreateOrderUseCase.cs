@@ -1,8 +1,10 @@
-﻿using Application.UseCases.Orders.Validators;
+﻿using Application.ACL.Payment;
+using Application.UseCases.Orders.Validators;
 using Domain.Customers.Model.CustomerAggregate;
 using Domain.Orders.Model.OrderAggregate;
 using Domain.Products.Model.ProductAggregate;
 using Domain.SeedWork;
+using QRCoder;
 
 namespace Application.UseCases.Orders;
 
@@ -11,9 +13,18 @@ public interface ICreateOrderUseCase : IUseCase<CreateOrderRequest, CreateOrderR
 public sealed class CreateOrderUseCase(
     IOrderRepository orderRepository,
     ICustomerRepository customerRepository,
-    IProductRepository productRepository) : ICreateOrderUseCase
+    IProductRepository productRepository,
+    IPaymentGateway paymentGateway) : ICreateOrderUseCase
 {
     private readonly OrderCreationValidator _validator = new(customerRepository, productRepository);
+
+    private static string GetBase64QrCodeImage(string qrCodText)
+    {
+        QRCodeGenerator qrGenerator = new();
+        QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrCodText, QRCodeGenerator.ECCLevel.Q);
+        PngByteQRCode qrCode = new(qrCodeData);
+        return Convert.ToBase64String(qrCode.GetGraphic(20));
+    }
 
     public async Task<CreateOrderResponse> Execute(CreateOrderRequest request)
     {
@@ -30,11 +41,11 @@ public sealed class CreateOrderUseCase(
             }
 
             var customer = GetCustomer(request.CustomerId);
-            var order = new Order(customer, orderItems);
-
+            var order = new Order(customer, orderItems, orderRepository.GetNextOrderNumber());
+            order.SetQrCode(paymentGateway.GetQrCodeForPay(order));
             orderRepository.Add(order);
 
-            return new CreateOrderResponse(order.Id, order.Status.ToString());
+            return new CreateOrderResponse(order.Id, order.OrderNumber, order.Status.ToString(), GetBase64QrCodeImage(order.QrCodePayment));
         }
         catch (DomainException e)
         {
@@ -54,4 +65,4 @@ public sealed class CreateOrderUseCase(
 public record CreateOrderRequest(IEnumerable<OrderItemRequest> OrderItems, Guid? CustomerId = null);
 public record OrderItemRequest(Guid ProductId, short Quantity);
 
-public record CreateOrderResponse(Guid Id, string Status);
+public record CreateOrderResponse(Guid OrderId, int OrderNumber, string StatusOrder, string? Base64PngQrCode);
