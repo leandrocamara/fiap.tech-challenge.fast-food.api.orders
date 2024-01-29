@@ -23,7 +23,30 @@ public class OrderController : ControllerBase
         }
         catch (ApplicationException e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.Message + e.StackTrace);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, e.Message + e.StackTrace);
+        }
+    }
+
+    [HttpGet("GetOrders")]
+    [ProducesResponseType<GetOrderResponse>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetOrders(
+        [FromServices] IGetOrdersUseCase useCase,
+        [FromQuery] GetOrderRequest request)
+    {
+        try
+        {
+            var response = await useCase.Execute(request);
+            return Ok(response);
+        }
+        catch (ApplicationException e)
+        {
+            return NotFound(e.Message);
         }
         catch (Exception e)
         {

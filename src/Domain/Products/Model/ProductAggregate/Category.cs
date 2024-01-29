@@ -4,13 +4,7 @@ using Domain.SeedWork;
 
 namespace Domain.Products.Model.ProductAggregate
 {
-    public enum ECategory
-    {
-        Meal = 0,
-        Side = 1,
-        Drink = 2,
-        Dessert = 3
-    }
+   
 
 
     public readonly struct Category
@@ -38,5 +32,13 @@ namespace Domain.Products.Model.ProductAggregate
         public static implicit operator Category(int value) => new((ECategory)value);
 
         private static readonly IValidator<Category> Validator = new CategoryValidator();
+
+        public enum ECategory :short
+        {
+            Meal = 0,
+            Side = 1,
+            Drink = 2,
+            Dessert = 3
+        }
     }
 }

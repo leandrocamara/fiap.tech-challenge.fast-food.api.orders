@@ -21,15 +21,16 @@ public sealed class CreateOrderUseCase(
         {
             // TODO: Improve validations
             await _validator.Validate(request);
-
-            var customer = GetCustomer(request.CustomerId);
-            var order = new Order(customer);
+            
+            var orderItems = new List<OrderItem>();
 
             foreach (var item in request.OrderItems)
             {
-                var product = GetProduct(item.ProductId);
-                order.AddOrderItem(new OrderItem(product, item.Quantity));
+                var product = productRepository.GetById(item.ProductId);
+                orderItems.Add(new OrderItem(product, item.Quantity));
             }
+
+            var order = new Order(request.CustomerId, orderItems);
 
             orderRepository.Add(order);
 
@@ -40,19 +41,7 @@ public sealed class CreateOrderUseCase(
             throw new ApplicationException($"Failed to register the order. Error: {e.Message}", e);
         }
     }
-
-    private Customer? GetCustomer(Guid? customerId)
-    {
-        if (customerId is null)
-            return null;
-
-        return customerRepository.GetById(customerId.Value); // TODO: Is it an existing product?
-    }
-
-    private Product? GetProduct(Guid productId)
-    {
-        return productRepository.GetById(productId); // TODO: Is it an existing product?
-    }
+   
 }
 
 public record CreateOrderRequest(IEnumerable<CreateOrderItemRequest> OrderItems, Guid? CustomerId = null);

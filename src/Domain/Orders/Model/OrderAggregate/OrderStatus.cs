@@ -5,7 +5,7 @@ namespace Domain.Orders.Model.OrderAggregate;
 
 public readonly struct OrderStatus
 {
-    private EOrderStatus Value { get; }
+    public EOrderStatus Value { get; }
 
     public static OrderStatus PaymentPending() => new(EOrderStatus.PaymentPending);
 
@@ -29,7 +29,7 @@ public readonly struct OrderStatus
 
     private static readonly IValidator<OrderStatus> Validator = new OrderStatusValidator();
 
-    private enum EOrderStatus : short
+    public enum EOrderStatus : short
     {
         PaymentPending = 0,
         Received = 1,

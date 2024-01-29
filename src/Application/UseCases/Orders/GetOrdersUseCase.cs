@@ -1,29 +1,35 @@
 ﻿using Domain.Orders.Model.OrderAggregate;
+using Domain.SeedWork;
 
 namespace Application.UseCases.Orders
 {
-    public interface IGetOrdersUseCase : IUseCase<CreateOrderRequest, IEnumerable<Order>>;
+    public interface IGetOrdersUseCase : IUseCase<GetOrderRequest, IEnumerable<GetOrderResponse>>;
 
 
-    public sealed class GetOrdersUseCase : IGetOrdersUseCase
+    public sealed class GetOrdersUseCase(IOrderRepository orderRepository) : IGetOrdersUseCase
     {
-        private readonly IOrderRepository _orderRepository;
-
-        public GetOrdersUseCase(IOrderRepository orderRepository)
+        public async Task<IEnumerable<GetOrderResponse>> Execute(GetOrderRequest request)
         {
-            _orderRepository = orderRepository;
-        }
+            try
+            {
+                var orders = await orderRepository.GetOrders();
 
-        public async Task<IEnumerable<Order>> Execute(CreateOrderRequest request)
-        {
-            var resultOrders = await _orderRepository.GetOrders();
+                if (!orders.Any())
+                    throw new ApplicationException("Orders not found");
 
-            return resultOrders;
+                return orders.Select(order => new GetOrderResponse(
+                   order.Id,
+                   order.Status.ToString()));
+            }
+            catch (DomainException e)
+            {
+                throw new ApplicationException($"Failed to recover orders. Error: {e.Message}", e);
+            }
         }
     }
 
 
     public record GetOrderRequest();
 
-    public record GetOrderResponse();
+    public record GetOrderResponse(Guid Id,string status);
 }
