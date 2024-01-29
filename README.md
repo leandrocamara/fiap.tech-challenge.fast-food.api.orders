@@ -155,8 +155,15 @@ Podendo a chamada ser de aceite ou recusa do pagamento.
 
 ## Fluxo de testes recomendado
 Para testar a aplicação recomendamos primeiro:
-- Incluir um produto (podendo também testar atualização e exclusão dos produtos)
-  ![Criar produto](readme-images/create-product.png)
+- Incluir um produto (podendo também testar atualização e exclusão dos produtos).
+  ![Criar produto](./src/API/readme-images/create-product.png)
 - Incluir um novo cliente (guardando a informação do campo id retornado na inclusão).
-  ![Criar cliente](readme-images/create-customer.png)
-- Buscar lista de produtos por categoria, guardando alguns ids para utilizá-los na criação do pedido
+  ![Criar cliente](./src/API/readme-images/create-customer.png)
+- Buscar lista de produtos por categoria, guardando alguns ids para utilizá-los na criação do pedido.
+  ![Listar produtos por categoria](./src/API/readme-images/get-products-by-category.png)
+- Criar um novo pedido (podendo ou não informar o cliente).
+  ![Criar pedido](./src/API/readme-images/create-order.png)
+- Atualizar o status de pagamento de um pedido, simulando a chamada realizada pelo mercado pago ao webhook.
+  ![Webhook](./src/API/readme-images/webhook-update-payment.png)
+- Listar todos os pedidos
+  ![Lista de pedidos](./src/API/readme-images/list-orders.png)
