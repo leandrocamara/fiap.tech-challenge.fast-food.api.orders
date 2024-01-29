@@ -172,7 +172,3 @@ Para testar a aplicação recomendamos primeiro:
 - Listar todos os pedidos
   ![Lista de pedidos](./src/API/readme-images/list-orders.png)
 
-
-## Pontos de atenção
-A integração com o mercado pago não está implementada nessa versão.
-A notificação aos usuários da atualização de status de pagamento e status do pedido não está implementada nessa versão.
