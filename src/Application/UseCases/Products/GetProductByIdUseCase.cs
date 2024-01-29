@@ -1,5 +1,6 @@
 ﻿using Domain.Products.Model.ProductAggregate;
 using Domain.SeedWork;
+using System.Text.Json;
 
 namespace Application.UseCases.Products;
 

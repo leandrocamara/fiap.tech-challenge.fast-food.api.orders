@@ -1,4 +1,4 @@
-﻿using Domain.Products.Model.ProductAggregate;
+using Domain.Products.Model.ProductAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Products;
@@ -28,7 +28,8 @@ public sealed class GetProductsByCategoryUseCase : IGetProductsByCategoryUseCase
                 product.Name,
                 product.Category.ToString(),
                 product.Price,
-                product.Description));
+                product.Description,
+                product.Images));
         }
         catch (DomainException e)
         {
@@ -38,4 +39,4 @@ public sealed class GetProductsByCategoryUseCase : IGetProductsByCategoryUseCase
 }
 
 public record GetProductsByCategoryRequest(int Category);
-public record GetProductsByCategoryResponse(Guid Id, string Name, string Category, decimal Price, string Description);
+public record GetProductsByCategoryResponse(Guid Id, string Name, string Category, decimal Price, string Description, List<Image> images);
