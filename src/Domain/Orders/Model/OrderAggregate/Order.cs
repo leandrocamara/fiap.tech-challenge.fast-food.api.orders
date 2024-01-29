@@ -9,29 +9,31 @@ namespace Domain.Orders.Model.OrderAggregate
     {
         public Guid? CustomerId { get; private set; }
         public OrderStatus Status { get; private set; }
+        public int OrderNumber { get; private set; }
         public decimal TotalPrice { get; private set; }
         public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
         public IList<OrderItem> OrderItems { get; private set; }
 
         //private readonly IList<OrderItem> _orderItems;
 
-        public Order(Guid? customerId, List<OrderItem> orderItems)
+        public Order(Guid? customerId, List<OrderItem> orderItems, int orderNumber)
         {
             OrderItems = orderItems;
             TotalPrice = orderItems.Sum(m => m.TotalPrice);
             CustomerId = customerId;
+            OrderNumber = orderNumber;
             if (Validator.IsValid(this, out var error) is false)
                 throw new DomainException(error);
         }
 
-        public Order(Customer? customer)
+        public Order(Customer? customer, int orderNumber)
         {
             Id = Guid.NewGuid();
             CustomerId = customer?.Id;
             Status = OrderStatus.PaymentPending();
             OrderItems = new List<OrderItem>();
             CreatedAt = DateTime.UtcNow;
-
+            OrderNumber = orderNumber;
             if (Validator.IsValid(this, out var error) is false)
                 throw new DomainException(error);
         }

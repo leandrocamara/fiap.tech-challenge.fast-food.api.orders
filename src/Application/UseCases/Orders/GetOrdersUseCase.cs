@@ -19,6 +19,7 @@ namespace Application.UseCases.Orders
 
                 return orders.Select(order => new GetOrderResponse(
                    order.Id,
+                   order.OrderNumber,
                    order.Status.ToString()));
             }
             catch (DomainException e)
@@ -31,5 +32,5 @@ namespace Application.UseCases.Orders
 
     public record GetOrderRequest();
 
-    public record GetOrderResponse(Guid Id,string status);
+    public record GetOrderResponse(Guid Id, int OrderNumber, string status);
 }

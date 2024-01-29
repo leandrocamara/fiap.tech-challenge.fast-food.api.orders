@@ -22,11 +22,14 @@ namespace Infrastructure.Persistence.Repositories
         public override void Add(Order entity)
         {
             base.Add(entity);
-            /*foreach (var item in entity.OrderItems)
-            {
-                context.Add(item);
-            }*/
-            
+        }
+
+        public int GetNextOrderNumber()
+        {
+            var today = DateTime.UtcNow.Date;
+            return context.Orders
+                .Where(m => m.CreatedAt >= today)
+                .Count() + 1;
         }
     }
 }

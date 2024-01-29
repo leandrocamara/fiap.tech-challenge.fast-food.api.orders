@@ -30,11 +30,10 @@ public sealed class CreateOrderUseCase(
                 orderItems.Add(new OrderItem(product, item.Quantity));
             }
 
-            var order = new Order(request.CustomerId, orderItems);
-
+            var order = new Order(request.CustomerId, orderItems, orderRepository.GetNextOrderNumber());
             orderRepository.Add(order);
 
-            return new CreateOrderResponse(order.Id, order.Status.ToString());
+            return new CreateOrderResponse(order.Id, order.OrderNumber, order.Status.ToString());
         }
         catch (DomainException e)
         {
@@ -48,4 +47,4 @@ public record CreateOrderRequest(IEnumerable<CreateOrderItemRequest> OrderItems,
 
 public record CreateOrderItemRequest(Guid ProductId, short Quantity);
 
-public record CreateOrderResponse(Guid OrderId, string StatusOrder);
+public record CreateOrderResponse(Guid OrderId, int OrderNumber, string StatusOrder);

@@ -23,6 +23,7 @@ CREATE TABLE "orders"
 (
     "Id"         UUID PRIMARY KEY UNIQUE DEFAULT uuid_generate_v4(),
     "CustomerId" UUID NULL,
+    "OrderNumber" INT NOT NULL,
     "Status"     SMALLINT    NOT NULL,
     "CreatedAt"  TIMESTAMPTZ NOT NULL    DEFAULT NOW(),
     "TotalPrice" DECIMAL,

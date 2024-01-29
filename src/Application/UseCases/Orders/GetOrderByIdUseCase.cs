@@ -35,7 +35,7 @@ namespace Application.UseCases.Orders
                 }
 
                 return new GetOrderByIdResponse(
-                    order.Id, order.CustomerId, customer?.Name, order.Status, order.TotalPrice, 
+                    order.Id, order.OrderNumber, order.CustomerId, customer?.Name, order.Status, order.TotalPrice, 
                     order.OrderItems.Select(item => 
                         new GetOrderByIdOrderItemResponse(item.Id, item.ProductId, item.Product.Name, item.Quantity, item.TotalPrice)
                     ).ToList()
@@ -51,7 +51,7 @@ namespace Application.UseCases.Orders
     public record GetOrderByIdRequest(Guid Id);
 
     public record GetOrderByIdOrderItemResponse(Guid Id, Guid IdProduct, string ProductName, int Quantity, decimal PriceTotal);
-    public record GetOrderByIdResponse(Guid Id, Guid? CustomerId, string? CustomerName, OrderStatus Status, decimal PriceTotal, IList<GetOrderByIdOrderItemResponse> OrderItems);
+    public record GetOrderByIdResponse(Guid Id, int OrderNumber, Guid? CustomerId, string? CustomerName, OrderStatus Status, decimal PriceTotal, IList<GetOrderByIdOrderItemResponse> OrderItems);
 }
 
 
