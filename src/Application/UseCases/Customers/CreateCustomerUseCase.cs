@@ -6,16 +6,9 @@ namespace Application.UseCases.Customers;
 
 public interface ICreateCustomerUseCase : IUseCase<CreateCustomerRequest, CreateCustomerResponse>;
 
-public sealed class CreateCustomerUseCase : ICreateCustomerUseCase
+public sealed class CreateCustomerUseCase(ICustomerRepository customerRepository) : ICreateCustomerUseCase
 {
-    private readonly ICustomerRepository _customerRepository;
-    private readonly CustomerCreationValidator _validator;
-
-    public CreateCustomerUseCase(ICustomerRepository customerRepository)
-    {
-        _customerRepository = customerRepository;
-        _validator = new CustomerCreationValidator(_customerRepository);
-    }
+    private readonly CustomerCreationValidator _validator = new(customerRepository);
 
     public async Task<CreateCustomerResponse> Execute(CreateCustomerRequest request)
     {
@@ -24,7 +17,7 @@ public sealed class CreateCustomerUseCase : ICreateCustomerUseCase
             var customer = new Customer(request.Cpf, request.Name, request.Email);
 
             await _validator.Validate(request);
-            _customerRepository.Add(customer);
+            customerRepository.Add(customer);
 
             return new CreateCustomerResponse(
                 customer.Id,

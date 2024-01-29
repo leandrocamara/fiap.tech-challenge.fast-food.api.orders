@@ -1,21 +1,10 @@
-﻿using Domain.Customers.Model.CustomerAggregate.Validators;
+﻿using Domain.Products.Model.ProductAggregate.Validators;
 using Domain.Products.ProductAggregate.Validators;
 using Domain.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.Products.ProductAggregate
+namespace Domain.Products.Model.ProductAggregate
 {
-    public enum ECategory : int
-    {
-        Meal = 0,
-        Side = 1,
-        Drink = 2,
-        Dessert = 3
-    }
+   
 
 
     public readonly struct Category
@@ -43,5 +32,13 @@ namespace Domain.Products.ProductAggregate
         public static implicit operator Category(int value) => new((ECategory)value);
 
         private static readonly IValidator<Category> Validator = new CategoryValidator();
+
+        public enum ECategory :short
+        {
+            Meal = 0,
+            Side = 1,
+            Drink = 2,
+            Dessert = 3
+        }
     }
 }

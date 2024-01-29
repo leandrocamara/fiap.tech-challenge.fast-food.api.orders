@@ -1,6 +1,6 @@
 ﻿using Domain.SeedWork;
 
-namespace Domain.Products.ProductAggregate.Validators
+namespace Domain.Products.Model.ProductAggregate.Validators
 {
     internal sealed class CategoryValidator: IValidator<Category>
     {
@@ -17,7 +17,7 @@ namespace Domain.Products.ProductAggregate.Validators
         public bool IsSatisfiedBy(Category category, out string error)
         {
             error = "Invalid Category - { Meal = 0,Side = 1,Drink = 2,Dessert = 3 } ";
-            return Enum.IsDefined(typeof(ECategory), category.Value);
+            return Enum.IsDefined(typeof(Category.ECategory), category.Value);
         }
     }
 }

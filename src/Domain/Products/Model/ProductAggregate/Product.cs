@@ -1,8 +1,7 @@
-﻿using Domain.Products.Model.ProductAggregate;
-using Domain.Products.ProductAggregate.Validators;
+﻿using Domain.Products.ProductAggregate.Validators;
 using Domain.SeedWork;
 
-namespace Domain.Products.ProductAggregate;
+namespace Domain.Products.Model.ProductAggregate;
 
 public sealed class Product : Entity, IAggregatedRoot
 {
@@ -12,7 +11,7 @@ public sealed class Product : Entity, IAggregatedRoot
     public string Description { get; private set; }
     public List<Image> Images { get; private set; }
 
-    public Product(Guid id,string name, Category category,decimal price, string description, List<Image> images) 
+    public Product(Guid id, string name, Category category, decimal price, string description, List<Image> images)
     {
         Id = id;
         Name = name;
@@ -26,4 +25,9 @@ public sealed class Product : Entity, IAggregatedRoot
     }
 
     private static readonly IValidator<Product> Validator = new ProductValidator();
+
+    // Required for EF
+    public Product()
+    {
+    }
 }

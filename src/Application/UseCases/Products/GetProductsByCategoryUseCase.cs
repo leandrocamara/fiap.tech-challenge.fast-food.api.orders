@@ -1,19 +1,15 @@
-﻿using Application.UseCases.Customers;
-using Application.UseCases.Products.Validators;
-using Domain.Customers.Model.CustomerAggregate;
 using Domain.Products.Model.ProductAggregate;
-using Domain.Products.ProductAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Products;
 
-public interface IGetProductsByCategoyUseCase : IUseCase<GetProductsByCategoryRequest, IEnumerable<GetProductsByCategoryResponse>>;
+public interface IGetProductsByCategoryUseCase : IUseCase<GetProductsByCategoryRequest, IEnumerable<GetProductsByCategoryResponse>>;
 
-public sealed class GetProductsByCategoyUseCase : IGetProductsByCategoyUseCase
+public sealed class GetProductsByCategoryUseCase : IGetProductsByCategoryUseCase
 {
     private readonly IProductRepository _productRepository;
 
-    public GetProductsByCategoyUseCase(IProductRepository productRepository)
+    public GetProductsByCategoryUseCase(IProductRepository productRepository)
     {
         _productRepository = productRepository;
     }

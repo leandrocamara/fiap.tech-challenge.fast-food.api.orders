@@ -1,6 +1,5 @@
 ﻿using Domain.Customers.Model.CustomerAggregate;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace Infrastructure.Persistence.Repositories;
 

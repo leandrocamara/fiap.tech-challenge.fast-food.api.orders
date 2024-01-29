@@ -1,9 +1,5 @@
-﻿using Application.UseCases.Customers;
 using Application.UseCases.Products;
-using Domain.Products.Model.ProductAggregate;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Text.Json;
 using ApplicationException = Application.ApplicationException;
 
 namespace API.Controllers;
@@ -86,7 +82,7 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetProductsByCategory(
-        [FromServices] IGetProductsByCategoyUseCase useCase,
+        [FromServices] IGetProductsByCategoryUseCase useCase,
         [FromQuery] GetProductsByCategoryRequest request)
     {
         try
@@ -127,4 +123,3 @@ public class ProductController : ControllerBase
         }
     }
 }
-

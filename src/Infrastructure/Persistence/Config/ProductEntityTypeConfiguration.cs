@@ -1,6 +1,4 @@
 ﻿using Domain.Products.Model.ProductAggregate;
-using Domain.Products.ProductAggregate;
-using Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
@@ -25,7 +23,7 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired()
             .HasConversion(
                     v => (int)v,
-                    v => (Category)v
+                    v => v
                 );
 
         builder
