@@ -15,12 +15,16 @@ public class OrderItem : Entity
     public OrderItem(Product product, short quantity)
     {
         Id = Guid.NewGuid();
-        ProductId = product.Id;
+        Product = product;
         Quantity = quantity;
         TotalPrice = product.Price * quantity;
     }
 
-    public void SetOrder(Order order) => OrderId = order.Id;
+    public void SetOrder(Order order)
+    {
+        Order = order;
+        OrderId = order.Id;
+    }
 
     // Required for EF
     private OrderItem()

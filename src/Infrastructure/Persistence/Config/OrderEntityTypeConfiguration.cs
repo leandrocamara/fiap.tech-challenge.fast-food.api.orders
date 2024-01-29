@@ -1,8 +1,6 @@
 ﻿using Domain.Orders.Model.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
-using System.Reflection.Metadata;
 
 namespace Infrastructure.Persistence.Config;
 
@@ -34,5 +32,11 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .WithOne(e => e.Order)
             .HasForeignKey(e => e.OrderId)
             .HasPrincipalKey(e => e.Id);
+        
+        builder
+            .HasOne(order => order.Customer)
+            .WithMany()
+            .HasForeignKey(order => order.CustomerId)
+            .IsRequired(false);
     }
 }

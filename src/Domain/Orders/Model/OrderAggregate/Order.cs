@@ -1,55 +1,46 @@
 ﻿using Domain.Customers.Model.CustomerAggregate;
 using Domain.Orders.Model.OrderAggregate.Validators;
 using Domain.SeedWork;
-using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Orders.Model.OrderAggregate
+namespace Domain.Orders.Model.OrderAggregate;
+
+public class Order : Entity, IAggregatedRoot
 {
-    public class Order : Entity, IAggregatedRoot
+    public Customer? Customer { get; private set; }
+    public Guid? CustomerId { get; private set; }
+    public OrderStatus Status { get; private set; }
+    public decimal TotalPrice { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+
+    public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
+    private readonly IList<OrderItem> _orderItems;
+
+    public Order(Customer? customer, List<OrderItem> orderItems)
     {
-        public Guid? CustomerId { get; private set; }
-        public OrderStatus Status { get; private set; }
-        public decimal TotalPrice { get; private set; }
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-        public IList<OrderItem> OrderItems { get; private set; }
+        Id = Guid.NewGuid();
+        Customer = customer;
+        CustomerId = customer?.Id;
+        Status = OrderStatus.PaymentPending();
+        CreatedAt = DateTime.UtcNow;
+        _orderItems = new List<OrderItem>();
 
-        //private readonly IList<OrderItem> _orderItems;
-
-        public Order(Guid? customerId, List<OrderItem> orderItems)
+        foreach (var orderItem in orderItems)
         {
-            OrderItems = orderItems;
-            TotalPrice = orderItems.Sum(m => m.TotalPrice);
-            CustomerId = customerId;
-            if (Validator.IsValid(this, out var error) is false)
-                throw new DomainException(error);
-        }
-
-        public Order(Customer? customer)
-        {
-            Id = Guid.NewGuid();
-            CustomerId = customer?.Id;
-            Status = OrderStatus.PaymentPending();
-            OrderItems = new List<OrderItem>();
-            CreatedAt = DateTime.UtcNow;
-
-            if (Validator.IsValid(this, out var error) is false)
-                throw new DomainException(error);
-        }
-
-        public void AddOrderItem(OrderItem orderItem)
-        {
-            //orderItem.SetOrder(this);
-            OrderItems.Add(orderItem);
+            orderItem.SetOrder(this);
+            _orderItems.Add(orderItem);
             TotalPrice += orderItem.TotalPrice;
         }
 
-        private static readonly IValidator<Order> Validator = new OrderValidator();
+        if (Validator.IsValid(this, out var error) is false)
+            throw new DomainException(error);
+    }
 
-        public bool HasItems() => OrderItems.Any();
+    private static readonly IValidator<Order> Validator = new OrderValidator();
 
-        // Required for EF
-        private Order()
-        {
-        }
+    public bool HasItems() => OrderItems.Any();
+
+    // Required for EF
+    private Order()
+    {
     }
 }

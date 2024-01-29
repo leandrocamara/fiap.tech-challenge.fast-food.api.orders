@@ -1,5 +1,4 @@
 ﻿using Application.UseCases.Orders;
-using Application.UseCases.Products;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -31,17 +30,15 @@ public class OrderController : ControllerBase
         }
     }
 
-    [HttpGet("GetOrders")]
-    [ProducesResponseType<GetOrderResponse>(StatusCodes.Status200OK)]
+    [HttpGet]
+    [ProducesResponseType<IEnumerable<OrderResponse>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetOrders(
-        [FromServices] IGetOrdersUseCase useCase,
-        [FromQuery] GetOrderRequest request)
+    public async Task<IActionResult> GetOrders([FromServices] IGetOrdersUseCase useCase)
     {
         try
         {
-            var response = await useCase.Execute(request);
+            var response = await useCase.Execute();
             return Ok(response);
         }
         catch (ApplicationException e)
@@ -54,17 +51,17 @@ public class OrderController : ControllerBase
         }
     }
 
-    [HttpGet("GetOrderById")]
+    [HttpGet("{id}")]
     [ProducesResponseType<GetOrderByIdResponse>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetOrderByIdResponse(
         [FromServices] IGetOrderByIdUseCase useCase,
-        [FromQuery] GetOrderByIdRequest request)
+        [FromRoute] Guid id)
     {
         try
         {
-            var response = await useCase.Execute(request);
+            var response = await useCase.Execute(id);
             return Ok(response);
         }
         catch (ApplicationException e)

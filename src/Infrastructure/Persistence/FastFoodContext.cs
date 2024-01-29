@@ -27,6 +27,7 @@ public sealed class FastFoodContext(DbContextOptions<FastFoodContext> options) :
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("public");
+        modelBuilder.UsePropertyAccessMode(PropertyAccessMode.Field);
         modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
