@@ -1,7 +1,7 @@
 ﻿using Domain.Customers.Model.CustomerAggregate;
 using Domain.Orders.Model.OrderAggregate.Validators;
 using Domain.SeedWork;
-using System.ComponentModel.DataAnnotations;
+using static Domain.Orders.Model.OrderAggregate.OrderStatus;
 
 namespace Domain.Orders.Model.OrderAggregate
 {
@@ -10,6 +10,8 @@ namespace Domain.Orders.Model.OrderAggregate
         public Guid? CustomerId { get; private set; }
         public OrderStatus Status { get; private set; }
         public int OrderNumber { get; private set; }
+        public string? QrCodePayment { get; private set; }
+        public DateTime? PaymentStatusDate { get; private set; }
         public decimal TotalPrice { get; private set; }
         public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
         public IList<OrderItem> OrderItems { get; private set; }
@@ -18,6 +20,7 @@ namespace Domain.Orders.Model.OrderAggregate
 
         public Order(Guid? customerId, List<OrderItem> orderItems, int orderNumber)
         {
+            Id = Guid.NewGuid();
             OrderItems = orderItems;
             TotalPrice = orderItems.Sum(m => m.TotalPrice);
             CustomerId = customerId;
@@ -43,6 +46,19 @@ namespace Domain.Orders.Model.OrderAggregate
             //orderItem.SetOrder(this);
             OrderItems.Add(orderItem);
             TotalPrice += orderItem.TotalPrice;
+        }
+
+        public void SetQrCode(string qrCode)
+        {
+            QrCodePayment = qrCode;
+        }
+
+        public void UpdatePaymentStatus(bool paymentSucceeded)
+        {
+            Status = paymentSucceeded ? 
+                (short)EOrderStatus.Received : 
+                (short)EOrderStatus.PaymentRefused;
+            PaymentStatusDate = DateTime.UtcNow;
         }
 
         private static readonly IValidator<Order> Validator = new OrderValidator();

@@ -27,6 +27,8 @@ CREATE TABLE "orders"
     "Status"     SMALLINT    NOT NULL,
     "CreatedAt"  TIMESTAMPTZ NOT NULL    DEFAULT NOW(),
     "TotalPrice" DECIMAL,
+    "QrCodePayment" VARCHAR(1000) NULL,
+    "PaymentStatusDate" TIMESTAMPTZ NULL,
     FOREIGN KEY ("CustomerId") REFERENCES "customers" ("Id")
 );
 
