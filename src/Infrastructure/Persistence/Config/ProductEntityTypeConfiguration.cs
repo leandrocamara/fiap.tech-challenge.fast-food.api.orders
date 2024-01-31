@@ -1,7 +1,7 @@
-﻿using Domain.Customer.Model.CustomerAggregate;
-using Domain.Product.ProductAggregate;
+﻿using Domain.Products.Model.ProductAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json;
 
 namespace Infrastructure.Persistence.Config;
 
@@ -19,11 +19,28 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired();
 
         builder
-            .Property(product => product.Category)            
+            .Property(product => product.Category)
             .IsRequired()
             .HasConversion(
                     v => (int)v,
-                    v => (Category)v
+                    v => v
                 );
+
+        builder
+            .Property(product => product.Price)
+            .IsRequired();
+
+        builder
+            .Property(product => product.Description)
+            .HasMaxLength(200)
+            .IsRequired();
+
+        builder
+           .Property(p => p.Images)
+           .HasColumnType("jsonb")  // Pode usar "json" ou "jsonb" dependendo das suas necessidades
+           .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+                v => JsonSerializer.Deserialize<List<Image>>(v, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+           );
     }
 }

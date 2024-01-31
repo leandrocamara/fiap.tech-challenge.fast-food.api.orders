@@ -1,7 +1,4 @@
-﻿using Application.UseCases.Customers;
-using Application.UseCases.Products.Validators;
-using Domain.Customer.Model.CustomerAggregate;
-using Domain.Product.ProductAggregate;
+﻿using Domain.Products.Model.ProductAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Products;
@@ -10,7 +7,7 @@ public interface IGetProductByIdUseCase : IUseCase<GetProductByIdRequest, GetPro
 
 public sealed class GetProductByIdUseCase(IProductRepository productRepository) : IGetProductByIdUseCase
 {
-    public async Task<GetProductByIdResponse> Execute(GetProductByIdRequest request)
+    public Task<GetProductByIdResponse> Execute(GetProductByIdRequest request)
     {
         try
         {
@@ -19,10 +16,13 @@ public sealed class GetProductByIdUseCase(IProductRepository productRepository) 
             if (product == null)
                 throw new ApplicationException("Product not found");
 
-            return new GetProductByIdResponse(
+            return Task.FromResult(new GetProductByIdResponse(
                 product.Id,
                 product.Name,
-                product.Category.ToString());
+                product.Category.ToString(),
+                product.Price,
+                product.Description,
+                product.Images));
         }
         catch (DomainException e)
         {
@@ -32,4 +32,4 @@ public sealed class GetProductByIdUseCase(IProductRepository productRepository) 
 }
 
 public record GetProductByIdRequest(Guid Id);
-public record GetProductByIdResponse(Guid Id, string Name, string Category);
+public record GetProductByIdResponse(Guid Id, string Name, string Category, decimal Price, string Description, List<Image> images);

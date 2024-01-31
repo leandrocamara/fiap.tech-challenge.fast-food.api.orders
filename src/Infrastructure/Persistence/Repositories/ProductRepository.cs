@@ -1,5 +1,4 @@
-﻿using Domain.Customer.Model.CustomerAggregate;
-using Domain.Product.ProductAggregate;
+﻿using Domain.Products.Model.ProductAggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;

@@ -1,6 +1,11 @@
-﻿using Domain.Customer.Model.CustomerAggregate;
-using Domain.Product.ProductAggregate;
+﻿using Application.ACL.Payment;
+using Application.Gateways;
+using Domain.Customers.Model.CustomerAggregate;
+using Domain.Orders.Model.OrderAggregate;
+using Domain.Products.Model.ProductAggregate;
 using FluentMigrator.Runner;
+using Infrastructure.ACL.Payment;
+using Infrastructure.Gateways;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Migrations;
 using Infrastructure.Persistence.Repositories;
@@ -22,6 +27,14 @@ public static class InfrastructureExtensions
         services.AddScoped<IUnitOfWork, FastFoodContext>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+
+        #region gateways
+
+        services.AddScoped<INotifyGateway, NotifyGateway>();
+        services.AddScoped<IPaymentGateway, MercadoPagoQrCodePaymentGateway>();
+
+        #endregion
 
         return services;
     }
@@ -39,6 +52,7 @@ public static class InfrastructureExtensions
 
         using (serviceProvider.CreateScope())
         {
+            
             serviceProvider.GetRequiredService<IMigrationRunner>().MigrateUp();
         }
     }

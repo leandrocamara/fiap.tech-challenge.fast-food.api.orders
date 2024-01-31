@@ -1,6 +1,7 @@
 ﻿using System.Data;
-using Domain.Customer.Model.CustomerAggregate;
-using Domain.Product.ProductAggregate;
+using Domain.Customers.Model.CustomerAggregate;
+using Domain.Orders.Model.OrderAggregate;
+using Domain.Products.Model.ProductAggregate;
 using Infrastructure.Persistence.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -18,14 +19,21 @@ public sealed class FastFoodContext(DbContextOptions<FastFoodContext> options) :
 {
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 
     private IDbContextTransaction? _currentTransaction;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("public");
+        modelBuilder.UsePropertyAccessMode(PropertyAccessMode.Field);
         modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderItemEntityTypeConfiguration());
+
+        base.OnModelCreating(modelBuilder);
     }
 
     public async Task<IDbContextTransaction?> BeginTransactionAsync()

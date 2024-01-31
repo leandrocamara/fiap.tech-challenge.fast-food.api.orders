@@ -1,5 +1,5 @@
 ﻿using Application.UseCases.Products.Validators;
-using Domain.Product.ProductAggregate;
+using Domain.Products.Model.ProductAggregate;
 using Domain.SeedWork;
 
 namespace Application.UseCases.Products;
@@ -21,7 +21,7 @@ public sealed class CreateProductUseCase : ICreateProductUseCase
     {
         try
         {
-            var product = new Product(request.Name, request.Category, Guid.NewGuid());
+            var product = new Product(Guid.NewGuid(),request.Name, request.Category, request.Price, request.Description,Image.ConvertToImages(request.images));
 
             await _validator.Validate(request);
             _productRepository.Add(product);
@@ -29,7 +29,10 @@ public sealed class CreateProductUseCase : ICreateProductUseCase
             return new CreateProductResponse(
                 product.Id,               
                 product.Name,
-                product.Category.ToString());
+                product.Category.ToString(),
+                product.Price,
+                product.Description,
+                product.Images);
         }
         catch (DomainException e)
         {
@@ -38,6 +41,6 @@ public sealed class CreateProductUseCase : ICreateProductUseCase
     }
 }
 
-public record CreateProductRequest(string Name, int Category);
+public record CreateProductRequest(string Name, int Category, decimal Price, string Description, List<string> images);
 
-public record CreateProductResponse(Guid Id, string Name, string Category);
+public record CreateProductResponse(Guid Id, string Name, string Category, decimal Price, string Description, List<Image> images);
