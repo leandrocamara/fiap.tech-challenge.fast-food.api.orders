@@ -57,8 +57,8 @@ namespace Domain.Orders.Model.OrderAggregate
         public void UpdatePaymentStatus(bool paymentSucceeded)
         {
             Status = paymentSucceeded ?
-                (short)EOrderStatus.Received :
-                (short)EOrderStatus.PaymentRefused;
+                OrderStatus.Received() :
+                OrderStatus.PaymentRefused();
             PaymentStatusDate = DateTime.UtcNow;
         }
 

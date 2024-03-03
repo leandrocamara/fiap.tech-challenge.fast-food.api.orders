@@ -32,11 +32,11 @@ public class OrderController : ControllerBase
         }
     }
 
-    [HttpGet("GetOrders")]
+    [HttpGet]
     [SwaggerResponse(StatusCodes.Status200OK, "Retorna a lista completa de pedidos existentes.", typeof(OrderResponse))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre nenhum pedido.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
-    public async Task<IActionResult> GetOrders([FromServices] IGetOrdersUseCase useCase, [FromQuery] GetOrderRequest request)
+    public async Task<IActionResult> GetOrders([FromServices] IGetOngoingOrdersUseCase useCase)
     {
         try
         {
