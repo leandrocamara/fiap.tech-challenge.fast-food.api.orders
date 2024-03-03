@@ -1,7 +1,6 @@
 ﻿using Application.UseCases.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using static Application.UseCases.Orders.OrderResponse;
 
 namespace API.Controllers;
 
@@ -69,6 +68,29 @@ public class OrderController : ControllerBase
         catch (ApplicationException e)
         {
             return NotFound(e.Message);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+        }
+    }
+
+    [HttpPost("{orderId}/status")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retorna o pedido com seu novo status.", typeof(UpdateOrderStatusResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Caso não encontre o pedido informado.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
+    public async Task<IActionResult> UpdateOrderStatus(
+        [FromServices] IUpdateOrderStatusUseCase useCase,
+        [FromRoute] Guid orderId)
+    {
+        try
+        {
+            var response = await useCase.Execute(orderId);
+            return Ok(response);
+        }
+        catch (ApplicationException e)
+        {
+            return BadRequest(e.Message);
         }
         catch (Exception e)
         {
