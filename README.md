@@ -140,7 +140,7 @@ Há dois endpoints para manipulação do cadastro de clientes:
 ## Pedidos
 Na versão inicial do sistema, é possível criar um pedido, retornar a lista de pedidos existentes e retornar os detalhes de um pedido por seu **id**.
 - **[POST] api/orders**: Criar um novo pedido com o status Pay com os itens e relacionado ao cliente (quando informado).
-- **[GET] api/orders/GetOrders**: Retorna a lista de todos os pedidos existentes na base de dados, sem nenhum filtro.
+- **[GET] api/orders**: Retorna a lista de todos os pedidos existentes na base de dados, sem nenhum filtro.
 - **[GET] api/orders/\{id\}**: Retorna o detalhe de um pedido informado pelo **\{id\}**.
 
 ### Status dos Pedidos
@@ -149,6 +149,7 @@ Na versão inicial do sistema, é possível criar um pedido, retornar a lista de
 - **2**: Pedido Recebido na Cozinha
 - **3**: Cozinha Preparando Pedido
 - **4**: Pedido Pronto
+- **5**: Pedido Concluído
 
 
 ## Webhook para atualização de pagamentos
@@ -159,16 +160,14 @@ Podendo a chamada ser de aceite ou recusa do pagamento.
 
 ## Fluxo de testes recomendado
 Para testar a aplicação recomendamos primeiro:
-- Incluir um produto (podendo também testar atualização e exclusão dos produtos).
-  ![Criar produto](./src/API/readme-images/create-product.png)
-- Incluir um novo cliente (guardando a informação do campo id retornado na inclusão).
-  ![Criar cliente](./src/API/readme-images/create-customer.png)
-- Buscar lista de produtos por categoria, guardando alguns ids para utilizá-los na criação do pedido.
-  ![Listar produtos por categoria](./src/API/readme-images/get-products-by-category.png)
-- Criar um novo pedido (podendo ou não informar o cliente).
-  ![Criar pedido](./src/API/readme-images/create-order.png)
-- Atualizar o status de pagamento de um pedido, simulando a chamada realizada pelo mercado pago ao webhook.
-  ![Webhook](./src/API/readme-images/webhook-update-payment.png)
-- Listar todos os pedidos
-  ![Lista de pedidos](./src/API/readme-images/list-orders.png)
+1. Incluir um produto (podendo também testar atualização e exclusão dos produtos).
+2. Incluir um novo cliente (guardando a informação do campo id retornado na inclusão).
+3. Buscar lista de produtos por categoria, guardando alguns ids para utilizá-los na criação do pedido.
+4. Criar um novo pedido (podendo ou não informar o cliente).
+5. Atualizar o status de pagamento de um pedido, simulando a chamada realizada pelo mercado pago ao webhook.
+6. Listar todos os pedidos em andamento
+7. Atualizar o status do pedido (com pagamento confirmado)
+8. Obter informações de um pedido
+
+Todo o fluxo está presente na [Collection do Postman](./docs/postman/FIAP.FastFood.postman_collection.json).
 

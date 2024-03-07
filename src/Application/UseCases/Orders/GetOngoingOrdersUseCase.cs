@@ -13,9 +13,6 @@ public sealed class GetOngoingOrdersUseCase(IOrderRepository orderRepository) : 
         {
             var orders = await orderRepository.GetOngoingOrders();
 
-            if (!orders.Any())
-                throw new ApplicationException("Orders not found");
-
             return orders.Select(order => new OrderResponse(order));
         }
         catch (DomainException e)
