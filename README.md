@@ -140,7 +140,7 @@ Há dois endpoints para manipulação do cadastro de clientes:
 ## Pedidos
 Na versão inicial do sistema, é possível criar um pedido, retornar a lista de pedidos existentes e retornar os detalhes de um pedido por seu **id**.
 - **[POST] api/orders**: Criar um novo pedido com o status Pay com os itens e relacionado ao cliente (quando informado).
-- **[GET] api/orders**: Retorna a lista de todos os pedidos existentes na base de dados, sem nenhum filtro.
+- **[GET] api/orders**: Retorna a lista dos pedidos em andamento, ordenada dos mais antigos para os mais novos.
 - **[GET] api/orders/\{id\}**: Retorna o detalhe de um pedido informado pelo **\{id\}**.
 
 ### Status dos Pedidos
