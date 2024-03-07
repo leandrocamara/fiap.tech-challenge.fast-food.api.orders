@@ -1,4 +1,4 @@
-﻿using Infrastructure.Persistence;
+﻿using External.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;

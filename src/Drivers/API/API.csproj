@@ -31,9 +31,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Application\Application.csproj" />
-      <ProjectReference Include="..\..\Domain\Domain.csproj" />
-      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\..\Core\Application\Application.csproj" />
+      <ProjectReference Include="..\..\Core\Entities\Entities.csproj" />
+      <ProjectReference Include="..\External\External.csproj" />
     </ItemGroup>
 
     <ItemGroup>

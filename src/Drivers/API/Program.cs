@@ -1,7 +1,7 @@
 using API.Filters;
 using Application.Extensions;
-using Domain.SeedWork;
-using Infrastructure.Extensions;
+using Entities.SeedWork;
+using External.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +20,6 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddInfrastructureDependencies(configuration);
 builder.Services.AddApplicationDependencies();
-builder.Services.AddDomainDependencies();
 
 #endregion
 
