@@ -1,8 +1,8 @@
-﻿using Entities.Customers.CustomerAggregate;
+﻿using Application.Gateways;
 
 namespace Application.UseCases.Customers.Validators;
 
-public sealed class CustomerCreationValidator(ICustomerRepository customerRepository)
+public sealed class CustomerCreationValidator(ICustomerGateway customerGateway)
 {
     public async Task Validate(CreateCustomerRequest request)
     {
@@ -10,5 +10,5 @@ public sealed class CustomerCreationValidator(ICustomerRepository customerReposi
             throw new ApplicationException("CPF already used");
     }
 
-    private async Task<bool> IsCpfAlreadyUsed(string cpf) => await customerRepository.GetByCpf(cpf) != null;
+    private async Task<bool> IsCpfAlreadyUsed(string cpf) => await customerGateway.GetByCpf(cpf) != null;
 }

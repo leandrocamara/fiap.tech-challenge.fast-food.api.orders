@@ -1,9 +1,9 @@
-﻿using Application.Gateways;
+﻿using Adapters.Gateways.Notifications;
 using Entities.Orders.OrderAggregate;
 
-namespace External.Gateways;
+namespace External.Clients;
 
-internal class NotifyGateway : INotifyGateway
+internal class NotificationClient : INotificationClient
 {
     public void NotifyOrderPaymentUpdate(Order order)
     {

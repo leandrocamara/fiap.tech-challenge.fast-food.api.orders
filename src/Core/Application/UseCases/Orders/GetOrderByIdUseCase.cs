@@ -1,22 +1,23 @@
-﻿using Entities.Orders.OrderAggregate;
+﻿using Application.Gateways;
+using Entities.Orders.OrderAggregate;
 using Entities.SeedWork;
 
 namespace Application.UseCases.Orders
 {
     public interface IGetOrderByIdUseCase : IUseCase<Guid, GetOrderByIdResponse>;
 
-    public sealed class GetOrderByIdUseCase(IOrderRepository orderRepository) : IGetOrderByIdUseCase
+    public sealed class GetOrderByIdUseCase(IOrderGateway orderGateway) : IGetOrderByIdUseCase
     {
-        public async Task<GetOrderByIdResponse> Execute(Guid id)
+        public Task<GetOrderByIdResponse> Execute(Guid id)
         {
             try
             {
-                var order = orderRepository.GetById(id);
+                var order = orderGateway.GetById(id);
 
                 if (order == null)
                     throw new ApplicationException("Order not found");
 
-                return new GetOrderByIdResponse(order);
+                return Task.FromResult(new GetOrderByIdResponse(order));
             }
             catch (DomainException e)
             {

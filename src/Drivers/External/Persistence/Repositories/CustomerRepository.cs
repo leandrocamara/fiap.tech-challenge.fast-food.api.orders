@@ -1,4 +1,5 @@
-﻿using Entities.Customers.CustomerAggregate;
+﻿using Adapters.Gateways.Customers;
+using Entities.Customers.CustomerAggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace External.Persistence.Repositories;

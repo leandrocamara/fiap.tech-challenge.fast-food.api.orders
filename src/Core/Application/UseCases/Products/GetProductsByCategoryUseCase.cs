@@ -1,3 +1,4 @@
+using Application.Gateways;
 using Entities.Products.ProductAggregate;
 using Entities.SeedWork;
 
@@ -5,20 +6,13 @@ namespace Application.UseCases.Products;
 
 public interface IGetProductsByCategoryUseCase : IUseCase<GetProductsByCategoryRequest, IEnumerable<GetProductsByCategoryResponse>>;
 
-public sealed class GetProductsByCategoryUseCase : IGetProductsByCategoryUseCase
+public sealed class GetProductsByCategoryUseCase(IProductGateway productGateway) : IGetProductsByCategoryUseCase
 {
-    private readonly IProductRepository _productRepository;
-
-    public GetProductsByCategoryUseCase(IProductRepository productRepository)
-    {
-        _productRepository = productRepository;
-    }
-
     public async Task<IEnumerable<GetProductsByCategoryResponse>> Execute(GetProductsByCategoryRequest request)
     {
         try
         {
-            var products = await _productRepository.GetByCategory(request.Category);
+            var products = await productGateway.GetByCategory(request.Category);
 
             if (!products.Any())
                 throw new ApplicationException("Products not found");

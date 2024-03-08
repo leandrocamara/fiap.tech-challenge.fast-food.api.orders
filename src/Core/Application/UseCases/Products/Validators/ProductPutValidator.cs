@@ -1,8 +1,8 @@
-﻿using Entities.Products.ProductAggregate;
+﻿using Application.Gateways;
 
 namespace Application.UseCases.Products.Validators;
 
-public sealed class ProductPutValidator(IProductRepository productRepository)
+public sealed class ProductPutValidator(IProductGateway productGateway)
 {
     public async Task Validate(PutProductRequest request)
     {

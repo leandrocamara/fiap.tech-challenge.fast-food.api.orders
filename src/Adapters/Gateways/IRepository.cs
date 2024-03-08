@@ -1,4 +1,6 @@
-﻿namespace Entities.SeedWork;
+﻿using Entities.SeedWork;
+
+namespace Adapters.Gateways;
 
 public interface IRepository<T> where T : IAggregatedRoot
 {

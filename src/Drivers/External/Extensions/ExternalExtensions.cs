@@ -1,10 +1,9 @@
-﻿using Application.ACL.Payment;
-using Application.Gateways;
-using Entities.Customers.CustomerAggregate;
-using Entities.Orders.OrderAggregate;
-using Entities.Products.ProductAggregate;
-using External.ACL.Payment;
-using External.Gateways;
+﻿using Adapters.Gateways.Customers;
+using Adapters.Gateways.Notifications;
+using Adapters.Gateways.Orders;
+using Adapters.Gateways.Payments;
+using Adapters.Gateways.Products;
+using External.Clients;
 using External.Persistence;
 using External.Persistence.Migrations;
 using External.Persistence.Repositories;
@@ -16,25 +15,22 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace External.Extensions;
 
-public static class InfrastructureExtensions
+public static class ExternalExtensions
 {
-    public static IServiceCollection AddInfrastructureDependencies(
+    public static IServiceCollection AddExternalDependencies(
         this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<FastFoodContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Default")));
 
         services.AddScoped<IUnitOfWork, FastFoodContext>();
+
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
 
-        #region gateways
-
-        services.AddScoped<INotifyGateway, NotifyGateway>();
-        services.AddScoped<IPaymentGateway, MercadoPagoQrCodePaymentGateway>();
-
-        #endregion
+        services.AddScoped<INotificationClient, NotificationClient>();
+        services.AddScoped<IPaymentClient, MercadoPagoClient>();
 
         return services;
     }
@@ -52,7 +48,6 @@ public static class InfrastructureExtensions
 
         using (serviceProvider.CreateScope())
         {
-            
             serviceProvider.GetRequiredService<IMigrationRunner>().MigrateUp();
         }
     }

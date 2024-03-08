@@ -1,51 +1,36 @@
 ﻿using Application.Gateways;
-using Entities.Orders.OrderAggregate;
 using Entities.SeedWork;
 
-namespace Application.UseCases.Orders
+namespace Application.UseCases.Orders;
+
+public interface IPostUpdatePaymentOrderUseCase : IUseCase<UpdatePaymentOrderRequest, UpdatePaymentOrderResponse>;
+
+public sealed class PostUpdatePaymentOrderUseCase(IOrderGateway orderGateway, INotificationGateway notifyGateway)
+    : IPostUpdatePaymentOrderUseCase
 {
-    public interface IPostUpdatePaymentOrderUseCase : IUseCase<UpdatePaymentOrderRequest, UpdatePaymentOrderResponse>;
-
-
-    public sealed class PostUpdatePaymentOrderUseCase : IPostUpdatePaymentOrderUseCase
+    public Task<UpdatePaymentOrderResponse> Execute(UpdatePaymentOrderRequest request)
     {
-        private readonly IOrderRepository _orderRepository;
-        private readonly INotifyGateway _notifyGateway;
-
-
-        public PostUpdatePaymentOrderUseCase(IOrderRepository orderRepository, INotifyGateway notifyGateway)
+        try
         {
-            _orderRepository = orderRepository;
-            _notifyGateway = notifyGateway;
+            var order = orderGateway.GetById(request.Id);
+
+            if (order == null)
+                throw new ApplicationException("Order not found");
+
+            order.UpdatePaymentStatus(request.PaymentSucceeded);
+            orderGateway.Update(order);
+
+            notifyGateway.NotifyOrderPaymentUpdate(order);
+
+            return Task.FromResult(new UpdatePaymentOrderResponse(order.Id, order.OrderNumber, order.Status));
         }
-
-        public async Task<UpdatePaymentOrderResponse> Execute(UpdatePaymentOrderRequest request)
+        catch (DomainException e)
         {
-
-            try
-            {
-                var order = _orderRepository.GetById(request.Id);
-
-                if (order == null)
-                    throw new ApplicationException("Order not found");
-
-                order.UpdatePaymentStatus(request.PaymentSucceeded);
-                _orderRepository.Update(order);
-
-                _notifyGateway.NotifyOrderPaymentUpdate(order);
-
-                return new UpdatePaymentOrderResponse(order.Id, order.OrderNumber, order.Status);
-            }
-            catch (DomainException e)
-            {
-                throw new ApplicationException($"Failed to recover product. Error: {e.Message}", e);
-            }
-        }      
+            throw new ApplicationException($"Failed to recover product. Error: {e.Message}", e);
+        }
     }
-
-    public record UpdatePaymentOrderRequest(Guid Id, bool PaymentSucceeded);
-
-    public record UpdatePaymentOrderResponse(Guid Id, int Number, string Status);
 }
 
+public record UpdatePaymentOrderRequest(Guid Id, bool PaymentSucceeded);
 
+public record UpdatePaymentOrderResponse(Guid Id, int Number, string Status);

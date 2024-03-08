@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Products.Validators;
+﻿using Application.Gateways;
+using Application.UseCases.Products.Validators;
 using Entities.Products.ProductAggregate;
 using Entities.SeedWork;
 
@@ -6,16 +7,9 @@ namespace Application.UseCases.Products;
 
 public interface ICreateProductUseCase : IUseCase<CreateProductRequest, CreateProductResponse>;
 
-public sealed class CreateProductUseCase : ICreateProductUseCase
+public sealed class CreateProductUseCase(IProductGateway productGateway) : ICreateProductUseCase
 {
-    private readonly IProductRepository _productRepository;
-    private readonly ProductCreationValidator _validator;
-
-    public CreateProductUseCase(IProductRepository productRepository)
-    {
-        _productRepository = productRepository;
-        _validator = new ProductCreationValidator(_productRepository);
-    }
+    private readonly ProductCreationValidator _validator = new(productGateway);
 
     public async Task<CreateProductResponse> Execute(CreateProductRequest request)
     {
@@ -24,7 +18,7 @@ public sealed class CreateProductUseCase : ICreateProductUseCase
             var product = new Product(Guid.NewGuid(),request.Name, request.Category, request.Price, request.Description,Image.ConvertToImages(request.images));
 
             await _validator.Validate(request);
-            _productRepository.Add(product);
+            productGateway.Save(product);
 
             return new CreateProductResponse(
                 product.Id,               

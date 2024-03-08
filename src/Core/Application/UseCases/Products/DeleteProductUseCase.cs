@@ -1,25 +1,24 @@
-﻿using Entities.Products.ProductAggregate;
+﻿using Application.Gateways;
 using Entities.SeedWork;
 
 namespace Application.UseCases.Products;
 
 public interface IDeleteProductUseCase : IUseCase<DeleteProductRequest, DeleteProductResponse>;
 
-public sealed class DeleteProductUseCase(IProductRepository productRepository) : IDeleteProductUseCase
+public sealed class DeleteProductUseCase(IProductGateway productGateway) : IDeleteProductUseCase
 {  
-
-    public async Task<DeleteProductResponse> Execute(DeleteProductRequest request)
+    public Task<DeleteProductResponse> Execute(DeleteProductRequest request)
     {
         try
         {
-            var product = productRepository.GetById(request.Id);
+            var product = productGateway.GetById(request.Id);
 
             if (product is null)
                 throw new ApplicationException("Product not found");
 
-            productRepository.Delete(product);
+            productGateway.Delete(product);
 
-            return new DeleteProductResponse(product.Id);
+            return Task.FromResult(new DeleteProductResponse(product.Id));
         }
         catch (DomainException e)
         {

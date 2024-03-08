@@ -1,17 +1,18 @@
-﻿using Entities.Orders.OrderAggregate;
+﻿using Application.Gateways;
+using Entities.Orders.OrderAggregate;
 using Entities.SeedWork;
 
 namespace Application.UseCases.Orders;
 
 public interface IGetOngoingOrdersUseCase : IUseCase<IEnumerable<OrderResponse>>;
 
-public sealed class GetOngoingOrdersUseCase(IOrderRepository orderRepository) : IGetOngoingOrdersUseCase
+public sealed class GetOngoingOrdersUseCase(IOrderGateway orderGateway) : IGetOngoingOrdersUseCase
 {
     public async Task<IEnumerable<OrderResponse>> Execute()
     {
         try
         {
-            var orders = await orderRepository.GetOngoingOrders();
+            var orders = await orderGateway.GetOngoingOrders();
 
             return orders.Select(order => new OrderResponse(order));
         }

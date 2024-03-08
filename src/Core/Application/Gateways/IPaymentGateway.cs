@@ -1,6 +1,6 @@
 ﻿using Entities.Orders.OrderAggregate;
 
-namespace Application.ACL.Payment
+namespace Application.Gateways
 {
     public interface IPaymentGateway
     {

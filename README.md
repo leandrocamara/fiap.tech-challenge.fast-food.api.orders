@@ -90,7 +90,7 @@ Obs.: A *connection string* já está configurada corretamente no arquivo *launc
 
 Inicie a Aplicação (API):
 ```shell
-dotnet run --project .\src\API\API.csproj
+dotnet run --project .\src\Drivers\API\API.csproj
 ```
 
 Caso seja necessário derrubar o BD, basta executar:

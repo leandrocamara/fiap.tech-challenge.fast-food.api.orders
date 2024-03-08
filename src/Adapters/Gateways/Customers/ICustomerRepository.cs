@@ -1,6 +1,6 @@
-﻿using Entities.SeedWork;
+﻿using Entities.Customers.CustomerAggregate;
 
-namespace Entities.Customers.CustomerAggregate;
+namespace Adapters.Gateways.Customers;
 
 public interface ICustomerRepository : IRepository<Customer>
 {

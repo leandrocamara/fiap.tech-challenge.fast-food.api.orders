@@ -1,6 +1,6 @@
+using Adapters.Extensions;
 using API.Filters;
 using Application.Extensions;
-using Entities.SeedWork;
 using External.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +18,8 @@ builder.Services.AddControllers(options =>
     options.Filters.Add<TransactionalContextFilter>();
 });
 
-builder.Services.AddInfrastructureDependencies(configuration);
+builder.Services.AddExternalDependencies(configuration);
+builder.Services.AddAdaptersDependencies();
 builder.Services.AddApplicationDependencies();
 
 #endregion

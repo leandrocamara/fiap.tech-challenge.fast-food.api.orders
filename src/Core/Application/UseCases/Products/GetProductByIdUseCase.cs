@@ -1,17 +1,18 @@
-﻿using Entities.Products.ProductAggregate;
+﻿using Application.Gateways;
+using Entities.Products.ProductAggregate;
 using Entities.SeedWork;
 
 namespace Application.UseCases.Products;
 
 public interface IGetProductByIdUseCase : IUseCase<GetProductByIdRequest, GetProductByIdResponse>;
 
-public sealed class GetProductByIdUseCase(IProductRepository productRepository) : IGetProductByIdUseCase
+public sealed class GetProductByIdUseCase(IProductGateway productGateway) : IGetProductByIdUseCase
 {
     public Task<GetProductByIdResponse> Execute(GetProductByIdRequest request)
     {
         try
         {
-            var product = productRepository.GetById(request.Id);
+            var product = productGateway.GetById(request.Id);
 
             if (product == null)
                 throw new ApplicationException("Product not found");

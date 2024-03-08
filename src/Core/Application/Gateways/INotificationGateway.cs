@@ -2,7 +2,7 @@
 
 namespace Application.Gateways;
 
-public interface INotifyGateway
+public interface INotificationGateway
 {
     void NotifyOrderPaymentUpdate(Order order);
     void NotifyOrderStatusUpdate(Order order);

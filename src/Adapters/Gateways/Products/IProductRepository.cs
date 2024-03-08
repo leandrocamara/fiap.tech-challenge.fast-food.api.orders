@@ -1,6 +1,6 @@
-﻿using Entities.SeedWork;
+﻿using Entities.Products.ProductAggregate;
 
-namespace Entities.Products.ProductAggregate;
+namespace Adapters.Gateways.Products;
 
 public interface IProductRepository : IRepository<Product>
 {

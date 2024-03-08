@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Customers.Validators;
+﻿using Application.Gateways;
+using Application.UseCases.Customers.Validators;
 using Entities.Customers.CustomerAggregate;
 using Entities.SeedWork;
 
@@ -6,9 +7,9 @@ namespace Application.UseCases.Customers;
 
 public interface ICreateCustomerUseCase : IUseCase<CreateCustomerRequest, CreateCustomerResponse>;
 
-public sealed class CreateCustomerUseCase(ICustomerRepository customerRepository) : ICreateCustomerUseCase
+public sealed class CreateCustomerUseCase(ICustomerGateway customerGateway) : ICreateCustomerUseCase
 {
-    private readonly CustomerCreationValidator _validator = new(customerRepository);
+    private readonly CustomerCreationValidator _validator = new(customerGateway);
 
     public async Task<CreateCustomerResponse> Execute(CreateCustomerRequest request)
     {
@@ -17,7 +18,7 @@ public sealed class CreateCustomerUseCase(ICustomerRepository customerRepository
             var customer = new Customer(request.Cpf, request.Name, request.Email);
 
             await _validator.Validate(request);
-            customerRepository.Add(customer);
+            customerGateway.Save(customer);
 
             return new CreateCustomerResponse(
                 customer.Id,

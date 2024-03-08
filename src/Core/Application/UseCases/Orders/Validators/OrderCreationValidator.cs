@@ -1,9 +1,8 @@
-﻿using Entities.Customers.CustomerAggregate;
-using Entities.Products.ProductAggregate;
+﻿using Application.Gateways;
 
 namespace Application.UseCases.Orders.Validators;
 
-public sealed class OrderCreationValidator(ICustomerRepository customerRepository, IProductRepository productRepository)
+public sealed class OrderCreationValidator(ICustomerGateway customerGateway, IProductGateway productGateway)
 {
 
     public async Task Validate(CreateOrderRequest request)
@@ -18,7 +17,7 @@ public sealed class OrderCreationValidator(ICustomerRepository customerRepositor
     private async Task<bool> CustomerExistsOrNotInformed(Guid? customerId)
     {
         if (customerId != null)
-            return customerRepository.GetById(customerId.Value) != null;
+            return customerGateway.GetById(customerId.Value) != null;
 
         return true;
     }
@@ -27,7 +26,7 @@ public sealed class OrderCreationValidator(ICustomerRepository customerRepositor
     {
         var result = false;
         foreach (var item in orderItems)
-            result = productRepository.GetById(item.ProductId) != null;
+            result = productGateway.GetById(item.ProductId) != null;
 
         return result;
     }

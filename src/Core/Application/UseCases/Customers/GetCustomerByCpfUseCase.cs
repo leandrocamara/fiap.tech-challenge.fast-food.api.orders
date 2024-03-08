@@ -1,17 +1,17 @@
-﻿using Entities.Customers.CustomerAggregate;
+﻿using Application.Gateways;
 using Entities.SeedWork;
 
 namespace Application.UseCases.Customers;
 
 public interface IGetCustomerByCpfUseCase : IUseCase<GetCustomerByCpfRequest, GetCustomerByCpfResponse>;
 
-public sealed class GetCustomerByCpfUseCase(ICustomerRepository customerRepository) : IGetCustomerByCpfUseCase
+public sealed class GetCustomerByCpfUseCase(ICustomerGateway customerGateway) : IGetCustomerByCpfUseCase
 {
     public async Task<GetCustomerByCpfResponse> Execute(GetCustomerByCpfRequest request)
     {
         try
         {
-            var customer = await customerRepository.GetByCpf(request.Cpf);
+            var customer = await customerGateway.GetByCpf(request.Cpf);
 
             if (customer is null)
                 throw new ApplicationException("Customer not found");

@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Products.Validators;
+﻿using Application.Gateways;
+using Application.UseCases.Products.Validators;
 using Entities.Products.ProductAggregate;
 using Entities.SeedWork;
 
@@ -6,16 +7,9 @@ namespace Application.UseCases.Products;
 
 public interface IPutProductUseCase : IUseCase<PutProductRequest, PutProductResponse>;
 
-public sealed class PutProductUseCase : IPutProductUseCase
+public sealed class PutProductUseCase(IProductGateway productGateway) : IPutProductUseCase
 {
-    private readonly IProductRepository _productRepository;
-    private readonly ProductPutValidator _validator;
-
-    public PutProductUseCase(IProductRepository productRepository)
-    {
-        _productRepository = productRepository;
-        _validator = new ProductPutValidator(_productRepository);
-    }
+    private readonly ProductPutValidator _validator = new(productGateway);
 
     public async Task<PutProductResponse> Execute(PutProductRequest request)
     {
@@ -24,7 +18,7 @@ public sealed class PutProductUseCase : IPutProductUseCase
             var product = new Product(request.Id, request.Name, request.Category, request.Price, request.Description, Image.ConvertToImages(request.images));
             
             await _validator.Validate(request);
-            _productRepository.Update(product);
+            productGateway.Update(product);
 
             return new PutProductResponse(
                 product.Id,               
