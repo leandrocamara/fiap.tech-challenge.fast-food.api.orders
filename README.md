@@ -19,7 +19,8 @@ O Tech Challenge Grupo 19 é composto por:
 * [ Postgresql ](https://www.postgresql.org/)
 
 ## Arquitetura
-A arquitetura da aplicação é a hexagonal, seguindo padrões de Domain Driven Design, seguindo a estrutura de aplicações abaixo detalhadas:
+A arquitetura da aplicação é a Clean Architecture. Para a camada Entities, foi adotado o Domain Driven Design.
+Segue a estrutura da aplicação:
 
     .
     ├── Drivers                     # Frameworks & Drivers
