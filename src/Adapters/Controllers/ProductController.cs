@@ -7,9 +7,9 @@ public interface IProductController
 {
     Task<Result> CreateProduct(CreateProductRequest request);
     Task<Result> UpdateProduct(PutProductRequest request);
-    Task<Result> DeleteProduct(DeleteProductRequest request);
-    Task<Result> GetProductsByCategory(GetProductsByCategoryRequest request);
-    Task<Result> GetProductById(GetProductByIdRequest request);
+    Task<Result> DeleteProduct(Guid id);
+    Task<Result> GetProductsByCategory(int category);
+    Task<Result> GetProductById(Guid id);
 }
 
 public class ProductController(
@@ -45,11 +45,11 @@ public class ProductController(
         }
     }
 
-    public async Task<Result> DeleteProduct(DeleteProductRequest request)
+    public async Task<Result> DeleteProduct(Guid id)
     {
         try
         {
-            await Execute(() => deleteProductUseCase.Execute(request));
+            await Execute(() => deleteProductUseCase.Execute(id));
             return Result.Accepted();
         }
         catch (ControllerException e)
@@ -58,11 +58,11 @@ public class ProductController(
         }
     }
 
-    public async Task<Result> GetProductsByCategory(GetProductsByCategoryRequest request)
+    public async Task<Result> GetProductsByCategory(int category)
     {
         try
         {
-            var response = await Execute(() => getProductsByCategoryUseCase.Execute(request));
+            var response = await Execute(() => getProductsByCategoryUseCase.Execute(category));
             return Result.Success(response);
         }
         catch (ControllerException e)
@@ -71,11 +71,11 @@ public class ProductController(
         }
     }
 
-    public async Task<Result> GetProductById(GetProductByIdRequest request)
+    public async Task<Result> GetProductById(Guid id)
     {
         try
         {
-            var response = await Execute(() => getProductByIdUseCase.Execute(request));
+            var response = await Execute(() => getProductByIdUseCase.Execute(id));
 
             return response is null
                 ? Result.NotFound()

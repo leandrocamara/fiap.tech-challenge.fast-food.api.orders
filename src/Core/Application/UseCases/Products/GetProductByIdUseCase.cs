@@ -4,15 +4,15 @@ using Entities.SeedWork;
 
 namespace Application.UseCases.Products;
 
-public interface IGetProductByIdUseCase : IUseCase<GetProductByIdRequest, GetProductByIdResponse?>;
+public interface IGetProductByIdUseCase : IUseCase<Guid, GetProductByIdResponse?>;
 
 public sealed class GetProductByIdUseCase(IProductGateway productGateway) : IGetProductByIdUseCase
 {
-    public async Task<GetProductByIdResponse?> Execute(GetProductByIdRequest request)
+    public async Task<GetProductByIdResponse?> Execute(Guid id)
     {
         try
         {
-            var product = productGateway.GetById(request.Id);
+            var product = productGateway.GetById(id);
 
             if (product is null) return null;
 
@@ -31,5 +31,4 @@ public sealed class GetProductByIdUseCase(IProductGateway productGateway) : IGet
     }
 }
 
-public record GetProductByIdRequest(Guid Id);
 public record GetProductByIdResponse(Guid Id, string Name, string Category, decimal Price, string Description, List<Image> images);

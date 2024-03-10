@@ -23,9 +23,9 @@ public class CustomerRouter(ICustomerController controller) : BaseRouter
     [SwaggerResponse(StatusCodes.Status200OK, "Retorna o consumidor buscando-o pelo CPF informado.", typeof(GetCustomerByCpfResponse))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre consumidor cadastrado pelo CPF informado.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
-    public async Task<IActionResult> GetCustomerByCpf([FromQuery] GetCustomerByCpfRequest request)
+    public async Task<IActionResult> GetCustomerByCpf([FromQuery] string cpf)
     {
-        var result = await controller.GetCustomerByCpf(request);
+        var result = await controller.GetCustomerByCpf(cpf);
         return HttpResponse(result);
     }
 }

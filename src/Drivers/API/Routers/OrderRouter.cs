@@ -19,16 +19,16 @@ public class OrderRouter(IOrderController controller) : BaseRouter
         return HttpResponse(result);
     }
 
-    [HttpGet]
+    [HttpGet("ongoing")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retorna a lista de pedidos em andamento.", typeof(OrderResponse))]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
-    public async Task<IActionResult> GetOrders()
+    public async Task<IActionResult> GetOngoingOrders()
     {
         var result = await controller.GetOngoingOrders();
         return HttpResponse(result);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retorna o pedido buscando pelo id informado.", typeof(GetOrderByIdResponse))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre o pedido informado.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
@@ -38,7 +38,7 @@ public class OrderRouter(IOrderController controller) : BaseRouter
         return HttpResponse(result);
     }
 
-    [HttpPost("{id}/status")]
+    [HttpPost("{id:guid}/status")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retorna o pedido com seu novo status.", typeof(UpdateOrderStatusResponse))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Caso não encontre o pedido informado.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]

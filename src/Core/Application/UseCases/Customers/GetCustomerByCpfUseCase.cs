@@ -3,15 +3,15 @@ using Entities.SeedWork;
 
 namespace Application.UseCases.Customers;
 
-public interface IGetCustomerByCpfUseCase : IUseCase<GetCustomerByCpfRequest, GetCustomerByCpfResponse?>;
+public interface IGetCustomerByCpfUseCase : IUseCase<string, GetCustomerByCpfResponse?>;
 
 public sealed class GetCustomerByCpfUseCase(ICustomerGateway customerGateway) : IGetCustomerByCpfUseCase
 {
-    public async Task<GetCustomerByCpfResponse?> Execute(GetCustomerByCpfRequest request)
+    public async Task<GetCustomerByCpfResponse?> Execute(string cpf)
     {
         try
         {
-            var customer = await customerGateway.GetByCpf(request.Cpf);
+            var customer = await customerGateway.GetByCpf(cpf);
 
             if (customer is null) return null;
 
@@ -27,7 +27,5 @@ public sealed class GetCustomerByCpfUseCase(ICustomerGateway customerGateway) : 
         }
     }
 }
-
-public record GetCustomerByCpfRequest(string Cpf);
 
 public record GetCustomerByCpfResponse(Guid Id, string Cpf, string Name, string Email);

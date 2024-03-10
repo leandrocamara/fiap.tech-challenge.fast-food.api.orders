@@ -4,15 +4,15 @@ using Entities.SeedWork;
 
 namespace Application.UseCases.Products;
 
-public interface IGetProductsByCategoryUseCase : IUseCase<GetProductsByCategoryRequest, IEnumerable<GetProductsByCategoryResponse>>;
+public interface IGetProductsByCategoryUseCase : IUseCase<int, IEnumerable<GetProductsByCategoryResponse>>;
 
 public sealed class GetProductsByCategoryUseCase(IProductGateway productGateway) : IGetProductsByCategoryUseCase
 {
-    public async Task<IEnumerable<GetProductsByCategoryResponse>> Execute(GetProductsByCategoryRequest request)
+    public async Task<IEnumerable<GetProductsByCategoryResponse>> Execute(int category)
     {
         try
         {
-            var products = await productGateway.GetByCategory(request.Category);
+            var products = await productGateway.GetByCategory(category);
 
             if (!products.Any())
                 throw new ApplicationException("Products not found");
@@ -32,5 +32,4 @@ public sealed class GetProductsByCategoryUseCase(IProductGateway productGateway)
     }
 }
 
-public record GetProductsByCategoryRequest(int Category);
 public record GetProductsByCategoryResponse(Guid Id, string Name, string Category, decimal Price, string Description, List<Image> images);

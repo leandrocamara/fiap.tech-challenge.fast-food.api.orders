@@ -6,7 +6,7 @@ namespace Adapters.Controllers;
 public interface ICustomerController
 {
     Task<Result> CreateCustomer(CreateCustomerRequest request);
-    Task<Result> GetCustomerByCpf(GetCustomerByCpfRequest request);
+    Task<Result> GetCustomerByCpf(string cpf);
 }
 
 public class CustomerController(
@@ -26,11 +26,11 @@ public class CustomerController(
         }
     }
 
-    public async Task<Result> GetCustomerByCpf(GetCustomerByCpfRequest request)
+    public async Task<Result> GetCustomerByCpf(string cpf)
     {
         try
         {
-            var response = await Execute(() => getCustomerByCpfUseCase.Execute(request));
+            var response = await Execute(() => getCustomerByCpfUseCase.Execute(cpf));
 
             return response is null
                 ? Result.NotFound()

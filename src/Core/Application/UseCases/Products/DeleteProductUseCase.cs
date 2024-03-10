@@ -3,15 +3,15 @@ using Entities.SeedWork;
 
 namespace Application.UseCases.Products;
 
-public interface IDeleteProductUseCase : IUseCase<DeleteProductRequest, DeleteProductResponse>;
+public interface IDeleteProductUseCase : IUseCase<Guid, DeleteProductResponse>;
 
 public sealed class DeleteProductUseCase(IProductGateway productGateway) : IDeleteProductUseCase
 {  
-    public Task<DeleteProductResponse> Execute(DeleteProductRequest request)
+    public Task<DeleteProductResponse> Execute(Guid id)
     {
         try
         {
-            var product = productGateway.GetById(request.Id);
+            var product = productGateway.GetById(id);
 
             if (product is null)
                 throw new ApplicationException("Product not found");
@@ -26,7 +26,5 @@ public sealed class DeleteProductUseCase(IProductGateway productGateway) : IDele
         }
     }
 }
-
-public record DeleteProductRequest(Guid Id);
 
 public record DeleteProductResponse(Guid Id);
