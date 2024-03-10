@@ -4,20 +4,19 @@ using Entities.SeedWork;
 
 namespace Application.UseCases.Orders
 {
-    public interface IGetOrderByIdUseCase : IUseCase<Guid, GetOrderByIdResponse>;
+    public interface IGetOrderByIdUseCase : IUseCase<Guid, GetOrderByIdResponse?>;
 
     public sealed class GetOrderByIdUseCase(IOrderGateway orderGateway) : IGetOrderByIdUseCase
     {
-        public Task<GetOrderByIdResponse> Execute(Guid id)
+        public async Task<GetOrderByIdResponse?> Execute(Guid id)
         {
             try
             {
                 var order = orderGateway.GetById(id);
 
-                if (order == null)
-                    throw new ApplicationException("Order not found");
+                if (order is null) return null;
 
-                return Task.FromResult(new GetOrderByIdResponse(order));
+                return new GetOrderByIdResponse(order);
             }
             catch (DomainException e)
             {

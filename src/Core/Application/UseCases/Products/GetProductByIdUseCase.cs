@@ -4,26 +4,25 @@ using Entities.SeedWork;
 
 namespace Application.UseCases.Products;
 
-public interface IGetProductByIdUseCase : IUseCase<GetProductByIdRequest, GetProductByIdResponse>;
+public interface IGetProductByIdUseCase : IUseCase<GetProductByIdRequest, GetProductByIdResponse?>;
 
 public sealed class GetProductByIdUseCase(IProductGateway productGateway) : IGetProductByIdUseCase
 {
-    public Task<GetProductByIdResponse> Execute(GetProductByIdRequest request)
+    public async Task<GetProductByIdResponse?> Execute(GetProductByIdRequest request)
     {
         try
         {
             var product = productGateway.GetById(request.Id);
 
-            if (product == null)
-                throw new ApplicationException("Product not found");
+            if (product is null) return null;
 
-            return Task.FromResult(new GetProductByIdResponse(
+            return new GetProductByIdResponse(
                 product.Id,
                 product.Name,
                 product.Category.ToString(),
                 product.Price,
                 product.Description,
-                product.Images));
+                product.Images);
         }
         catch (DomainException e)
         {

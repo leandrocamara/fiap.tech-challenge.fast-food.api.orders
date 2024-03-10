@@ -3,18 +3,17 @@ using Entities.SeedWork;
 
 namespace Application.UseCases.Customers;
 
-public interface IGetCustomerByCpfUseCase : IUseCase<GetCustomerByCpfRequest, GetCustomerByCpfResponse>;
+public interface IGetCustomerByCpfUseCase : IUseCase<GetCustomerByCpfRequest, GetCustomerByCpfResponse?>;
 
 public sealed class GetCustomerByCpfUseCase(ICustomerGateway customerGateway) : IGetCustomerByCpfUseCase
 {
-    public async Task<GetCustomerByCpfResponse> Execute(GetCustomerByCpfRequest request)
+    public async Task<GetCustomerByCpfResponse?> Execute(GetCustomerByCpfRequest request)
     {
         try
         {
             var customer = await customerGateway.GetByCpf(request.Cpf);
 
-            if (customer is null)
-                throw new ApplicationException("Customer not found");
+            if (customer is null) return null;
 
             return new GetCustomerByCpfResponse(
                 customer.Id,
