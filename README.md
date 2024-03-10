@@ -24,6 +24,7 @@ A arquitetura da aplicação é a hexagonal, seguindo padrões de Domain Driven 
     .
     ├── Drivers                     # Frameworks & Drivers
         ├── API                     # Web API (.NET 8)
+            ├── HealthChecks
             └── Routers
         └── External                # External Interfaces & DB
             ├── Clients
@@ -37,6 +38,9 @@ A arquitetura da aplicação é a hexagonal, seguindo padrões de Domain Driven 
         ├── Application
             └── UseCases
         └── Entities (Domain)
+            ├── BoundedContext
+                └── Model           # Aggregates - entities and value objects
+            └── SeedWork            # Reusable classes/interfaces for the domain (by Martin Fowler)
 
 ## Execução
 O projeto pode ser executado utilizando o Docker.
