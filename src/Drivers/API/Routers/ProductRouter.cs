@@ -43,9 +43,9 @@ public class ProductRouter(IProductController controller) : BaseRouter
     [SwaggerResponse(StatusCodes.Status200OK, "Retorna a lista de produtos da categoria informada no parâmetro.", typeof(GetProductsByCategoryResponse))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Caso não encontre nenhum produto na categoria informada.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
-    public async Task<IActionResult> GetProductsByCategory([FromQuery] int category)
+    public async Task<IActionResult> GetProductsByCategory([FromQuery] int categoryId)
     {
-        var result = await controller.GetProductsByCategory(category);
+        var result = await controller.GetProductsByCategory(categoryId);
         return HttpResponse(result);
     }
 

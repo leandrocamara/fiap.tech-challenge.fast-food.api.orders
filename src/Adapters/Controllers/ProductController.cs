@@ -58,11 +58,11 @@ public class ProductController(
         }
     }
 
-    public async Task<Result> GetProductsByCategory(int category)
+    public async Task<Result> GetProductsByCategory(int categoryId)
     {
         try
         {
-            var response = await Execute(() => getProductsByCategoryUseCase.Execute(category));
+            var response = await Execute(() => getProductsByCategoryUseCase.Execute(categoryId));
             return Result.Success(response);
         }
         catch (ControllerException e)

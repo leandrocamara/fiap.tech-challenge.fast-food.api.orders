@@ -8,11 +8,11 @@ public interface IGetProductsByCategoryUseCase : IUseCase<int, IEnumerable<GetPr
 
 public sealed class GetProductsByCategoryUseCase(IProductGateway productGateway) : IGetProductsByCategoryUseCase
 {
-    public async Task<IEnumerable<GetProductsByCategoryResponse>> Execute(int category)
+    public async Task<IEnumerable<GetProductsByCategoryResponse>> Execute(int categoryId)
     {
         try
         {
-            var products = await productGateway.GetByCategory(category);
+            var products = await productGateway.GetByCategory(categoryId);
 
             if (!products.Any())
                 throw new ApplicationException("Products not found");
