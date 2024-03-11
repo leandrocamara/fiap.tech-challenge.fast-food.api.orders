@@ -18,31 +18,30 @@ O Tech Challenge Grupo 19 é composto por:
 * [ FluentMigrator ](https://fluentmigrator.github.io/)
 * [ Postgresql ](https://www.postgresql.org/)
 
-
 ## Arquitetura
-A arquitetura da aplicação é a hexagonal, seguindo padrões de Domain Driven Design, seguindo a estrutura de aplicações abaixo detalhadas:
+A arquitetura da aplicação é a Clean Architecture. Para a camada Entities, foi adotado o Domain Driven Design.
+Segue a estrutura da aplicação:
 
-    .FastFood (Solution)
-    ├── API.csproj
-    │   └── Controllers             # controladores
-    ├── Application.csproj
-    │   ├── ACL                     # interfaces para as camadas anticorrupção
-    │   ├── Gateways                # interfaces de quaisquer recursos externos, utilizados pelo UseCases - by Martin Fowler
-    │   └── UseCases                # drivers ports/adapters (Clean Architecture)
-    ├── Domain.csproj
-    │   ├── BoundedContext
-    │       ├── Model               # agregados - entidades e objetos de valor, e repositórios (interfaces)
-    │       └── Services            # serviços de domínio
-    │   └── SeedWork                # classes/interfaces reutilizáveis para o domínio - by Martin Fowler
-    ├── Infrastructure.csproj
-    │   ├── ACL                     # implementações dos Application.ACLs
-    │   ├── Gateways                # implementações dos Application.Gateways
-    │   └── Persistence
-    │       ├── Config              # configurações do Entity Framework
-    │       ├── Migrations          # migrações (Fluent Migrator)
-    │       └── Repositories        # repositórios das "entidades raiz" dos agregados
-    └──
-
+    .
+    ├── Drivers                     # Frameworks & Drivers
+        ├── API                     # Web API (.NET 8)
+            ├── HealthChecks
+            └── Routers
+        └── External                # External Interfaces & DB
+            ├── Clients
+            └── Persistence
+                ├── Migrations
+                └── Repositories
+    ├── Adapters                    # Interface Adapters
+        ├── Controllers
+        └── Gateways
+    └── Core                        # Business Rules
+        ├── Application
+            └── UseCases
+        └── Entities (Domain)
+            ├── BoundedContext
+                └── Model           # Aggregates - entities and value objects
+            └── SeedWork            # Reusable classes/interfaces for the domain (by Martin Fowler)
 
 ## Execução
 O projeto pode ser executado utilizando o Docker.
@@ -90,18 +89,18 @@ docker container kill pg-docker
 ```
 
 
-## Como testar 
+# Como testar 
 
-### Schema de Banco de dados
+## Schema de Banco de dados
 A aplicação conta com uma biblioteca de migrations configurada portanto, ao iniciar a aplicação, o banco de dados será atualizado com as tabelas e dados necessários.
 
-### Autenticação
+## Autenticação
 Na primeira versão da aplicação não há autenticação, portanto basta usar a própria UI do Swagger para fazer as chamadas aos endpoints.
 
-### Endpoints
+## Endpoints
 O detalhe de cada request, como seus parâmetros e tipos estão detalhadas nas interfaces de UI do Swagger e do ReDoc. Nas próximas sessões estão resumidas as operações existentes.
 
-### Produtos
+## Produtos
 O sistema já possui uma carga de produtos pré cadastrados para serem utilizados nos testes, você pode acessar a lista de produtos por categoria através do método:
 **[GET] api/products/GetProductsByCategory**.
 
@@ -111,14 +110,14 @@ Também é possível criar produtos ou editar, excluir e recuperar produtos pelo
 - **[PUT] api/products**: Atualizar um produto existente da base de dados.
 - **[DELETE] api/products**: Excluir um produto existente da base de dados.
 
-#### Códigos das Categorias de Produtos
-- **0**: Lanches
-- **1**: Acompanhamentos
-- **2**: Bebidas
-- **3**: Sobremesas
+### Códigos das Categorias de Produtos
+- `0`: Lanches
+- `1`: Acompanhamentos
+- `2`: Bebidas
+- `3`: Sobremesas
 
 
-### Clientes
+## Clientes
 O sistema dispõe de endpoints para cadastrar clientes para relacioná-los aos pedidos, embora não seja requerido para criação de um pedido.
 Não há carga prévia de dados para clientes.
 
@@ -127,28 +126,28 @@ Há dois endpoints para manipulação do cadastro de clientes:
 - **[GET] api/customers**: Retornar um cliente por seu CPF.
 
 
-### Pedidos
+## Pedidos
 Na versão inicial do sistema, é possível criar um pedido, retornar a lista de pedidos existentes e retornar os detalhes de um pedido por seu **id**.
 - **[POST] api/orders**: Criar um novo pedido com o status Pay com os itens e relacionado ao cliente (quando informado).
 - **[GET] api/orders**: Retorna a lista dos pedidos em andamento, ordenada dos mais antigos para os mais novos.
 - **[GET] api/orders/\{id\}**: Retorna o detalhe de um pedido informado pelo **\{id\}**.
 
-#### Status dos Pedidos
-- **0**: Pagamento Pendente 
-- **1**: Pagamento Recusado
-- **2**: Pedido Recebido na Cozinha
-- **3**: Cozinha Preparando Pedido
-- **4**: Pedido Pronto
-- **5**: Pedido Concluído
+### Status dos Pedidos
+- `0`: Pagamento Pendente 
+- `1`: Pagamento Recusado
+- `2`: Pedido Recebido na Cozinha
+- `3`: Cozinha Preparando Pedido
+- `4`: Pedido Pronto
+- `5`: Pedido Concluído
 
 
-### Webhook para atualização de pagamentos
+## Webhook para atualização de pagamentos
 O sistema, em sua versão 2, terá integração com o Mercado Pago (QrCode dinâmico).
 Na versão atual existe um endpoint que simula uma chamada do Mercado Pago para o sistema.
 Podendo a chamada ser de aceite ou recusa do pagamento.
 - **[POST] api/payment-update/mercado-pago-qrcode**: Endpoint para representar a chamada do mercado pago informando pagamento aceito ou recusado.
 
-### Fluxo de testes recomendado
+## Fluxo de testes recomendado
 Para testar a aplicação recomendamos primeiro:
 1. Incluir um produto (podendo também testar atualização e exclusão dos produtos).
 2. Incluir um novo cliente (guardando a informação do campo id retornado na inclusão).
