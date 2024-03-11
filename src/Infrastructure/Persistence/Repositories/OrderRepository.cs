@@ -5,11 +5,17 @@ namespace Infrastructure.Persistence.Repositories
 {
     public sealed class OrderRepository(FastFoodContext context) : BaseRepository<Order>(context), IOrderRepository
     {
-        public async Task<IEnumerable<Order>> GetOrders() =>
-            await context.Orders.Include(order => order.Customer).ToListAsync();
+        public async Task<IEnumerable<Order>> GetOngoingOrders()
+        {
+            var status = new[] { OrderStatus.Received(), OrderStatus.Preparing(), OrderStatus.Ready() };
 
-        public async Task<IEnumerable<Order>> GetOrdersTracking(List<OrderStatus> listStatus) =>
-            await context.Orders.Where(order => listStatus.Contains(order.Status)).ToListAsync();
+            return await context.Orders
+                .Include(order => order.Customer)
+                .Where(order => status.Contains(order.Status))
+                .OrderByDescending(order => order.Status)
+                .ThenBy(order => order.CreatedAt)
+                .ToListAsync();
+        }
 
         public override Order? GetById(Guid id)
         {

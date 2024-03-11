@@ -27,7 +27,7 @@ namespace Application.UseCases.Orders
 
     public record GetOrderByIdResponse(
         Guid Id,
-        int OrderNumber,
+        int Number,
         Guid? CustomerId,
         string? Customer,
         string Status,

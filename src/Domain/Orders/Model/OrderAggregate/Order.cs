@@ -1,7 +1,6 @@
 ﻿using Domain.Customers.Model.CustomerAggregate;
 using Domain.Orders.Model.OrderAggregate.Validators;
 using Domain.SeedWork;
-using static Domain.Orders.Model.OrderAggregate.OrderStatus;
 
 namespace Domain.Orders.Model.OrderAggregate
 {
@@ -27,7 +26,7 @@ namespace Domain.Orders.Model.OrderAggregate
             Customer = customer;
             CustomerId = customer?.Id;
             OrderNumber = orderNumber;
-            Status = PaymentPending();
+            Status = OrderStatus.PaymentPending();
             CreatedAt = DateTime.UtcNow;
 
             _orderItems = new List<OrderItem>();
@@ -41,28 +40,37 @@ namespace Domain.Orders.Model.OrderAggregate
                 throw new DomainException(error);
         }
 
-        private static readonly IValidator<Order> Validator = new OrderValidator();
-        public void AddOrderItem(OrderItem orderItem)
+        public void SetQrCode(string qrCode) => QrCodePayment = qrCode;
+
+        public void UpdatePaymentStatus(bool paymentSucceeded)
+        {
+            Status = paymentSucceeded ? OrderStatus.Received() : OrderStatus.PaymentRefused();
+            PaymentStatusDate = DateTime.UtcNow;
+        }
+
+        public bool IsEmpty() => OrderItems.Any();
+
+        public void UpdateStatus()
+        {
+            if (StatusSequence.TryGetValue(Status, out var nextStatus))
+                Status = nextStatus;
+        }
+
+        private void AddOrderItem(OrderItem orderItem)
         {
             orderItem.SetOrder(this);
             _orderItems.Add(orderItem);
             TotalPrice += orderItem.TotalPrice;
         }
 
-        public void SetQrCode(string qrCode)
+        private static readonly Dictionary<OrderStatus, OrderStatus> StatusSequence = new()
         {
-            QrCodePayment = qrCode;
-        }
+            { OrderStatus.Received(), OrderStatus.Preparing() },
+            { OrderStatus.Preparing(), OrderStatus.Ready() },
+            { OrderStatus.Ready(), OrderStatus.Completed() }
+        };
 
-        public void UpdatePaymentStatus(bool paymentSucceeded)
-        {
-            Status = paymentSucceeded ?
-                (short)EOrderStatus.Received :
-                (short)EOrderStatus.PaymentRefused;
-            PaymentStatusDate = DateTime.UtcNow;
-        }
-
-        public bool HasItems() => OrderItems.Any();
+        private static readonly IValidator<Order> Validator = new OrderValidator();
 
         // Required for EF
         private Order()

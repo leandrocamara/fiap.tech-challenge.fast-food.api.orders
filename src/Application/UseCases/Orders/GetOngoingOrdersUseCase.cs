@@ -3,18 +3,15 @@ using Domain.SeedWork;
 
 namespace Application.UseCases.Orders;
 
-public interface IGetOrdersUseCase : IUseCase<IEnumerable<OrderResponse>>;
+public interface IGetOngoingOrdersUseCase : IUseCase<IEnumerable<OrderResponse>>;
 
-public sealed class GetOrdersUseCase(IOrderRepository orderRepository) : IGetOrdersUseCase
+public sealed class GetOngoingOrdersUseCase(IOrderRepository orderRepository) : IGetOngoingOrdersUseCase
 {
     public async Task<IEnumerable<OrderResponse>> Execute()
     {
         try
         {
-            var orders = await orderRepository.GetOrders();
-
-            if (!orders.Any())
-                throw new ApplicationException("Orders not found");
+            var orders = await orderRepository.GetOngoingOrders();
 
             return orders.Select(order => new OrderResponse(order));
         }
@@ -38,8 +35,4 @@ public record OrderResponse(
         order.TotalPrice)
     {
     }
-
-    public record GetOrderRequest();
-
-    public record GetOrderResponse(Guid Id, int OrderNumber, string status);
 }

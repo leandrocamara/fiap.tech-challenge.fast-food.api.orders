@@ -18,7 +18,7 @@ namespace Domain.Orders.Model.OrderAggregate.Validators
         public bool IsSatisfiedBy(Order order, out string error)
         {
             error = "No product was chosen";
-            return order.HasItems();
+            return order.IsEmpty();
         }
     }
 }

@@ -1,12 +1,9 @@
 ﻿using Domain.SeedWork;
 
-namespace Domain.Orders.Model.OrderAggregate
-{
-    public interface IOrderRepository :IRepository<Order>
-    {
-        int GetNextOrderNumber();
-        Task<IEnumerable<Order>> GetOrders();
+namespace Domain.Orders.Model.OrderAggregate;
 
-        Task<IEnumerable<Order>> GetOrdersTracking(List<OrderStatus> listStatus);
-    }
+public interface IOrderRepository :IRepository<Order>
+{
+    int GetNextOrderNumber();
+    Task<IEnumerable<Order>> GetOngoingOrders();
 }

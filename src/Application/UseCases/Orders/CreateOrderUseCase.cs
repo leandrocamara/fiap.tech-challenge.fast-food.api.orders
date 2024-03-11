@@ -65,4 +65,4 @@ public sealed class CreateOrderUseCase(
 public record CreateOrderRequest(IEnumerable<OrderItemRequest> OrderItems, Guid? CustomerId = null);
 public record OrderItemRequest(Guid ProductId, short Quantity);
 
-public record CreateOrderResponse(Guid OrderId, int OrderNumber, string StatusOrder, string? Base64PngQrCode);
+public record CreateOrderResponse(Guid Id, int Number, string Status, string? Base64PngQrCode);
