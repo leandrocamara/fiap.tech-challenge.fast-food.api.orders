@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fast-food-database
+  labels:
+    app: fast-food-database
+spec:
+  containers:
+    - name: fast-food-database-container
+      image: postgres:latest
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      ports:
+        - containerPort: 5432
+      envFrom:
+        - secretRef:
+            name: fast-food-database-secret
