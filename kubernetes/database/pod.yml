@@ -5,6 +5,10 @@ metadata:
   labels:
     app: fast-food-database
 spec:
+  volumes:
+    - name: pgdata-storage
+      persistentVolumeClaim:
+        claimName: pgdata-pv-volume2
   containers:
     - name: fast-food-database-container
       image: postgres:latest
@@ -14,6 +18,9 @@ spec:
           cpu: "500m"
       ports:
         - containerPort: 5432
+      volumeMounts:
+        - mountPath: "/var/lib/postgresql/data"
+          name: pgdata-storage 
       envFrom:
         - secretRef:
             name: fast-food-database-secret

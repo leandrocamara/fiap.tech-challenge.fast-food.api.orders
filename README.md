@@ -161,3 +161,35 @@ Para testar a aplicação recomendamos primeiro:
 
 Todo o fluxo está presente na [Collection do Postman](./docs/postman/FIAP.FastFood.postman_collection.json).
 
+## Arquitetura Kubernetes
+Essa é a arquitetura desenhada para a nossa aplicação
+![Arquitetura](./docs/DiagramaArquitetura.png)
+
+
+## Como rodar usando Kubernetes
+O projeto possui arquivos YML de configurações para deploy em ambiente Kubernetes.
+Ele foi testado usando o Kubernetes incluso com o Docker Desktop.
+
+Os arquivos estão na pasta **/kubernetes** e devem ser executados na seguinte ordem (dentro do diretório **/kubernetes**):
+- Criar banco de dados postgresql
+  - Criar o persistente volume (PV) para armazenar os dados de maneira persistente
+    ```kubectl apply -f .\database\pv.yml```
+  - Criar o persistente volume claim (PVC) para armazenar os dados de maneira persistente
+    ```kubectl apply -f .\database\pvc.yml```
+  - Armazenar as secrets para serem usadas na criação do POD (usuário e senha do banco)
+    ```kubectl apply -f .\database\secret.yml```
+  - Criar o POD do banco de dados postgresql
+    ```kubectl apply -f .\database\pod.yml```
+  - Criar o SVC para permitir o acesso da aplicação ao banco de dados através da rede local através da porta **31001**.
+    ```kubectl apply -f .\database\service.yml```
+- O próximo passo é publicar a aplicação, para isso devem ser seguidas as etapas abaixo:
+  - Armazenar as secrets para serem usadas na criação dos PODs da aplicação
+    ```kubectl apply -f .\secret.yml```
+  - Armazenar as configurações para serem usadas na criação dos PODs da aplicação
+    ```kubectl apply -f .\configmap.yml``` 
+  - Executar o deploy da aplicação
+    ```kubectl apply -f .\deployment.yml``` 
+  - Criar o SVC para permitir o acesso a aplicação através da rede local através da porta **31000**.
+    ```kubectl apply -f .\service.yml```
+  - Por último, criar o auto escalonamento da aplicação.
+    ```kubectl apply -f .\hpa.yml```
