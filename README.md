@@ -193,3 +193,7 @@ Os arquivos estão na pasta **/kubernetes** e devem ser executados na seguinte o
     ```kubectl apply -f .\service.yml```
   - Por último, criar o auto escalonamento da aplicação.
     ```kubectl apply -f .\hpa.yml```
+
+## Vídeos de apresentação
+Alguns vídeos que explicam como implantar a aplicação, uso das APIS e escolhas de design estão em uma [playlist do youtube](https://youtube.com/playlist?list=PLuVYnmmdbgO1ams1lmM4tDwmZxym5vV7w&si=ve6Ck3-chgUc_JFZ):
+
