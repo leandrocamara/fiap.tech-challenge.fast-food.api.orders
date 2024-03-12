@@ -100,7 +100,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/products?category=2",
+					"raw": "{{url}}/api/products?categoryId=2",
 					"host": [
 						"{{url}}"
 					],
@@ -110,7 +110,7 @@
 					],
 					"query": [
 						{
-							"key": "category",
+							"key": "categoryId",
 							"value": "2"
 						}
 					]
