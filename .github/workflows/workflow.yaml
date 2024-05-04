@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  CI:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.x
-          cache: true
 
       - name: Restore
         run: dotnet restore --locked-mode
@@ -30,7 +29,7 @@ jobs:
       - name: Test
         run: dotnet test
 
-  deploy:
+  CD:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
