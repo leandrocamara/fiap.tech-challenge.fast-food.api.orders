@@ -16,7 +16,7 @@ COPY ["src/Drivers/External/External.csproj", "src/Drivers/External/"]
 RUN dotnet restore "./src/Drivers/API/API.csproj"
 COPY . .
 WORKDIR "/src/src/Drivers/API"
-RUN dotnet build "./API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./API.csproj" -c $BUILD_CONFIGURATION -o /app/build /clp:ErrorsOnly
 
 
 FROM build AS publish
