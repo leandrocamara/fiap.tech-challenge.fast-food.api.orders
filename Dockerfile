@@ -21,7 +21,7 @@ RUN dotnet build "./API.csproj" -c $BUILD_CONFIGURATION -o /app/build /clp:Error
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false /clp:ErrorsOnly
 
 FROM base AS final
 WORKDIR /app
