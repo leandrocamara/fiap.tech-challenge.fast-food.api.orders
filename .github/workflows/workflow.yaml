@@ -32,7 +32,7 @@ jobs:
   CD:
     needs: CI
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -48,9 +48,6 @@ jobs:
 
       - name: Push image to Docker Hub
         run: docker push ${{ vars.DOCKERHUB_USERNAME }}/fast-food-api:latest
-
-      - name: Install aws-cli
-        run: sudo apt-get install -y awscli
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
