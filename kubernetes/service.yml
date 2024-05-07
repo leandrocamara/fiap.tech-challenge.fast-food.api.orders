@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: fast-food-api-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: fast-food-api
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 80
       targetPort: 8080
-      nodePort: 31000
