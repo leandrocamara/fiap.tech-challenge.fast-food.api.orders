@@ -82,4 +82,6 @@ jobs:
         run: kubectl apply -f ./kubernetes/.
 
       - name: FastFood API URL
-        run: echo "http://$(kubectl get services -n default fast-food-api-service -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")"
+        run: |
+          hostname=$(kubectl get services -n default fast-food-api-service -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
+          echo "http://$hostname"
