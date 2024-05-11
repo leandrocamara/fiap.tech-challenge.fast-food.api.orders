@@ -83,5 +83,11 @@ jobs:
 
       - name: FastFood API URL
         run: |
+          # Obtenha o hostname
           hostname=$(kubectl get services -n default fast-food-api-service -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
-          echo "http://$hostname"
+
+          # Concatene "http://" com o hostname
+          url="http://$hostname"
+          
+          # Imprima a URL resultante
+          echo "URL resultante: $url"
