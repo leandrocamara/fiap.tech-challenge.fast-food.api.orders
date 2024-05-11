@@ -78,6 +78,5 @@ jobs:
           DB_PORT: ${{ secrets.DB_PORT }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
 
-
       - name: Deploy to AWS EKS
         run: kubectl apply -f ./kubernetes/.
