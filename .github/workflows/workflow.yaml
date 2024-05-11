@@ -32,7 +32,7 @@ jobs:
   CD:
     needs: CI
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -63,6 +63,13 @@ jobs:
       - name: Configure kubectl
         run: |
           aws eks update-kubeconfig --name ${{ vars.AWS_CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
+
+      - name: Replace Tokens
+        run: |
+          for token in $(printenv | cut -d= -f1); do
+            sed -i "s/#{${token}}#/${{ vars.${token} }}/g" kubernetes/configmap.yml
+            sed -i "s/#{${token}}#/${{ secrets.${token} }}/g" kubernetes/secret.yml
+          done
 
       - name: Deploy to AWS EKS
         run: kubectl apply -f ./kubernetes/.
