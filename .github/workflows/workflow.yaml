@@ -70,6 +70,14 @@ jobs:
           tokenPrefix: '#{'
           tokenSuffix: '}#'
           files: '["kubernetes/configmap.yml", "kubernetes/secret.yml"]'
+        env:
+          ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+          DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+
 
       - name: Deploy to AWS EKS
         run: kubectl apply -f ./kubernetes/.
