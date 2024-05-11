@@ -15,6 +15,10 @@ on:
         description: 'AWS Academy - AWS_SESSION_TOKEN'
         required: false
         type: string
+      dbEndpoint:
+        description: 'DB Endpoint (without Port)'
+        required: false
+        type: string
 
 jobs:
   CD:
@@ -50,6 +54,20 @@ jobs:
       - name: Configure kubectl
         run: |
           aws eks update-kubeconfig --name ${{ vars.AWS_CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
+
+      - name: Replace Tokens
+        uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '#{'
+          tokenSuffix: '}#'
+          files: '["kubernetes/configmap.yml", "kubernetes/secret.yml"]'
+        env:
+          ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+          DB_ENDPOINT: ${{ github.event.inputs.dbEndpoint || secrets.DB_ENDPOINT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
 
       - name: Deploy to AWS EKS
         run: kubectl apply -f ./kubernetes/.
