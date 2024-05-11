@@ -67,8 +67,8 @@ jobs:
       - name: Replace Tokens
         run: |
           for token in $(printenv | cut -d= -f1); do
-            sed -i "s/#{$token}#/${{ vars.$token }}/g" kubernetes/configmap.yml
-            sed -i "s/#{$token}#/${{ secrets.$token }}/g" kubernetes/secret.yml
+            sed -i "s/#{${token}}#/$(echo "${{ vars.${token} }}")/g" kubernetes/configmap.yaml
+            sed -i "s/#{${token}}#/$(echo "${{ secrets.${token} }}")/g" kubernetes/secret.yaml
           done
 
       - name: Deploy to AWS EKS
