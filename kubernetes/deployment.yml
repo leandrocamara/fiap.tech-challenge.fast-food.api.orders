@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: fast-food-api-container
-          # TODO: Specify Container Registry
-          image: eltonds88/fast-food-api:1.0
+          image: leandrocamara/fast-food-api:latest
           resources:
             limits:
               memory: "128Mi"
