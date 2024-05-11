@@ -71,3 +71,6 @@ jobs:
 
       - name: Deploy to AWS EKS
         run: kubectl apply -f ./kubernetes/.
+
+      - name: FastFood API URL
+        run: echo "http://$(kubectl get services -n default fast-food-api-service -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")"
