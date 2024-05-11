@@ -65,11 +65,11 @@ jobs:
           aws eks update-kubeconfig --name ${{ vars.AWS_CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
 
       - name: Replace Tokens
-        run: |
-          for token in $(printenv | cut -d= -f1); do
-            sed -i "s/#{${token}}#/$(echo "${{ vars.${token} }}")/g" kubernetes/configmap.yaml
-            sed -i "s/#{${token}}#/$(echo "${{ secrets.${token} }}")/g" kubernetes/secret.yaml
-          done
+        uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '#{'
+          tokenSuffix: '}#'
+          files: '["kubernetes/configmap.yml", "kubernetes/secret.yml"]'
 
       - name: Deploy to AWS EKS
         run: kubectl apply -f ./kubernetes/.
