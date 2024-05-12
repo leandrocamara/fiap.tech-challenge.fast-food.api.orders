@@ -46,6 +46,24 @@ Segue a estrutura da aplicação:
 ## Execução
 O projeto pode ser executado utilizando o Docker.
 
+### AWS (Academy)
+
+Após a execução dos [_Workflows_](https://github.com/leandrocamara/fiap.tech-challenge.fast-food.api/actions) (GitHub Actions), a aplicação é implantada no **_Amazon EKS_** (_Elastic Kubernetes Service_) e se conecta ao **_Amazon RDS_** (_Relational Database Service_).
+
+Pré-requisitos:
+1. Executar o [_Workflow_](https://github.com/leandrocamara/fiap.tech-challenge.fast-food.infra.k8s) do repositório do **_EKS_**;
+2. Executar o [_Workflow_](https://github.com/leandrocamara/fiap.tech-challenge.fast-food.infra.database) do repositório do **_RDS_**.
+
+Há duas maneiras de executar e implantar a aplicação na _AWS_:
+
+1. Realizando um `push` na `main`, por meio de um `Merge Pull Request`;
+
+2. Executando o [_Manual Deployment_](https://github.com/leandrocamara/fiap.tech-challenge.fast-food.api/actions/workflows/manual-deployment.yaml) (_Workflow_)
+
+    ![Manual Deployment](./docs/manual-deployment.png)
+
+    2.1. Por padrão, o _Workflow_ utilizará as `Secrets` configuradas no projeto. Caso esteja utilizando o `AWS Academy`, recomenda-se informar as credencias da conta. **Obs.:** Cada sessão do _AWS Academy_ dura **4 horas**.
+
 ### Docker Compose
 
 Para iniciar o banco de dados (_Postgres_) e a aplicação, utilize o comando abaixo abaixo no seu prompt shell (windows ou linux):
