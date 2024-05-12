@@ -64,6 +64,12 @@ Há duas maneiras de executar e implantar a aplicação na _AWS_:
 
     2.1. Por padrão, o _Workflow_ utilizará as `Secrets` configuradas no projeto. Caso esteja utilizando o `AWS Academy`, recomenda-se informar as credencias da conta. **Obs.:** Cada sessão do _AWS Academy_ dura **4 horas**.
 
+Para acessar o _Swagger_ da aplicação, é possível obter a URL no **Console da AWS**. Acesse: _`EKS > Clusters > EKS-fast-food > Service > Load balancer URLs`_
+
+**Obs.:** Utilize o `http://<load-balancer-url>/swagger` (**ao invés de** `https`).
+
+![Load Balancer URL / Swagger](./docs/load-balancer-url-swagger.png)
+
 ### Docker Compose
 
 Para iniciar o banco de dados (_Postgres_) e a aplicação, utilize o comando abaixo abaixo no seu prompt shell (windows ou linux):
