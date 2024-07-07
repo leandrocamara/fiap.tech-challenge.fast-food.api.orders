@@ -1,29 +1,23 @@
 ﻿using Application.Gateways;
-using Entities.Orders.OrderAggregate;
 
 namespace Application.UseCases.Orders;
 
-public interface IUpdateOrderStatusUseCase : IUseCase<Guid, UpdateOrderStatusResponse>;
+public interface IUpdateOrderStatusUseCase : IUseCase<UpdateOrderStatusRequest, bool>;
 
 public class UpdateOrderStatusUseCase(IOrderGateway orderGateway) : IUpdateOrderStatusUseCase
 {
-    public Task<UpdateOrderStatusResponse> Execute(Guid orderId)
+    public Task<bool> Execute(UpdateOrderStatusRequest request)
     {
-        var order = orderGateway.GetById(orderId);
+        var order = orderGateway.GetById(request.OrderId);
 
         if (order is null)
             throw new ApplicationException("Order not found.");
-        
-        order.UpdateStatus();
+
+        order.UpdateStatus(request.Status);
         orderGateway.Update(order);
 
-        return Task.FromResult(new UpdateOrderStatusResponse(order));
+        return Task.FromResult(true);
     }
 }
 
-public record UpdateOrderStatusResponse(Guid Id, string Status)
-{
-    public UpdateOrderStatusResponse(Order order) : this(order.Id, order.Status)
-    {
-    }
-}
+public record UpdateOrderStatusRequest(Guid OrderId, short Status);

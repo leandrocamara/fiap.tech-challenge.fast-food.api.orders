@@ -8,7 +8,7 @@ public interface IOrderController
     Task<Result> CreateOrder(CreateOrderRequest request);
     Task<Result> GetOngoingOrders();
     Task<Result> GetOrderById(Guid id);
-    Task<Result> UpdateOrderStatus(Guid id);
+    Task<Result> UpdateOrderStatus(Guid id, short status);
 }
 
 public class OrderController(
@@ -59,11 +59,12 @@ public class OrderController(
         }
     }
 
-    public async Task<Result> UpdateOrderStatus(Guid id)
+    public async Task<Result> UpdateOrderStatus(Guid id, short status)
     {
         try
         {
-            var response = await Execute(() => updateOrderStatusUseCase.Execute(id));
+            var request = new UpdateOrderStatusRequest(id, status);
+            var response = await Execute(() => updateOrderStatusUseCase.Execute(request));
             return Result.Success(response);
         }
         catch (ControllerException e)

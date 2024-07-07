@@ -3,7 +3,6 @@ using Application.UseCases.Orders.Validators;
 using Entities.Customers.CustomerAggregate;
 using Entities.Orders.OrderAggregate;
 using Entities.SeedWork;
-using QRCoder;
 
 namespace Application.UseCases.Orders;
 
@@ -33,11 +32,10 @@ public sealed class CreateOrderUseCase(
 
             var customer = GetCustomer(request.CustomerId);
             var order = new Order(customer, orderItems, orderGateway.GetNextOrderNumber());
-
-            order.SetQrCode(paymentGateway.GetQrCodeForPay(order));
+            var qrCode = await paymentGateway.GenerateQrCode(order);
             orderGateway.Save(order);
 
-            return new CreateOrderResponse(order.Id, order.OrderNumber, order.Status.ToString(), GetBase64QrCodeImage(order.QrCodePayment));
+            return new CreateOrderResponse(order.Id, order.OrderNumber, order.Status.ToString(), qrCode);
         }
         catch (DomainException e)
         {
@@ -51,14 +49,6 @@ public sealed class CreateOrderUseCase(
             return null;
 
         return customerGateway.GetById(customerId.Value);
-    }
-
-    private static string GetBase64QrCodeImage(string qrCodText)
-    {
-        QRCodeGenerator qrGenerator = new();
-        QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrCodText, QRCodeGenerator.ECCLevel.Q);
-        PngByteQRCode qrCode = new(qrCodeData);
-        return Convert.ToBase64String(qrCode.GetGraphic(20));
     }
 }
 

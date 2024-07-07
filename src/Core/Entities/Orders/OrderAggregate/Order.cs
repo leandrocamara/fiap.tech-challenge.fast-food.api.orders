@@ -11,10 +11,7 @@ namespace Entities.Orders.OrderAggregate
         public OrderStatus Status { get; private set; }
         public decimal TotalPrice { get; private set; }
         public DateTime CreatedAt { get; private set; }
-
         public int OrderNumber { get; private set; }
-        public string? QrCodePayment { get; private set; }
-        public DateTime? PaymentStatusDate { get; private set; }
 
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
         private readonly IList<OrderItem> _orderItems;
@@ -32,26 +29,17 @@ namespace Entities.Orders.OrderAggregate
             _orderItems = new List<OrderItem>();
 
             foreach (var orderItem in orderItems)
-            {
                 AddOrderItem(orderItem);
-            }
 
             if (Validator.IsValid(this, out var error) is false)
                 throw new DomainException(error);
         }
 
-        public void SetQrCode(string qrCode) => QrCodePayment = qrCode;
-
-        public void UpdatePaymentStatus(bool paymentSucceeded)
-        {
-            Status = paymentSucceeded ? OrderStatus.Received() : OrderStatus.PaymentRefused();
-            PaymentStatusDate = DateTime.UtcNow;
-        }
-
         public bool IsEmpty() => OrderItems.Any();
 
-        public void UpdateStatus()
+        public void UpdateStatus(short status)
         {
+            // TODO: Improve validation
             if (StatusSequence.TryGetValue(Status, out var nextStatus))
                 Status = nextStatus;
         }

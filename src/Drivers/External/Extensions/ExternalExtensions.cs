@@ -3,6 +3,7 @@ using Adapters.Gateways.Notifications;
 using Adapters.Gateways.Orders;
 using Adapters.Gateways.Payments;
 using Adapters.Gateways.Products;
+using Adapters.Gateways.Tickets;
 using External.Clients;
 using External.Persistence;
 using External.Persistence.Migrations;
@@ -30,7 +31,8 @@ public static class ExternalExtensions
         services.AddScoped<IOrderRepository, OrderRepository>();
 
         services.AddScoped<INotificationClient, NotificationClient>();
-        services.AddScoped<IPaymentClient, MercadoPagoClient>();
+        services.AddScoped<IPaymentClient, PaymentClient>();
+        services.AddScoped<ITicketClient, TicketClient>();
 
         return services;
     }
