@@ -5,6 +5,8 @@ using Adapters.Gateways.Payments;
 using Adapters.Gateways.Products;
 using Adapters.Gateways.Tickets;
 using External.Clients;
+using External.Clients.Payments;
+using External.Clients.Tickets;
 using External.Persistence;
 using External.Persistence.Migrations;
 using External.Persistence.Repositories;
@@ -33,6 +35,8 @@ public static class ExternalExtensions
         services.AddScoped<INotificationClient, NotificationClient>();
         services.AddScoped<IPaymentClient, PaymentClient>();
         services.AddScoped<ITicketClient, TicketClient>();
+
+        services.Configure<PaymentsClientSettings>(configuration.GetSection(nameof(PaymentsClientSettings)));
 
         return services;
     }

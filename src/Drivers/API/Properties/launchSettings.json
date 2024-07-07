@@ -17,7 +17,8 @@
       "applicationUrl": "http://localhost:8080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings__Default": "Host=localhost;Database=postgres;Username=postgres;Password=docker;"
+        "ConnectionStrings__Default": "Host=localhost;Database=postgres;Username=postgres;Password=docker;",
+        "PaymentsClientSettings__BaseUri": ""
       }
     },
     "https": {

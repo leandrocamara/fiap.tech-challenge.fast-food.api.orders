@@ -12,7 +12,10 @@ public static class Extensions
             .AddHealthChecks()
             .AddCheck<DbHealthCheck>(
                 name: "db_health_check",
-                tags: new List<string> { "database", "healthcheck" });
+                tags: new List<string> { "database", "healthcheck" })
+            .AddCheck<PaymentsClientHealthCheck>(
+                name: "payments_api_health_check",
+                tags: new List<string> { "payments", "healthcheck" });
 
         return services;
     }

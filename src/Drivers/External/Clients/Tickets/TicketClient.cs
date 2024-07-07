@@ -1,6 +1,6 @@
 ﻿using Adapters.Gateways.Tickets;
 
-namespace External.Clients;
+namespace External.Clients.Tickets;
 
 public class TicketClient : ITicketClient
 {
