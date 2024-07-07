@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fast-food-database
+  name: fast-food-orders-database
   labels:
-    app: fast-food-database
+    app: fast-food-orders-database
 spec:
   volumes:
     - name: pgdata-storage
       persistentVolumeClaim:
         claimName: pgdata-pv-volume2
   containers:
-    - name: fast-food-database-container
+    - name: fast-food-orders-database-container
       image: postgres:latest
       resources:
         limits:
@@ -23,4 +23,4 @@ spec:
           name: pgdata-storage 
       envFrom:
         - secretRef:
-            name: fast-food-database-secret
+            name: fast-food-orders-database-secret
