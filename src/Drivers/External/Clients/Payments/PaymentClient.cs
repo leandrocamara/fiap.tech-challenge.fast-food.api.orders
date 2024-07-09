@@ -1,4 +1,5 @@
-﻿using Adapters.Gateways.Payments;
+﻿using System.Text;
+using Adapters.Gateways.Payments;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
@@ -14,7 +15,11 @@ public class PaymentClient(
     public async Task<Payment> CreatePayment(Guid orderId, decimal amount)
     {
         var uri = new Uri(_paymentsClientBaseUri, "/api/payments");
-        var request = new HttpRequestMessage(HttpMethod.Post, uri);
+        var payload = JsonConvert.SerializeObject(new CreatePaymentRequest(orderId, amount));
+        var request = new HttpRequestMessage(HttpMethod.Post, uri)
+        {
+            Content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json")
+        };
 
         var response = await _httpClient.SendAsync(request);
 
@@ -26,3 +31,5 @@ public class PaymentClient(
         return JsonConvert.DeserializeObject<Payment>(content)!;
     }
 }
+
+public record CreatePaymentRequest(Guid OrderId, decimal Amount);

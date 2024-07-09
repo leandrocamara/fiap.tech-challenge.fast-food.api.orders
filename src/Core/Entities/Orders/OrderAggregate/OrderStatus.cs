@@ -1,4 +1,6 @@
-﻿namespace Entities.Orders.OrderAggregate;
+﻿using Entities.SeedWork;
+
+namespace Entities.Orders.OrderAggregate;
 
 public readonly struct OrderStatus
 {
@@ -14,6 +16,14 @@ public readonly struct OrderStatus
     public static implicit operator short(OrderStatus status) => (short)status.Value;
     public static implicit operator OrderStatus(short value) => new((EOrderStatus)value);
     public static implicit operator string(OrderStatus status) => status.ToString();
+
+    public static implicit operator OrderStatus(string name)
+    {
+        if (Enum.TryParse(typeof(EOrderStatus), name, out var status))
+            return (OrderStatus)status;
+
+        throw new DomainException($"Invalid status: {name}");
+    }
 
     public override string ToString() => Value.ToString();
 

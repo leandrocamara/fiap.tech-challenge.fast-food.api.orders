@@ -11,13 +11,13 @@ public sealed class TicketUpdatedConsumer(
 {
     public const string QueueName = "ticket-updated";
 
-    public async Task Consume(ConsumeContext<TicketUpdated> context)
+    public Task Consume(ConsumeContext<TicketUpdated> context)
     {
         var ticketUpdated = context.Message;
         logger.LogInformation("Received message: {Text}", JsonConvert.SerializeObject(ticketUpdated));
 
-        // await orderController.UpdateOrderStatus(ticketUpdated.OrderId, paymentReturn.Paid); // TODO: Define contract
+        return orderController.UpdateOrderStatus(ticketUpdated.OrderId, ticketUpdated.TicketStatus);
     }
 }
 
-public record TicketUpdated(Guid OrderId, bool Paid); // TODO: Move to UseCase
+public record TicketUpdated(Guid OrderId, string TicketStatus);

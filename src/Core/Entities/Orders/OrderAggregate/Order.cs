@@ -37,11 +37,12 @@ namespace Entities.Orders.OrderAggregate
 
         public bool IsEmpty() => OrderItems.Any();
 
-        public void UpdateStatus(short status)
+        public void UpdateStatus(OrderStatus status)
         {
-            // TODO: Improve validation
-            if (StatusSequence.TryGetValue(Status, out var nextStatus))
-                Status = nextStatus;
+            if (StatusSequence.TryGetValue(Status, out var nextStatus) && nextStatus.Contains(status))
+                Status = status;
+            else
+                throw new DomainException($"Changing the status from {Status} to {status} is not allowed.");
         }
 
         private void AddOrderItem(OrderItem orderItem)
@@ -51,11 +52,12 @@ namespace Entities.Orders.OrderAggregate
             TotalPrice += orderItem.TotalPrice;
         }
 
-        private static readonly Dictionary<OrderStatus, OrderStatus> StatusSequence = new()
+        private static readonly Dictionary<OrderStatus, OrderStatus[]> StatusSequence = new()
         {
-            { OrderStatus.Received(), OrderStatus.Preparing() },
-            { OrderStatus.Preparing(), OrderStatus.Ready() },
-            { OrderStatus.Ready(), OrderStatus.Completed() }
+            { OrderStatus.PaymentPending(), [OrderStatus.Received(), OrderStatus.PaymentRefused()] },
+            { OrderStatus.Received(), [OrderStatus.Preparing()] },
+            { OrderStatus.Preparing(), [OrderStatus.Ready()] },
+            { OrderStatus.Ready(), [OrderStatus.Completed()] }
         };
 
         private static readonly IValidator<Order> Validator = new OrderValidator();
