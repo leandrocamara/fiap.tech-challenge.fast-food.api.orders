@@ -88,15 +88,15 @@ docker volume rm fastfood_data
 ```
 
 Após o build do banco e das aplicações, você pode acessar as informações OpenAPI de duas formas:
-Swagger UI da API: `http://localhost:8080/swagger` (***Recomendado para testar as chamadas aos endpoints***)
-ReDoc UI da API: `http://localhost:8080/api-docs` (***Recomendado para visualização amigável***)
+Swagger UI da API: `http://localhost:5000/swagger` (***Recomendado para testar as chamadas aos endpoints***)
+ReDoc UI da API: `http://localhost:5000/api-docs` (***Recomendado para visualização amigável***)
 
 ### CLI
 Para iniciar a aplicação e banco de dados separadamente, siga os passos abaixo.
 
 Para subir o BD local, o recomendado é utilizar o Docker e executar o seguinte comando:
 ```shell
-docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres
+docker run --rm --name pg-order-docker -e POSTGRES_PASSWORD=docker -e POSTGRES_DB=orders_db -d -p 5432:5432 postgres
 ```
 
 Obs.: A *connection string* já está configurada corretamente no arquivo *launchSettings.json*
@@ -109,7 +109,7 @@ dotnet run --project .\src\Drivers\API\API.csproj
 Caso seja necessário derrubar o BD, basta executar:
 
 ```shell
-docker container kill pg-docker
+docker container kill pg-order-docker
 ```
 
 
