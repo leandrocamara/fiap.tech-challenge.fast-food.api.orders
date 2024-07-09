@@ -16,7 +16,7 @@ public sealed class TicketUpdatedConsumer(
         var ticketUpdated = context.Message;
         logger.LogInformation("Received message: {Text}", JsonConvert.SerializeObject(ticketUpdated));
 
-        // await orderController.UpdateOrderStatus(ticketUpdated.OrderId, paymentReturn.Paid);
+        // await orderController.UpdateOrderStatus(ticketUpdated.OrderId, paymentReturn.Paid); // TODO: Define contract
     }
 }
 

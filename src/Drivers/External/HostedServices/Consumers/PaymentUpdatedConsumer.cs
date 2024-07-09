@@ -16,7 +16,7 @@ public sealed class PaymentUpdatedConsumer(
         var paymentUpdated = context.Message;
         logger.LogInformation("Received message: {Text}", JsonConvert.SerializeObject(paymentUpdated));
 
-        // await orderController.UpdateOrderStatus(paymentReturn.OrderId, paymentReturn.Paid);
+        // await orderController.UpdateOrderStatus(paymentReturn.OrderId, paymentReturn.Paid); // TODO: Define contract
     }
 }
 

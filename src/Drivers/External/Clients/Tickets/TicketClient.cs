@@ -5,11 +5,16 @@ using Newtonsoft.Json;
 
 namespace External.Clients.Tickets;
 
-public class TicketClient(IPublishEndpoint publishEndpoint, ILogger<TicketClient> logger) : ITicketClient
+public class TicketClient(ISendEndpointProvider sendEndpointProvider, ILogger<TicketClient> logger) : ITicketClient
 {
-    public Task SendTicket(Ticket ticket)
+    private const string QueueName = "ticket-created";
+
+    public async Task SendTicket(Ticket ticket)
     {
-        logger.LogInformation("Publishing first message: {Text}", JsonConvert.SerializeObject(ticket));
-        return publishEndpoint.Publish(ticket);
+        logger.LogInformation("Publishing message: {Text}", JsonConvert.SerializeObject(ticket));
+
+        var endpoint = await sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{QueueName}"));
+
+        await endpoint.Send(ticket); // TODO: Define contract
     }
 }

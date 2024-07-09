@@ -4,6 +4,8 @@ using Adapters.Gateways.Orders;
 using Adapters.Gateways.Payments;
 using Adapters.Gateways.Products;
 using Adapters.Gateways.Tickets;
+using Amazon;
+using Amazon.Runtime;
 using External.Clients;
 using External.Clients.Payments;
 using External.Clients.Tickets;
@@ -48,7 +50,7 @@ public static class ExternalExtensions
 
     private static void SetupAmazonSqs(IServiceCollection services, IConfiguration configuration)
     {
-        var settings = configuration.GetSection(nameof(AmazonSqsSettings)).Get<AmazonSqsSettings>()!;
+        var settings = GetAmazonSqsSettings(configuration);
 
         services.AddMassTransit(x =>
         {
@@ -73,6 +75,21 @@ public static class ExternalExtensions
         services.AddHostedService<AmazonSqsHostedService>();
     }
 
+    public static IHealthChecksBuilder AddSqsHealthCheck(
+        this IHealthChecksBuilder builder, IConfiguration configuration)
+    {
+        var settings = GetAmazonSqsSettings(configuration);
+
+        return builder.AddSqs(options =>
+        {
+            options.Credentials = new BasicAWSCredentials(settings.AccessKey, settings.SecretKey);
+            options.RegionEndpoint = RegionEndpoint.GetBySystemName(settings.Region);
+
+            options.AddQueue(PaymentUpdatedConsumer.QueueName);
+            options.AddQueue(TicketUpdatedConsumer.QueueName);
+        }, name: "sqs_health_check", tags: new[] { "sqs", "healthcheck" });
+    }
+
     public static void CreateDatabase(this IApplicationBuilder _, IConfiguration configuration)
     {
         var serviceProvider = new ServiceCollection()
@@ -88,5 +105,15 @@ public static class ExternalExtensions
         {
             serviceProvider.GetRequiredService<IMigrationRunner>().MigrateUp();
         }
+    }
+
+    private static AmazonSqsSettings GetAmazonSqsSettings(IConfiguration configuration)
+    {
+        var settings = configuration.GetSection(nameof(AmazonSqsSettings)).Get<AmazonSqsSettings>();
+
+        if (settings is null)
+            throw new ArgumentException($"{nameof(AmazonSqsSettings)} not found.");
+
+        return settings;
     }
 }

@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AspNetCore.HealthChecks.Aws.Sqs" Version="8.0.1" />
       <PackageReference Include="FluentMigrator" Version="5.0.0" />
       <PackageReference Include="FluentMigrator.Runner.Postgres" Version="5.0.0" />
       <PackageReference Include="MassTransit" Version="8.2.3" />
