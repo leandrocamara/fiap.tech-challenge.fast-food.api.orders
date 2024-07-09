@@ -14,6 +14,7 @@ using External.HostedServices.Consumers;
 using External.Persistence;
 using External.Persistence.Migrations;
 using External.Persistence.Repositories;
+using External.Settings;
 using FluentMigrator.Runner;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
@@ -90,6 +91,16 @@ public static class ExternalExtensions
         }, name: "sqs_health_check", tags: new[] { "sqs", "healthcheck" });
     }
 
+    private static AmazonSqsSettings GetAmazonSqsSettings(IConfiguration configuration)
+    {
+        var settings = configuration.GetSection(nameof(AmazonSqsSettings)).Get<AmazonSqsSettings>();
+
+        if (settings is null)
+            throw new ArgumentException($"{nameof(AmazonSqsSettings)} not found.");
+
+        return settings;
+    }
+
     public static void CreateDatabase(this IApplicationBuilder _, IConfiguration configuration)
     {
         var serviceProvider = new ServiceCollection()
@@ -105,15 +116,5 @@ public static class ExternalExtensions
         {
             serviceProvider.GetRequiredService<IMigrationRunner>().MigrateUp();
         }
-    }
-
-    private static AmazonSqsSettings GetAmazonSqsSettings(IConfiguration configuration)
-    {
-        var settings = configuration.GetSection(nameof(AmazonSqsSettings)).Get<AmazonSqsSettings>();
-
-        if (settings is null)
-            throw new ArgumentException($"{nameof(AmazonSqsSettings)} not found.");
-
-        return settings;
     }
 }

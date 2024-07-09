@@ -1,4 +1,4 @@
-﻿namespace External.HostedServices;
+﻿namespace External.Settings;
 
 public class AmazonSqsSettings
 {
