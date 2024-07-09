@@ -18,7 +18,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ConnectionStrings__Default": "Host=localhost;Database=postgres;Username=postgres;Password=docker;",
-        "PaymentsClientSettings__BaseUri": ""
+        "PaymentsClientSettings__BaseUri": "",
+        "AmazonSqsSettings__Host": "",
+        "AmazonSqsSettings__Region": "",
+        "AmazonSqsSettings__AccessKey": "",
+        "AmazonSqsSettings__SecretKey": ""
       }
     },
     "https": {

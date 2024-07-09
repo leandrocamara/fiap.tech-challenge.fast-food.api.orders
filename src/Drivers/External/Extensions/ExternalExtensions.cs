@@ -7,10 +7,13 @@ using Adapters.Gateways.Tickets;
 using External.Clients;
 using External.Clients.Payments;
 using External.Clients.Tickets;
+using External.HostedServices;
+using External.HostedServices.Consumers;
 using External.Persistence;
 using External.Persistence.Migrations;
 using External.Persistence.Repositories;
 using FluentMigrator.Runner;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -38,7 +41,36 @@ public static class ExternalExtensions
 
         services.Configure<PaymentsClientSettings>(configuration.GetSection(nameof(PaymentsClientSettings)));
 
+        SetupAmazonSqs(services, configuration);
+
         return services;
+    }
+
+    private static void SetupAmazonSqs(IServiceCollection services, IConfiguration configuration)
+    {
+        var settings = configuration.GetSection(nameof(AmazonSqsSettings)).Get<AmazonSqsSettings>()!;
+
+        services.AddMassTransit(x =>
+        {
+            x.AddConsumer<PaymentUpdatedConsumer>();
+            x.AddConsumer<TicketUpdatedConsumer>();
+
+            x.UsingAmazonSqs((context, cfg) =>
+            {
+                cfg.Host(new Uri($"{settings.Host}://{settings.Region}"), h =>
+                {
+                    h.AccessKey(settings.AccessKey);
+                    h.SecretKey(settings.SecretKey);
+                });
+
+                cfg.ReceiveEndpoint(PaymentUpdatedConsumer.QueueName,
+                    e => { e.ConfigureConsumer<PaymentUpdatedConsumer>(context); });
+                cfg.ReceiveEndpoint(TicketUpdatedConsumer.QueueName,
+                    e => { e.ConfigureConsumer<TicketUpdatedConsumer>(context); });
+            });
+        });
+
+        services.AddHostedService<AmazonSqsHostedService>();
     }
 
     public static void CreateDatabase(this IApplicationBuilder _, IConfiguration configuration)
