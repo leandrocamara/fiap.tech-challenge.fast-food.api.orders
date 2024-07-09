@@ -62,8 +62,10 @@ public static class ExternalExtensions
             {
                 cfg.Host(new Uri($"{settings.Host}://{settings.Region}"), h =>
                 {
-                    h.AccessKey(settings.AccessKey);
-                    h.SecretKey(settings.SecretKey);
+                    h.Credentials(new SessionAWSCredentials(
+                        settings.AccessKey,
+                        settings.SecretKey,
+                        settings.SessionToken));
                 });
 
                 cfg.ReceiveEndpoint(PaymentUpdatedConsumer.QueueName,

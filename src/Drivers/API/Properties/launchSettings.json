@@ -22,7 +22,8 @@
         "AmazonSqsSettings__Host": "",
         "AmazonSqsSettings__Region": "",
         "AmazonSqsSettings__AccessKey": "",
-        "AmazonSqsSettings__SecretKey": ""
+        "AmazonSqsSettings__SecretKey": "",
+        "AmazonSqsSettings__SessionToken": ""
       }
     },
     "https": {
