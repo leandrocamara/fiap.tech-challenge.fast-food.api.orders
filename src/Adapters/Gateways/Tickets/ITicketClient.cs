@@ -3,8 +3,6 @@
 public interface ITicketClient
 {
     Task SendTicket(Ticket ticket);
-
-    // TODO: Heartbeat
 }
 
 public record Ticket(Guid OrderId, IEnumerable<TicketItem> TicketItems);

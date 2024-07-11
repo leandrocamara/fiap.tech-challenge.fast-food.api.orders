@@ -8,16 +8,13 @@ namespace External.Clients.Tickets;
 
 public class TicketClient(IAmazonSQS sqsClient, ILogger<TicketClient> logger) : ITicketClient
 {
-    private const string QueueUrl = "ticket-created"; // TODO: From env variable
+    private const string QueueName = "ticket-created";
 
-    public async Task SendTicket(Ticket ticket)
+    public Task SendTicket(Ticket ticket)
     {
-        logger.LogInformation("Publishing message: {Text}", JsonConvert.SerializeObject(ticket));
+        var message = JsonConvert.SerializeObject(ticket);
+        logger.LogInformation("Publishing message: {Text}", message);
 
-        await sqsClient.SendMessageAsync(new SendMessageRequest
-        {
-            QueueUrl = QueueUrl,
-            MessageBody = JsonConvert.SerializeObject(ticket) // TODO: Define contract
-        });
+        return sqsClient.SendMessageAsync(new SendMessageRequest { QueueUrl = QueueName, MessageBody = message });
     }
 }
