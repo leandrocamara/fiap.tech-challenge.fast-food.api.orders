@@ -1,21 +1,22 @@
 ﻿using Adapters.Controllers;
-using MassTransit;
+using Amazon.SQS;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace External.HostedServices.Consumers;
 
 public sealed class TicketUpdatedConsumer(
-    ILogger<TicketUpdatedConsumer> logger,
-    IOrderController orderController) : IConsumer<TicketUpdated>
+    IServiceProvider serviceProvider,
+    IAmazonSQS sqsClient,
+    ILogger<SqsConsumerHostedService<TicketUpdated>> logger)
+    : SqsConsumerHostedService<TicketUpdated>(sqsClient, logger)
 {
-    public const string QueueName = "ticket-updated";
+    protected override string QueueName() => "ticket-updated";
 
-    public Task Consume(ConsumeContext<TicketUpdated> context)
+    protected override Task Process(TicketUpdated ticketUpdated)
     {
-        var ticketUpdated = context.Message;
-        logger.LogInformation("Received message: {Text}", JsonConvert.SerializeObject(ticketUpdated));
-
+        using var scope = serviceProvider.CreateScope();
+        var orderController = scope.ServiceProvider.GetRequiredService<IOrderController>();
         return orderController.UpdateOrderStatus(ticketUpdated.OrderId, ticketUpdated.TicketStatus);
     }
 }

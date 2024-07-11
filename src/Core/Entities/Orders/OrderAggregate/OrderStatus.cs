@@ -2,7 +2,7 @@
 
 namespace Entities.Orders.OrderAggregate;
 
-public readonly struct OrderStatus
+public readonly struct OrderStatus : IEquatable<OrderStatus>
 {
     private EOrderStatus Value { get; }
 
@@ -26,6 +26,12 @@ public readonly struct OrderStatus
     }
 
     public override string ToString() => Value.ToString();
+
+    public bool Equals(OrderStatus other) => Value == other.Value;
+
+    public override bool Equals(object? obj) => obj is OrderStatus other && Equals(other);
+
+    public override int GetHashCode() => (int)Value;
 
     private OrderStatus(EOrderStatus status) => Value = status;
 

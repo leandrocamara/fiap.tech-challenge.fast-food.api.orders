@@ -1,12 +1,15 @@
 ﻿using Application.Gateways;
+using Entities.Orders.OrderAggregate;
 
 namespace Application.UseCases.Orders;
 
 public interface IUpdateOrderStatusUseCase : IUseCase<UpdateOrderStatusRequest, bool>;
 
-public class UpdateOrderStatusUseCase(IOrderGateway orderGateway) : IUpdateOrderStatusUseCase
+public class UpdateOrderStatusUseCase(
+    IOrderGateway orderGateway,
+    ITicketGateway ticketGateway) : IUpdateOrderStatusUseCase
 {
-    public Task<bool> Execute(UpdateOrderStatusRequest request)
+    public async Task<bool> Execute(UpdateOrderStatusRequest request)
     {
         var order = orderGateway.GetById(request.OrderId);
 
@@ -16,7 +19,10 @@ public class UpdateOrderStatusUseCase(IOrderGateway orderGateway) : IUpdateOrder
         order.UpdateStatus(request.Status);
         orderGateway.Update(order);
 
-        return Task.FromResult(true);
+        if (order.Status.Equals(OrderStatus.Received()))
+            await ticketGateway.CreateTicket(order);
+
+        return true;
     }
 }
 

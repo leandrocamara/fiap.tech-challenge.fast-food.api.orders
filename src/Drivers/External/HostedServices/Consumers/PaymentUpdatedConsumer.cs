@@ -1,22 +1,50 @@
 ﻿using Adapters.Controllers;
-using MassTransit;
+using Amazon.SQS;
+using External.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace External.HostedServices.Consumers;
 
 public sealed class PaymentUpdatedConsumer(
-    ILogger<PaymentUpdatedConsumer> logger,
-    IOrderController orderController) : IConsumer<PaymentUpdated>
+    IServiceProvider serviceProvider,
+    IAmazonSQS sqsClient,
+    ILogger<SqsConsumerHostedService<PaymentUpdated>> logger)
+    : SqsConsumerHostedService<PaymentUpdated>(sqsClient, logger)
 {
-    public const string QueueName = "payment-updated";
+    protected override string QueueName() => "payment-updated";
 
-    public Task Consume(ConsumeContext<PaymentUpdated> context)
+    protected override async Task Process(PaymentUpdated paymentUpdated)
     {
-        var paymentUpdated = context.Message;
-        logger.LogInformation("Received message: {Text}", JsonConvert.SerializeObject(paymentUpdated));
+        using var scope = serviceProvider.CreateScope();
+        var orderController = scope.ServiceProvider.GetRequiredService<IOrderController>();
 
-        return orderController.UpdatePaymentStatus(paymentUpdated.OrderId, paymentUpdated.Paid);
+        // TODO: Abstract this
+        var dbContext = scope.ServiceProvider.GetRequiredService<FastFoodContext>();
+        var strategy = dbContext.Database.CreateExecutionStrategy();
+
+        await strategy.ExecuteAsync(async () =>
+        {
+            await using var transaction = await dbContext.BeginTransactionAsync() ??
+                                          throw new Exception("Error initializing a transaction");
+
+            try
+            {
+                // TODO: Transform this at param/func
+                await orderController.UpdatePaymentStatus(paymentUpdated.OrderId, paymentUpdated.Paid);
+                await dbContext.CommitTransactionAsync(transaction);
+            }
+            catch (Exception e)
+            {
+                dbContext.RollbackTransaction();
+                throw;
+            }
+            finally
+            {
+                await dbContext.DisposeAsync();
+            }
+        });
     }
 }
 

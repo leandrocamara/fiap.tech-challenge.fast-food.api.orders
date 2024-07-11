@@ -1,20 +1,23 @@
 ﻿using Adapters.Gateways.Tickets;
-using MassTransit;
+using Amazon.SQS;
+using Amazon.SQS.Model;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace External.Clients.Tickets;
 
-public class TicketClient(ISendEndpointProvider sendEndpointProvider, ILogger<TicketClient> logger) : ITicketClient
+public class TicketClient(IAmazonSQS sqsClient, ILogger<TicketClient> logger) : ITicketClient
 {
-    private const string QueueName = "ticket-created";
+    private const string QueueUrl = "ticket-created"; // TODO: From env variable
 
     public async Task SendTicket(Ticket ticket)
     {
         logger.LogInformation("Publishing message: {Text}", JsonConvert.SerializeObject(ticket));
 
-        var endpoint = await sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{QueueName}"));
-
-        await endpoint.Send(ticket); // TODO: Define contract
+        await sqsClient.SendMessageAsync(new SendMessageRequest
+        {
+            QueueUrl = QueueUrl,
+            MessageBody = JsonConvert.SerializeObject(ticket) // TODO: Define contract
+        });
     }
 }

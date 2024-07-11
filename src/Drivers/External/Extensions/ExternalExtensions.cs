@@ -6,17 +6,16 @@ using Adapters.Gateways.Products;
 using Adapters.Gateways.Tickets;
 using Amazon;
 using Amazon.Runtime;
+using Amazon.SQS;
 using External.Clients;
 using External.Clients.Payments;
 using External.Clients.Tickets;
-using External.HostedServices;
 using External.HostedServices.Consumers;
 using External.Persistence;
 using External.Persistence.Migrations;
 using External.Persistence.Repositories;
 using External.Settings;
 using FluentMigrator.Runner;
-using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -54,29 +53,12 @@ public static class ExternalExtensions
     {
         var settings = GetAmazonSqsSettings(configuration);
 
-        services.AddMassTransit(x =>
-        {
-            x.AddConsumer<PaymentUpdatedConsumer>();
-            x.AddConsumer<TicketUpdatedConsumer>();
+        services.AddSingleton<IAmazonSQS>(_ => new AmazonSQSClient(
+            new SessionAWSCredentials(settings.AccessKey, settings.SecretKey, settings.SessionToken),
+            new AmazonSQSConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(settings.Region) }));
 
-            x.UsingAmazonSqs((context, cfg) =>
-            {
-                cfg.Host(new Uri($"amazonsqs://{settings.Region}"), h =>
-                {
-                    h.Credentials(new SessionAWSCredentials(
-                        settings.AccessKey,
-                        settings.SecretKey,
-                        settings.SessionToken));
-                });
-
-                cfg.ReceiveEndpoint(PaymentUpdatedConsumer.QueueName,
-                    e => { e.ConfigureConsumer<PaymentUpdatedConsumer>(context); });
-                cfg.ReceiveEndpoint(TicketUpdatedConsumer.QueueName,
-                    e => { e.ConfigureConsumer<TicketUpdatedConsumer>(context); });
-            });
-        });
-
-        services.AddHostedService<AmazonSqsHostedService>();
+        services.AddHostedService<PaymentUpdatedConsumer>();
+        services.AddHostedService<TicketUpdatedConsumer>();
     }
 
     public static IHealthChecksBuilder AddSqsHealthCheck(
@@ -86,11 +68,11 @@ public static class ExternalExtensions
 
         return builder.AddSqs(options =>
         {
-            options.Credentials = new BasicAWSCredentials(settings.AccessKey, settings.SecretKey);
+            options.Credentials = new SessionAWSCredentials(
+                settings.AccessKey,
+                settings.SecretKey,
+                settings.SessionToken);
             options.RegionEndpoint = RegionEndpoint.GetBySystemName(settings.Region);
-
-            options.AddQueue(PaymentUpdatedConsumer.QueueName);
-            options.AddQueue(TicketUpdatedConsumer.QueueName);
         }, name: "sqs_health_check", tags: new[] { "sqs", "healthcheck" });
     }
 

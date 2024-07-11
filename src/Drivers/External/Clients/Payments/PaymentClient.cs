@@ -18,7 +18,7 @@ public class PaymentClient(
         var payload = JsonConvert.SerializeObject(new CreatePaymentRequest(orderId, amount));
         var request = new HttpRequestMessage(HttpMethod.Post, uri)
         {
-            Content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json")
+            Content = new StringContent(payload, Encoding.UTF8, "application/json")
         };
 
         var response = await _httpClient.SendAsync(request);
