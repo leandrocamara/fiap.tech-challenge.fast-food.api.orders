@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Filters;
 
-public sealed class TransactionalContextFilter(FastFoodContext dbContext) : IAsyncActionFilter
+public sealed class TransactionalContextFilter(OrdersContext dbContext) : IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {

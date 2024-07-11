@@ -9,13 +9,12 @@ public sealed class TicketUpdatedConsumer(
     IServiceProvider serviceProvider,
     IAmazonSQS sqsClient,
     ILogger<SqsConsumerHostedService<TicketUpdated>> logger)
-    : SqsConsumerHostedService<TicketUpdated>(sqsClient, logger)
+    : SqsConsumerHostedService<TicketUpdated>(serviceProvider, sqsClient, logger)
 {
     protected override string QueueName() => "ticket-updated";
 
-    protected override Task Process(TicketUpdated ticketUpdated)
+    protected override Task Process(IServiceScope scope, TicketUpdated ticketUpdated)
     {
-        using var scope = serviceProvider.CreateScope();
         var orderController = scope.ServiceProvider.GetRequiredService<IOrderController>();
         return orderController.UpdateOrderStatus(ticketUpdated.OrderId, ticketUpdated.TicketStatus);
     }

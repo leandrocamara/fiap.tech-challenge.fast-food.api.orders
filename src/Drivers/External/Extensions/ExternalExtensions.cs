@@ -28,10 +28,10 @@ public static class ExternalExtensions
     public static IServiceCollection AddExternalDependencies(
         this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<FastFoodContext>(options =>
+        services.AddDbContext<OrdersContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Default")));
 
-        services.AddScoped<IUnitOfWork, FastFoodContext>();
+        services.AddScoped<IUnitOfWork, OrdersContext>();
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace External.Persistence.Repositories;
 
-public sealed class OrderRepository(FastFoodContext context) : BaseRepository<Order>(context), IOrderRepository
+public sealed class OrderRepository(OrdersContext context) : BaseRepository<Order>(context), IOrderRepository
 {
     public override Order? GetById(Guid id)
     {
