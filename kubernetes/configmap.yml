@@ -7,3 +7,5 @@ metadata:
 data:
   ASPNETCORE_ENVIRONMENT: "#{ENVIRONMENT}#"
   ASPNETCORE_HTTP_PORTS: "8080"
+  PaymentsClientSettings__BaseUri: "#{PAYMENTS_API_URI}#"
+  AmazonSqsSettings__Region: "#{AWS_REGION}#"
