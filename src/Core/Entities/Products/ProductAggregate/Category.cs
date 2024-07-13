@@ -21,11 +21,9 @@ namespace Entities.Products.ProductAggregate
 
         public override string ToString() => Value.ToString();
 
-        // Conversão implícita de Category para int
         public static implicit operator int(Category category) => (int)category.Value;
-
-        // Conversão explícita de int para Category
         public static implicit operator Category(int value) => new((ECategory)value);
+        public static implicit operator string(Category category) => category.Value.ToString();
 
         private static readonly IValidator<Category> Validator = new CategoryValidator();
 

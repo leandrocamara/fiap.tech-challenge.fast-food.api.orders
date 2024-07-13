@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace External.Persistence.Repositories;
 
-public sealed class CustomerRepository(FastFoodContext context) : BaseRepository<Customer>(context), ICustomerRepository
+public sealed class CustomerRepository(OrdersContext context) : BaseRepository<Customer>(context), ICustomerRepository
 { 
     public Task<Customer?> GetByCpf(Cpf cpf) =>
         context.Customers.FirstOrDefaultAsync(customer => customer.Cpf.Equals(cpf));

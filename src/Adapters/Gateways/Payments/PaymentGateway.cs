@@ -5,5 +5,9 @@ namespace Adapters.Gateways.Payments;
 
 public class PaymentGateway(IPaymentClient client) : IPaymentGateway
 {
-    public string GetQrCodeForPay(Order order) => client.GetQrCodeForPay(order);
+    public async Task<string> GenerateQrCode(Order order)
+    {
+        var payment = await client.CreatePayment(order.Id, order.TotalPrice);
+        return payment.QrCode;
+    }
 }
