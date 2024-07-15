@@ -2,7 +2,7 @@
 
 namespace Entities.Customers.CustomerAggregate.Validators;
 
-internal sealed class CustomerValidator : IValidator<Customer>
+public sealed class CustomerValidator : IValidator<Customer>
 {
     public bool IsValid(Customer customer, out string error)
     {
