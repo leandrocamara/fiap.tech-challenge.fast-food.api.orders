@@ -15,7 +15,7 @@ public interface IUnitOfWork : IDisposable
     void RollbackTransaction();
 }
 
-public sealed class FastFoodContext(DbContextOptions<FastFoodContext> options) : DbContext(options), IUnitOfWork
+public sealed class OrdersContext(DbContextOptions<OrdersContext> options) : DbContext(options), IUnitOfWork
 {
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Product> Products { get; set; }

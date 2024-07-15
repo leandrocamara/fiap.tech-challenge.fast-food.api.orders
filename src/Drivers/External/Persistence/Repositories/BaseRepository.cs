@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace External.Persistence.Repositories;
 
-public abstract class BaseRepository<T>(FastFoodContext context) : IRepository<T> where T : class, IAggregatedRoot
+public abstract class BaseRepository<T>(OrdersContext context) : IRepository<T> where T : class, IAggregatedRoot
 {
     public virtual void Add(T entity) => context.Add(entity);
 

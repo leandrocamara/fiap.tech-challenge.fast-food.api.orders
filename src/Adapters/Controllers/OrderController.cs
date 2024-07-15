@@ -1,5 +1,6 @@
 ﻿using Adapters.Controllers.Common;
 using Application.UseCases.Orders;
+using Entities.Orders.OrderAggregate;
 
 namespace Adapters.Controllers;
 
@@ -8,7 +9,8 @@ public interface IOrderController
     Task<Result> CreateOrder(CreateOrderRequest request);
     Task<Result> GetOngoingOrders();
     Task<Result> GetOrderById(Guid id);
-    Task<Result> UpdateOrderStatus(Guid id);
+    Task<Result> UpdatePaymentStatus(Guid orderId, bool paid);
+    Task<Result> UpdateOrderStatus(Guid id, OrderStatus status);
 }
 
 public class OrderController(
@@ -59,11 +61,18 @@ public class OrderController(
         }
     }
 
-    public async Task<Result> UpdateOrderStatus(Guid id)
+    public Task<Result> UpdatePaymentStatus(Guid orderId, bool paid)
+    {
+        var status = paid ? OrderStatus.Received() : OrderStatus.PaymentRefused();
+        return UpdateOrderStatus(orderId, status);
+    }
+
+    public async Task<Result> UpdateOrderStatus(Guid id, OrderStatus status)
     {
         try
         {
-            var response = await Execute(() => updateOrderStatusUseCase.Execute(id));
+            var request = new UpdateOrderStatusRequest(id, status);
+            var response = await Execute(() => updateOrderStatusUseCase.Execute(request));
             return Result.Success(response);
         }
         catch (ControllerException e)

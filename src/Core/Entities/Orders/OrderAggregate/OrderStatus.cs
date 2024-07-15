@@ -1,6 +1,8 @@
-﻿namespace Entities.Orders.OrderAggregate;
+﻿using Entities.SeedWork;
 
-public readonly struct OrderStatus
+namespace Entities.Orders.OrderAggregate;
+
+public readonly struct OrderStatus : IEquatable<OrderStatus>
 {
     private EOrderStatus Value { get; }
 
@@ -15,7 +17,21 @@ public readonly struct OrderStatus
     public static implicit operator OrderStatus(short value) => new((EOrderStatus)value);
     public static implicit operator string(OrderStatus status) => status.ToString();
 
+    public static implicit operator OrderStatus(string name)
+    {
+        if (Enum.TryParse(typeof(EOrderStatus), name, out var status))
+            return new OrderStatus((EOrderStatus)status);
+
+        throw new DomainException($"Invalid status: {name}");
+    }
+
     public override string ToString() => Value.ToString();
+
+    public bool Equals(OrderStatus other) => Value == other.Value;
+
+    public override bool Equals(object? obj) => obj is OrderStatus other && Equals(other);
+
+    public override int GetHashCode() => (int)Value;
 
     private OrderStatus(EOrderStatus status) => Value = status;
 

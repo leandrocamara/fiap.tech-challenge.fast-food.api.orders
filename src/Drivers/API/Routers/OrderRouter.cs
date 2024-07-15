@@ -38,13 +38,13 @@ public class OrderRouter(IOrderController controller) : BaseRouter
         return HttpResponse(result);
     }
 
-    [HttpPost("{id:guid}/status")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Retorna o pedido com seu novo status.", typeof(UpdateOrderStatusResponse))]
+    [HttpPost("{id:guid}/status/{status:int}")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retorna o pedido com seu novo status.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Caso não encontre o pedido informado.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
-    public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid id)
+    public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid id, short status)
     {
-        var result = await controller.UpdateOrderStatus(id);
+        var result = await controller.UpdateOrderStatus(id, status);
         return HttpResponse(result);
     }
 }
