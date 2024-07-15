@@ -115,7 +115,7 @@ Para testar a aplicação, recomendamos a seguinte ordem:
 3. _Orders API_ - Buscar a lista de produtos por categoria.
 4. _Orders API_ - Criar um novo pedido (podendo ou não informar o ID do cliente).
 5. _Payments API_ - Atualizar o status do pagamento.
-6. _Tickets API_ - Atualizar o status da comanda ("Em preparação" e "Pronto").
+6. _Tickets API_ - Atualizar o status da comanda ("Em preparação" e "Pronta").
 7. _Orders API_ - Listar todos os pedidos em andamento.
 8. _Orders API_ - Atualizar o status do pedido para "Finalizado".
 
