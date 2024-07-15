@@ -11,7 +11,7 @@ internal sealed class CpfValidator : IValidator<Cpf>
     }
 }
 
-internal class IsValidCpf : ISpecification<Cpf>
+public class IsValidCpf : ISpecification<Cpf>
 {
     public bool IsSatisfiedBy(Cpf cpf, out string error)
     {
