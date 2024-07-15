@@ -20,7 +20,7 @@ public readonly struct OrderStatus : IEquatable<OrderStatus>
     public static implicit operator OrderStatus(string name)
     {
         if (Enum.TryParse(typeof(EOrderStatus), name, out var status))
-            return (OrderStatus)status;
+            return new OrderStatus((EOrderStatus)status);
 
         throw new DomainException($"Invalid status: {name}");
     }
