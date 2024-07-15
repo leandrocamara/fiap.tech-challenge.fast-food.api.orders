@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9927bf53-ee19-4db6-a00f-91bb193724e0",
+		"_postman_id": "d8d49dcb-465e-4f0b-ac72-6f4b23682e2b",
 		"name": "FIAP.FastFood",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1643480"
@@ -38,9 +38,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/api/products",
+					"raw": "{{orders}}/api/products",
 					"host": [
-						"{{url}}"
+						"{{orders}}"
 					],
 					"path": [
 						"api",
@@ -82,9 +82,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/api/customers",
+					"raw": "{{orders}}/api/customers",
 					"host": [
-						"{{url}}"
+						"{{orders}}"
 					],
 					"path": [
 						"api",
@@ -100,9 +100,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/products?categoryId=2",
+					"raw": "{{orders}}/api/products?categoryId=2",
 					"host": [
-						"{{url}}"
+						"{{orders}}"
 					],
 					"path": [
 						"api",
@@ -150,9 +150,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/api/orders",
+					"raw": "{{orders}}/api/orders",
 					"host": [
-						"{{url}}"
+						"{{orders}}"
 					],
 					"path": [
 						"api",
@@ -163,43 +163,76 @@
 			"response": []
 		},
 		{
-			"name": "5 - Webhook Payment",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"{{orderId}}\",\r\n    \"paymentSucceeded\": true\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
+			"name": "5 - Get Payment by OrderId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Response\", function () {\r",
+							"    const statusCode = 200;\r",
+							"    pm.expect(pm.response.code).to.eql(statusCode);\r",
+							"\r",
+							"    const payment = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"paymentId\", payment.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
 					}
-				},
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
 				"url": {
-					"raw": "{{url}}/api/webhook/orders/payment",
+					"raw": "{{payments}}/api/payments?orderId={{orderId}}",
 					"host": [
-						"{{url}}"
+						"{{payments}}"
 					],
 					"path": [
 						"api",
-						"webhook",
-						"orders",
-						"payment"
+						"payments"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}"
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "6 - Get Ongoing Orders",
+			"name": "6 - Update Payment Status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{payments}}/api/payments/{{paymentId}}/status/{{paid}}",
+					"host": [
+						"{{payments}}"
+					],
+					"path": [
+						"api",
+						"payments",
+						"{{paymentId}}",
+						"status",
+						"{{paid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7 - Get Ongoing Orders",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/orders/ongoing",
+					"raw": "{{orders}}/api/orders/ongoing",
 					"host": [
-						"{{url}}"
+						"{{orders}}"
 					],
 					"path": [
 						"api",
@@ -211,19 +244,19 @@
 			"response": []
 		},
 		{
-			"name": "7 - Update Status Order",
+			"name": "8 - Update Ticket Status",
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/orders/{{orderId}}/status",
+					"raw": "{{tickets}}/api/tickets/<TICKET_ID>/status",
 					"host": [
-						"{{url}}"
+						"{{tickets}}"
 					],
 					"path": [
 						"api",
-						"orders",
-						"{{orderId}}",
+						"tickets",
+						"<TICKET_ID>",
 						"status"
 					]
 				}
@@ -231,14 +264,35 @@
 			"response": []
 		},
 		{
-			"name": "8 - Get Order",
+			"name": "9 - Update Order Status",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{orders}}/api/orders/{{orderId}}/status/{{completed}}",
+					"host": [
+						"{{orders}}"
+					],
+					"path": [
+						"api",
+						"orders",
+						"{{orderId}}",
+						"status",
+						"{{completed}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10 - Get Order",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/orders/{{orderId}}",
+					"raw": "{{orders}}/api/orders/{{orderId}}",
 					"host": [
-						"{{url}}"
+						"{{orders}}"
 					],
 					"path": [
 						"api",
@@ -272,8 +326,18 @@
 	],
 	"variable": [
 		{
-			"key": "url",
-			"value": "http://localhost:8080",
+			"key": "orders",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "payments",
+			"value": "http://localhost:5001",
+			"type": "string"
+		},
+		{
+			"key": "tickets",
+			"value": "http://localhost:5002",
 			"type": "string"
 		},
 		{
@@ -288,6 +352,21 @@
 		{
 			"key": "orderId",
 			"value": "Defined in Create Order (4)"
+		},
+		{
+			"key": "paymentId",
+			"value": "Defined in Get Payment By OrderId (5)",
+			"type": "string"
+		},
+		{
+			"key": "paid",
+			"value": "true",
+			"type": "string"
+		},
+		{
+			"key": "completed",
+			"value": "5",
+			"type": "string"
 		}
 	]
 }
