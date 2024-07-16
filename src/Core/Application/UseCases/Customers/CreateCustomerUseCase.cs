@@ -7,7 +7,7 @@ namespace Application.UseCases.Customers;
 
 public interface ICreateCustomerUseCase : IUseCase<CreateCustomerRequest, CreateCustomerResponse>;
 
-public class CreateCustomerUseCase(ICustomerGateway customerGateway) : ICreateCustomerUseCase
+public sealed class CreateCustomerUseCase(ICustomerGateway customerGateway) : ICreateCustomerUseCase
 {
     private readonly CustomerCreationValidator _validator = new(customerGateway);
 
