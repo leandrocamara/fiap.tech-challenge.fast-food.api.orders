@@ -2,7 +2,7 @@
 
 namespace Entities.Customers.CustomerAggregate.Validators;
 
-public sealed class EmailValidator : IValidator<Email>
+internal sealed class EmailValidator : IValidator<Email>
 {
     public bool IsValid(Email email, out string error)
     {
@@ -11,7 +11,7 @@ public sealed class EmailValidator : IValidator<Email>
     }
 }
 
-public class IsValidEmail : ISpecification<Email>
+internal class IsValidEmail : ISpecification<Email>
 {
     public bool IsSatisfiedBy(Email email, out string error)
     {

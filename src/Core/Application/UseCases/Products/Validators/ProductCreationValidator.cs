@@ -2,7 +2,7 @@
 
 namespace Application.UseCases.Products.Validators;
 
-public class ProductCreationValidator(IProductGateway productRepository)
+public sealed class ProductCreationValidator(IProductGateway productRepository)
 {
     public async Task Validate(CreateProductRequest request)
     {
