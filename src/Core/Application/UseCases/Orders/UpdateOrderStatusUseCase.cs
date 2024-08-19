@@ -7,7 +7,8 @@ public interface IUpdateOrderStatusUseCase : IUseCase<UpdateOrderStatusRequest, 
 
 public class UpdateOrderStatusUseCase(
     IOrderGateway orderGateway,
-    ITicketGateway ticketGateway) : IUpdateOrderStatusUseCase
+    ITicketGateway ticketGateway,
+    INotificationGateway notificationGateway) : IUpdateOrderStatusUseCase
 {
     public async Task<bool> Execute(UpdateOrderStatusRequest request)
     {
@@ -18,6 +19,7 @@ public class UpdateOrderStatusUseCase(
 
         order.UpdateStatus(request.Status);
         orderGateway.Update(order);
+        await notificationGateway.NotifyOrderStatusUpdate(order);
 
         if (order.Status.Equals(OrderStatus.Received()))
             await ticketGateway.CreateTicket(order);

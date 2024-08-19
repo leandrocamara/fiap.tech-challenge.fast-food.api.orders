@@ -7,7 +7,7 @@ using Adapters.Gateways.Tickets;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
-using External.Clients;
+using External.Clients.Notifications.OrderStatus;
 using External.Clients.Payments;
 using External.Clients.Tickets;
 using External.HostedServices.Consumers;
@@ -38,7 +38,7 @@ public static class ExternalExtensions
         services.AddScoped<IOrderRepository, OrderRepository>();
 
         services.AddHttpClient();
-        services.AddScoped<INotificationClient, NotificationClient>();
+        services.AddScoped<IOrderStatusNotificationClient, OrderStatusNotificationClient>();
         services.AddScoped<IPaymentClient, PaymentClient>();
         services.AddScoped<ITicketClient, TicketClient>();
 
