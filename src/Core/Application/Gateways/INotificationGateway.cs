@@ -4,6 +4,5 @@ namespace Application.Gateways;
 
 public interface INotificationGateway
 {
-    void NotifyOrderPaymentUpdate(Order order);
-    void NotifyOrderStatusUpdate(Order order);
+    Task NotifyOrderStatusUpdate(Order order);
 }

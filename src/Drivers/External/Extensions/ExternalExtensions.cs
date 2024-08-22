@@ -7,7 +7,7 @@ using Adapters.Gateways.Tickets;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
-using External.Clients;
+using External.Clients.Notifications.OrderStatus;
 using External.Clients.Payments;
 using External.Clients.Tickets;
 using External.HostedServices.Consumers;
@@ -38,7 +38,7 @@ public static class ExternalExtensions
         services.AddScoped<IOrderRepository, OrderRepository>();
 
         services.AddHttpClient();
-        services.AddScoped<INotificationClient, NotificationClient>();
+        services.AddScoped<IOrderStatusNotificationClient, OrderStatusNotificationClient>();
         services.AddScoped<IPaymentClient, PaymentClient>();
         services.AddScoped<ITicketClient, TicketClient>();
 
@@ -51,7 +51,7 @@ public static class ExternalExtensions
 
     private static void SetupAmazonSqs(IServiceCollection services, IConfiguration configuration)
     {
-        var settings = GetAmazonSqsSettings(configuration);
+        var settings = GetAmazonSettings(configuration);
 
         services.AddSingleton<IAmazonSQS>(_ => new AmazonSQSClient(
             new SessionAWSCredentials(settings.AccessKey, settings.SecretKey, settings.SessionToken),
@@ -64,7 +64,7 @@ public static class ExternalExtensions
     public static IHealthChecksBuilder AddSqsHealthCheck(
         this IHealthChecksBuilder builder, IConfiguration configuration)
     {
-        var settings = GetAmazonSqsSettings(configuration);
+        var settings = GetAmazonSettings(configuration);
 
         return builder.AddSqs(options =>
         {
@@ -76,12 +76,12 @@ public static class ExternalExtensions
         }, name: "sqs_health_check", tags: new[] { "sqs", "healthcheck" });
     }
 
-    private static AmazonSqsSettings GetAmazonSqsSettings(IConfiguration configuration)
+    private static AmazonSettings GetAmazonSettings(IConfiguration configuration)
     {
-        var settings = configuration.GetSection(nameof(AmazonSqsSettings)).Get<AmazonSqsSettings>();
+        var settings = configuration.GetSection(nameof(AmazonSettings)).Get<AmazonSettings>();
 
         if (settings is null)
-            throw new ArgumentException($"{nameof(AmazonSqsSettings)} not found.");
+            throw new ArgumentException($"{nameof(AmazonSettings)} not found.");
 
         return settings;
     }

@@ -3,9 +3,11 @@ using Entities.Orders.OrderAggregate;
 
 namespace Adapters.Gateways.Notifications;
 
-public class NotificationGateway(INotificationClient client) : INotificationGateway
+public class NotificationGateway(IOrderStatusNotificationClient orderStatusNotificationClient) : INotificationGateway
 {
-    public void NotifyOrderPaymentUpdate(Order order) => client.NotifyOrderPaymentUpdate(order);
-
-    public void NotifyOrderStatusUpdate(Order order) => client.NotifyOrderStatusUpdate(order);
+    public Task NotifyOrderStatusUpdate(Order order)
+    {
+        var notification = new OrderStatusNotification(order.OrderNumber, order.Status, DateTime.Now);
+        return orderStatusNotificationClient.Notify(notification);
+    }
 }

@@ -19,10 +19,10 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ConnectionStrings__Default": "Host=localhost;Database=orders_db;Username=postgres;Password=docker;",
         "PaymentsClientSettings__BaseUri": "http://localhost:5001",
-        "AmazonSqsSettings__Region": "us-east-1",
-        "AmazonSqsSettings__AccessKey": "",
-        "AmazonSqsSettings__SecretKey": "",
-        "AmazonSqsSettings__SessionToken": ""
+        "AmazonSettings__Region": "us-east-1",
+        "AmazonSettings__AccessKey": "",
+        "AmazonSettings__SecretKey": "",
+        "AmazonSettings__SessionToken": ""
       }
     },
     "https": {
