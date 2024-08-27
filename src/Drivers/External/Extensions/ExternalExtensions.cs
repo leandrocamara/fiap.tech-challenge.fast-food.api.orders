@@ -7,6 +7,7 @@ using Adapters.Gateways.Tickets;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
+using Amazon.SQS.Model;
 using External.Clients.Notifications.OrderStatus;
 using External.Clients.Payments;
 using External.Clients.Tickets;
@@ -100,6 +101,29 @@ public static class ExternalExtensions
         using (serviceProvider.CreateScope())
         {
             serviceProvider.GetRequiredService<IMigrationRunner>().MigrateUp();
+        }
+    }
+
+    public static void CreateQueuesIfNotExist(this IApplicationBuilder app)
+    {
+        var sqsClient = app.ApplicationServices.GetRequiredService<IAmazonSQS>();
+        var queueNames = new[]
+        {
+            "order-status-updated",
+            "payment-updated",
+            "ticket-created",
+            "ticket-updated"
+        };
+
+        foreach (var queueName in queueNames)
+        {
+            var listQueuesRequest = new ListQueuesRequest { QueueNamePrefix = queueName };
+            var listQueuesResponse = sqsClient.ListQueuesAsync(listQueuesRequest).GetAwaiter().GetResult();
+
+            if (listQueuesResponse.QueueUrls.Any(url => url.EndsWith(queueName))) continue;
+
+            sqsClient.CreateQueueAsync(new CreateQueueRequest { QueueName = queueName }).GetAwaiter().GetResult();
+            Console.WriteLine($"Fila '{queueName}' criada com sucesso.");
         }
     }
 }

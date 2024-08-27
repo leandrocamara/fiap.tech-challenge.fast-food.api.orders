@@ -41,6 +41,7 @@ if (app.Environment.IsDevelopment())
     });
 
     app.CreateDatabase(configuration);
+    app.CreateQueuesIfNotExist();
 }
 
 app.UseCustomHealthChecks();

@@ -88,6 +88,15 @@ docker run --rm --name pg-orders-docker -e POSTGRES_PASSWORD=docker -e POSTGRES_
 
 Obs.: A *connection string* do BD local já está configurada corretamente no arquivo *launchSettings.json*. Contudo, espera-se que as credenciais da AWS sejam incluídas no arquivo, para o funcionamento com o AWS SQS.
 
+No arquivo `launchSettings.json`, preencher as seguintes variáveis, com as credenciais do AWS (Academy):
+```json
+{
+  "AmazonSettings__AccessKey": "",
+  "AmazonSettings__SecretKey": "",
+  "AmazonSettings__SessionToken": ""
+}
+```
+
 Inicie a Aplicação (API):
 ```shell
 dotnet run --project .\src\Drivers\API\API.csproj
