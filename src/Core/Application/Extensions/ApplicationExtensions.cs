@@ -13,6 +13,7 @@ public static class ApplicationExtensions
 
         services.AddScoped<ICreateCustomerUseCase, CreateCustomerUseCase>();
         services.AddScoped<IGetCustomerByCpfUseCase, GetCustomerByCpfUseCase>();
+        services.AddScoped<IDisableCustomerUseCase, DisableCustomerUseCase>();
 
         #endregion
 
