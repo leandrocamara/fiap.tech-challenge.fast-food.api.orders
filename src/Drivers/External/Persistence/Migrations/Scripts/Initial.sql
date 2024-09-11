@@ -7,7 +7,7 @@ CREATE TABLE "customers"
     "Cpf"   VARCHAR(11)  NOT NULL,
     "Name"  VARCHAR(100) NOT NULL,
     "Email" VARCHAR(100) NOT NULL,
-    "Status" BIT NOT NULL
+    "Status" BOOLEAN NOT NULL
 );
 
 CREATE TABLE "products"

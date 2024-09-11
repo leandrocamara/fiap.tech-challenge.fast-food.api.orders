@@ -48,10 +48,10 @@ public sealed class DisableCustomerUseCase(ICustomerGateway customerGateway) : I
     {
         try
         {
-            var customer = new Customer(request.Cpf, request.Name, request.Email);
+            var customer = await customerGateway.GetByCpf(request.Cpf);
 
             await _validator.Validate(request);
-            customerGateway.Save(customer);
+            customerGateway.Disable(customer);
 
             return new DisableCustomerResponse(
                 customer.Id,

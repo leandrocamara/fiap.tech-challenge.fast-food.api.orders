@@ -33,7 +33,11 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
                 convertFromProviderExpression: value => new Email(value))
             .HasMaxLength(100)
             .IsRequired();
-        
+        builder
+            .Property(customer => customer.Status)            
+            .IsRequired();
+            
+
         builder
             .HasMany<Order>()
             .WithOne()

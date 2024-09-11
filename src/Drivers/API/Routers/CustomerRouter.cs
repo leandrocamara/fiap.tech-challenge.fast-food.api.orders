@@ -29,7 +29,7 @@ public class CustomerRouter(ICustomerController controller) : BaseRouter
         return HttpResponse(result);
     }
 
-    [HttpPost]
+    [HttpPost("disable")]
     [SwaggerResponse(StatusCodes.Status202Accepted, "Solicitação de exclusão de dados pessoais aceita.", typeof(CreateCustomerResponse))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Erros de validação de dados ou de lógica de negócio, sendo retornado o erro específico no corpo da resposta.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
