@@ -17,12 +17,12 @@
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings__Default": "Host=localhost;Database=orders_db;Username=postgres;Password=docker;",
+        "ConnectionStrings__Default": "Host=localhost:5432;Database=orders_db;Username=postgres;Password=docker;",
         "PaymentsClientSettings__BaseUri": "http://localhost:5001",
         "AmazonSettings__Region": "us-east-1",
-        "AmazonSettings__AccessKey": "",
-        "AmazonSettings__SecretKey": "",
-        "AmazonSettings__SessionToken": ""
+        "AmazonSettings__AccessKey": "terter",
+        "AmazonSettings__SecretKey": "terter",
+        "AmazonSettings__SessionToken": "tertert"
       }
     },
     "https": {

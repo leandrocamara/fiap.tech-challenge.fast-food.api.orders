@@ -7,4 +7,5 @@ public interface ICustomerGateway
     void Save(Customer customer);
     Customer? GetById(Guid id);
     Task<Customer?> GetByCpf(Cpf cpf);
+    void Disable(Customer customer);
 }

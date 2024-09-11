@@ -28,4 +28,14 @@ public class CustomerRouter(ICustomerController controller) : BaseRouter
         var result = await controller.GetCustomerByCpf(cpf);
         return HttpResponse(result);
     }
+
+    [HttpPost("disable")]
+    [SwaggerResponse(StatusCodes.Status202Accepted, "Solicitação de exclusão de dados pessoais aceita.", typeof(CreateCustomerResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Erros de validação de dados ou de lógica de negócio, sendo retornado o erro específico no corpo da resposta.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Erros não tratados pelo sistema, sendo retornado o erro específico no corpo da resposta.")]
+    public async Task<IActionResult> DisableCustomer(DisableCustomerRequest request)
+    {
+        var result = await controller.DisableCustomer(request);
+        return HttpResponse(result);
+    }
 }
